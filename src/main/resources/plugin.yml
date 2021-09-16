@@ -1,0 +1,8 @@
+name: Tangerine
+version: 1.0.0
+main: com.solexgames.tangerine.TangerineSpigotPlugin
+
+author: SolexGames
+website: https://solexgames.com
+
+depend: [Cubed, Lemon]

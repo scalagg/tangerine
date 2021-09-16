@@ -10,12 +10,18 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenLocal()
     mavenCentral()
+
+    maven {
+        name "papermc"
+        url "https://papermc.io/repo/repository/maven-public/"
+    }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
-    compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
+    implementation "io.papermc:paperlib:1.0.6"
 
+    compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
     compileOnly fileTree(dir: "lib")
 }
 
