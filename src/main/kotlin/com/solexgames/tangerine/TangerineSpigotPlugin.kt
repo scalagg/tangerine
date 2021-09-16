@@ -1,5 +1,6 @@
 package com.solexgames.tangerine
 
+import com.solexgames.lemon.Lemon
 import com.solexgames.tangerine.listener.WorldListener
 import com.solexgames.tangerine.module.HubModule
 import com.solexgames.tangerine.scoreboard.TangerineScoreboardOverride
@@ -9,8 +10,10 @@ import com.solexgames.tangerine.visibility.TangerineVisibilityOverride
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.plugin.ExtendedJavaPlugin
+import net.evilblock.cubed.command.manager.CubedCommandManager
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.visibility.VisibilityHandler
+import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
@@ -50,6 +53,20 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
         }
 
         this.registerListeners()
+        this.registerCommands()
+    }
+
+    private fun registerCommands() {
+        val commandManager = CubedCommandManager(
+            plugin = this,
+            primary = ChatColor.valueOf(Lemon.instance.lemonWebData.primary),
+            secondary = ChatColor.valueOf(Lemon.instance.lemonWebData.secondary)
+        )
+
+        Lemon.instance.registerCompletionsAndContexts(commandManager)
+        Lemon.instance.registerCommandsInPackage(commandManager, "com.solexgames.tangerine.command")
+
+        println("Loaded command manager")
     }
 
     private fun registerListeners() {
