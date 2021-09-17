@@ -136,7 +136,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 settings.joinMessage.forEach { player.sendMessage(it) }
             }
 
-            configurableItemHandler.items.values.forEachIndexed { index, itemStack ->
+            configurableItemHandler.items.forEach { (index, itemStack) ->
                 player.inventory.setItem(index, itemStack)
             }
         }
