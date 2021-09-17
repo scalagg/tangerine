@@ -6,6 +6,7 @@ import com.solexgames.lemon.adapt.LemonPlayerAdapter
 import com.solexgames.lemon.adapt.UUIDAdapter
 import com.solexgames.lemon.player.LemonPlayer
 import com.solexgames.lemon.util.QuickAccess.startListening
+import com.solexgames.tangerine.items.ConfigurableItemHandler
 import com.solexgames.tangerine.listener.WorldListener
 import com.solexgames.tangerine.menu.ConfigurableMenuHandler
 import com.solexgames.tangerine.module.HubModule
@@ -52,7 +53,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
     }
 
     lateinit var settings: TangerineSettings
+
     lateinit var configurableMenuHandler: ConfigurableMenuHandler
+    lateinit var configurableItemHandler: ConfigurableItemHandler
 
     var hubModule: HubModule? = null
 
@@ -90,6 +93,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
         configurableMenuHandler = ConfigurableMenuHandler
         configurableMenuHandler.initialLoad()
+
+        configurableItemHandler = ConfigurableItemHandler
+        configurableItemHandler.initialLoad()
 
         this.registerListeners()
         this.registerCommands()
@@ -130,7 +136,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 settings.joinMessage.forEach { player.sendMessage(it) }
             }
 
-            settings.itemStackList.forEachIndexed { index, itemStack ->
+            configurableItemHandler.items.values.forEachIndexed { index, itemStack ->
                 player.inventory.setItem(index, itemStack)
             }
         }
@@ -147,7 +153,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 }
         }
 
-        settings.itemStackList
+        configurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
             .forEach {
                 startListening(it!!) { event ->
@@ -155,7 +161,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 }
             }
 
-        settings.itemStackList
+        configurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Server Selector") }
             .forEach {
                 startListening(it!!) { event ->

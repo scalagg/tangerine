@@ -42,26 +42,4 @@ class TangerineSettings {
     val autoHidePlayers = false
     val allowDoubleJump = true
 
-    val itemStackList = listOf(
-        null,
-        null,
-        null,
-        ItemBuilder(XMaterial.COMPASS)
-            .name("${CC.B_PRI}Server Selector")
-            .addToLore(
-                "${CC.GRAY}View all our servers."
-            )
-            .build(),
-        null,
-        ItemBuilder(XMaterial.NETHER_STAR)
-            .name("${CC.B_PRI}Hub Selector")
-            .addToLore(
-                "${CC.GRAY}View all our lobbies."
-            )
-            .build(),
-        null,
-        null,
-        null,
-    )
-
 }
