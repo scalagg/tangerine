@@ -1,7 +1,13 @@
 package com.solexgames.tangerine
 
+import com.google.gson.LongSerializationPolicy
 import com.solexgames.lemon.Lemon
+import com.solexgames.lemon.adapt.LemonPlayerAdapter
+import com.solexgames.lemon.adapt.UUIDAdapter
+import com.solexgames.lemon.player.LemonPlayer
+import com.solexgames.lemon.util.QuickAccess.startListening
 import com.solexgames.tangerine.listener.WorldListener
+import com.solexgames.tangerine.menu.ConfigurableMenuHandler
 import com.solexgames.tangerine.module.HubModule
 import com.solexgames.tangerine.scoreboard.TangerineScoreboardOverride
 import com.solexgames.tangerine.settings.TangerineSettings
@@ -11,14 +17,28 @@ import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.plugin.ExtendedJavaPlugin
 import net.evilblock.cubed.command.manager.CubedCommandManager
+import net.evilblock.cubed.entity.EntitySerializer
+import net.evilblock.cubed.entity.animation.EntityAnimation
+import net.evilblock.cubed.menu.template.MenuTemplate
+import net.evilblock.cubed.menu.template.MenuTemplateButton
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
+import net.evilblock.cubed.serialize.BlockVectorAdapter
+import net.evilblock.cubed.serialize.ItemStackAdapter
+import net.evilblock.cubed.serialize.LocationAdapter
+import net.evilblock.cubed.serialize.VectorAdapter
+import net.evilblock.cubed.serializers.Serializers
+import net.evilblock.cubed.serializers.impl.AbstractTypeSerializer
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
+import org.bukkit.Location
+import org.bukkit.entity.Entity
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
-import org.bukkit.util.Vector
+import org.bukkit.inventory.ItemStack
+import org.bukkit.util.BlockVector
 import xyz.mkotb.configapi.ConfigFactory
+import java.util.*
 
 /**
  * @author GrowlyX
@@ -32,10 +52,11 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
     }
 
     lateinit var settings: TangerineSettings
+    lateinit var configurableMenuHandler: ConfigurableMenuHandler
 
     var hubModule: HubModule? = null
 
-    val configFactory = ConfigFactory.newFactory(this)
+    val configFactory: ConfigFactory = ConfigFactory.newFactory(this)
 
     override fun enable() {
         instance = this
@@ -51,6 +72,24 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
             VisibilityHandler.registerOverride("tangerine", TangerineVisibilityOverride)
         }
+
+        Serializers.useGsonBuilderThenRebuild { builder ->
+            builder.serializeNulls().setPrettyPrinting()
+                .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+                .registerTypeHierarchyAdapter(ItemStack::class.java, ItemStackAdapter())
+                .registerTypeHierarchyAdapter(Location::class.java, LocationAdapter())
+                .registerTypeHierarchyAdapter(Vector::class.java, VectorAdapter())
+                .registerTypeHierarchyAdapter(BlockVector::class.java, BlockVectorAdapter())
+                .registerTypeAdapter(Entity::class.java, EntitySerializer)
+                .registerTypeAdapter(UUID::class.java, UUIDAdapter)
+                .registerTypeAdapter(LemonPlayer::class.java, LemonPlayerAdapter)
+                .registerTypeAdapter(EntityAnimation::class.java, AbstractTypeSerializer<EntityAnimation>())
+                .registerTypeAdapter(MenuTemplate::class.java, AbstractTypeSerializer<MenuTemplate<*>>())
+                .registerTypeAdapter(MenuTemplateButton::class.java, AbstractTypeSerializer<MenuTemplateButton>())
+        }
+
+        configurableMenuHandler = ConfigurableMenuHandler
+        configurableMenuHandler.initialLoad()
 
         this.registerListeners()
         this.registerCommands()
@@ -90,6 +129,10 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             if (settings.joinMessage.isNotEmpty()) {
                 settings.joinMessage.forEach { player.sendMessage(it) }
             }
+
+            settings.itemStackList.forEachIndexed { index, itemStack ->
+                player.inventory.setItem(index, itemStack)
+            }
         }
 
         if (settings.allowDoubleJump) {
@@ -103,6 +146,22 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                     it.player.velocity = vector
                 }
         }
+
+        settings.itemStackList
+            .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
+            .forEach {
+                startListening(it!!) { event ->
+                    configurableMenuHandler.openMenu(event.player, "hub-selector")
+                }
+            }
+
+        settings.itemStackList
+            .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Server Selector") }
+            .forEach {
+                startListening(it!!) { event ->
+                    configurableMenuHandler.openMenu(event.player, "server-selector")
+                }
+            }
 
         server.pluginManager.registerEvents(WorldListener, this)
     }

@@ -1,10 +1,10 @@
 package com.solexgames.tangerine.command
 
+import com.solexgames.tangerine.TangerineSpigotPlugin
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
-import net.evilblock.cubed.acf.annotation.CommandAlias
-import net.evilblock.cubed.acf.annotation.Default
-import net.evilblock.cubed.acf.annotation.HelpCommand
+import net.evilblock.cubed.acf.annotation.*
+import org.bukkit.entity.Player
 
 /**
  * @author GrowlyX
@@ -15,7 +15,16 @@ class TangerineCommand : BaseCommand() {
 
     @Default
     @HelpCommand
+    @Syntax("[help]")
     fun onHelp(help: CommandHelp) {
         help.showHelp()
+    }
+
+    @Subcommand("setspawn")
+    fun onSetSpawn(player: Player) {
+        TangerineSpigotPlugin.instance.settings.spawnLocation = player.location
+        TangerineSpigotPlugin.instance.configFactory.save("settings", TangerineSpigotPlugin.instance.settings)
+
+        player.sendMessage("set spawn")
     }
 }
