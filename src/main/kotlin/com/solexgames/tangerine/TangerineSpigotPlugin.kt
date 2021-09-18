@@ -18,6 +18,7 @@ import com.solexgames.tangerine.visibility.TangerineVisibilityOverride
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.plugin.ExtendedJavaPlugin
+import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.command.manager.CubedCommandManager
 import net.evilblock.cubed.entity.EntitySerializer
 import net.evilblock.cubed.entity.animation.EntityAnimation
@@ -58,6 +59,8 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             )
         }
     }
+
+    var itemTerminable = CompositeTerminable.create()
 
     lateinit var settings: TangerineSettings
 
@@ -164,22 +167,26 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 }
         }
 
+        startListeningToItems()
+
+        server.pluginManager.registerEvents(WorldListener, this)
+    }
+
+    fun startListeningToItems() {
         configurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
             .forEach {
-                startListening(it!!) { event ->
+                startListening(it!!, { event ->
                     configurableMenuHandler.openMenu(event.player, "hub-selector")
-                }
+                }, itemTerminable)
             }
 
         configurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Server Selector") }
             .forEach {
-                startListening(it!!) { event ->
+                startListening(it!!, { event ->
                     configurableMenuHandler.openMenu(event.player, "server-selector")
-                }
+                }, itemTerminable)
             }
-
-        server.pluginManager.registerEvents(WorldListener, this)
     }
 }
