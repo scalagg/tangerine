@@ -1,8 +1,6 @@
 package gg.scala.tangerine.settings
 
-import com.cryptomorin.xseries.XMaterial
 import net.evilblock.cubed.util.CC
-import net.evilblock.cubed.util.bukkit.ItemBuilder
 import org.bukkit.Location
 import xyz.mkotb.configapi.Coloured
 import xyz.mkotb.configapi.comment.Comment
@@ -18,21 +16,21 @@ class TangerineSettings {
 
     @Coloured
     val scoreboard = listOf(
-        "${CC.GRAY}${CC.STRIKE_THROUGH}-----------------",
+        "${CC.GRAY}${CC.STRIKE_THROUGH}------------",
         "${CC.WHITE}Online:",
         "${CC.PRI}<players>",
         "",
         "${CC.WHITE}Rank:",
         "${CC.PRI}<rank>",
         "",
-        "${CC.PRI}solexgames.com",
-        "${CC.GRAY}${CC.STRIKE_THROUGH}-----------------"
+        "${CC.PRI}scala.gg",
+        "${CC.GRAY}${CC.STRIKE_THROUGH}------------"
     )
 
     @Coloured
     val joinMessage = listOf(
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------",
-        "${CC.WHITE}Welcome to the SolexGames Development Lobby",
+        "${CC.WHITE}Welcome to the Scala Development Lobby",
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------"
     )
 

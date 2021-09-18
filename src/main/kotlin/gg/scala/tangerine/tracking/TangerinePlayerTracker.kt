@@ -1,6 +1,6 @@
 package gg.scala.tangerine.tracking
 
-import com.solexgames.lemon.Lemon
+import gg.scala.lemon.Lemon
 import com.solexgames.redis.JedisBuilder
 import com.solexgames.redis.JedisManager
 

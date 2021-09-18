@@ -1,11 +1,11 @@
 package gg.scala.tangerine
 
 import com.google.gson.LongSerializationPolicy
-import com.solexgames.lemon.Lemon
-import com.solexgames.lemon.adapt.LemonPlayerAdapter
-import com.solexgames.lemon.adapt.UUIDAdapter
-import com.solexgames.lemon.player.LemonPlayer
-import com.solexgames.lemon.util.QuickAccess.startListening
+import gg.scala.lemon.Lemon
+import gg.scala.lemon.adapt.LemonPlayerAdapter
+import gg.scala.lemon.adapt.UUIDAdapter
+import gg.scala.lemon.player.LemonPlayer
+import gg.scala.lemon.util.QuickAccess.startListening
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.ConfigurableMenuHandler

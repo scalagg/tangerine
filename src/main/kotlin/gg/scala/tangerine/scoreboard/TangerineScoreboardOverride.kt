@@ -1,6 +1,6 @@
 package gg.scala.tangerine.scoreboard
 
-import com.solexgames.lemon.Lemon
+import gg.scala.lemon.Lemon
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
