@@ -1,8 +1,8 @@
-package com.solexgames.tangerine.scoreboard
+package gg.scala.tangerine.scoreboard
 
 import com.solexgames.lemon.Lemon
-import com.solexgames.tangerine.settings.TangerineSettings
-import com.solexgames.tangerine.tracking.TangerinePlayerTracker
+import gg.scala.tangerine.settings.TangerineSettings
+import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
 import org.bukkit.entity.Player
 import java.util.*

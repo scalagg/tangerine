@@ -1,4 +1,4 @@
-package com.solexgames.tangerine.visibility
+package gg.scala.tangerine.visibility
 
 import net.evilblock.cubed.visibility.OverrideAction
 import net.evilblock.cubed.visibility.OverrideHandler

@@ -1,4 +1,4 @@
-package com.solexgames.tangerine.module.impl
+package gg.scala.tangerine.module.impl
 
 import me.lucko.helper.Events
 import org.bukkit.entity.Player

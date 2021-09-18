@@ -1,6 +1,6 @@
-package com.solexgames.tangerine.module
+package gg.scala.tangerine.module
 
-import com.solexgames.tangerine.module.impl.HubModuleItemAdapter
+import gg.scala.tangerine.module.impl.HubModuleItemAdapter
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
 
 /**

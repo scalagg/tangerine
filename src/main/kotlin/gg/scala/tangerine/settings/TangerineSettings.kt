@@ -1,4 +1,4 @@
-package com.solexgames.tangerine.settings
+package gg.scala.tangerine.settings
 
 import com.cryptomorin.xseries.XMaterial
 import net.evilblock.cubed.util.CC

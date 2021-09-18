@@ -1,6 +1,6 @@
-package com.solexgames.tangerine.listener
+package gg.scala.tangerine.listener
 
-import com.solexgames.tangerine.TangerineSpigotPlugin
+import gg.scala.tangerine.TangerineSpigotPlugin
 import io.papermc.lib.PaperLib
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand

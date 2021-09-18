@@ -1,4 +1,4 @@
-package com.solexgames.tangerine.menu
+package gg.scala.tangerine.menu
 
 /**
  * @author GrowlyX

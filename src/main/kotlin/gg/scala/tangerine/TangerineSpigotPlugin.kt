@@ -1,4 +1,4 @@
-package com.solexgames.tangerine
+package gg.scala.tangerine
 
 import com.google.gson.LongSerializationPolicy
 import com.solexgames.lemon.Lemon
@@ -6,15 +6,15 @@ import com.solexgames.lemon.adapt.LemonPlayerAdapter
 import com.solexgames.lemon.adapt.UUIDAdapter
 import com.solexgames.lemon.player.LemonPlayer
 import com.solexgames.lemon.util.QuickAccess.startListening
-import com.solexgames.tangerine.items.ConfigurableItemHandler
-import com.solexgames.tangerine.listener.WorldListener
-import com.solexgames.tangerine.menu.ConfigurableMenuHandler
-import com.solexgames.tangerine.module.HubModule
-import com.solexgames.tangerine.scoreboard.TangerineScoreboardOverride
-import com.solexgames.tangerine.settings.TangerineSettings
-import com.solexgames.tangerine.tracking.TangerinePlayerTracker
-import com.solexgames.tangerine.visibility.TangerineVisibilityAdapter
-import com.solexgames.tangerine.visibility.TangerineVisibilityOverride
+import gg.scala.tangerine.items.ConfigurableItemHandler
+import gg.scala.tangerine.listener.WorldListener
+import gg.scala.tangerine.menu.ConfigurableMenuHandler
+import gg.scala.tangerine.module.HubModule
+import gg.scala.tangerine.scoreboard.TangerineScoreboardOverride
+import gg.scala.tangerine.settings.TangerineSettings
+import gg.scala.tangerine.tracking.TangerinePlayerTracker
+import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
+import gg.scala.tangerine.visibility.TangerineVisibilityOverride
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers

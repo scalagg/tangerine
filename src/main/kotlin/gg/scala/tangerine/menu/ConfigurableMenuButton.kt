@@ -1,4 +1,4 @@
-package com.solexgames.tangerine.menu
+package gg.scala.tangerine.menu
 
 import net.evilblock.cubed.menu.Button
 import org.bukkit.entity.Player

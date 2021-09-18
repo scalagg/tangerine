@@ -1,4 +1,4 @@
-package com.solexgames.tangerine.tracking
+package gg.scala.tangerine.tracking
 
 import com.solexgames.lemon.Lemon
 import com.solexgames.redis.JedisBuilder

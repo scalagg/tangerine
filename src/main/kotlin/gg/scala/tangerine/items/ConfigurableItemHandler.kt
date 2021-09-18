@@ -1,10 +1,10 @@
-package com.solexgames.tangerine.items
+package gg.scala.tangerine.items
 
 import com.cryptomorin.xseries.XMaterial
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import com.google.gson.reflect.TypeToken
-import com.solexgames.tangerine.TangerineSpigotPlugin
+import gg.scala.tangerine.TangerineSpigotPlugin
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.util.CC

@@ -1,8 +1,8 @@
-package com.solexgames.tangerine.command
+package gg.scala.tangerine.command
 
-import com.solexgames.tangerine.TangerineSpigotPlugin
-import com.solexgames.tangerine.items.ConfigurableItemHandler
-import com.solexgames.tangerine.menu.ConfigurableMenuHandler
+import gg.scala.tangerine.TangerineSpigotPlugin
+import gg.scala.tangerine.items.ConfigurableItemHandler
+import gg.scala.tangerine.menu.ConfigurableMenuHandler
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*

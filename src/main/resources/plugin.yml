@@ -1,8 +1,8 @@
 name: Tangerine
 version: 1.0.0
-main: com.solexgames.tangerine.TangerineSpigotPlugin
+main: gg.scala.tangerine.TangerineSpigotPlugin
 
-author: SolexGames
-website: https://solexgames.com
+author: Scala Services
+website: https://scala.gg
 
 depend: [Cubed, Lemon]
