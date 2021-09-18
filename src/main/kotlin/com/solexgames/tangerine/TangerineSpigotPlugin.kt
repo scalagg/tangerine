@@ -17,6 +17,7 @@ import com.solexgames.tangerine.visibility.TangerineVisibilityAdapter
 import com.solexgames.tangerine.visibility.TangerineVisibilityOverride
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
+import me.lucko.helper.Schedulers
 import me.lucko.helper.plugin.ExtendedJavaPlugin
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.command.manager.CubedCommandManager
@@ -110,6 +111,10 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
         configurableItemHandler.initialLoad()
 
         playerTracker = TangerinePlayerTracker
+
+        Schedulers.async().runRepeating(
+            playerTracker, 0L, 20L
+        )
 
         this.registerListeners()
         this.registerCommands()
