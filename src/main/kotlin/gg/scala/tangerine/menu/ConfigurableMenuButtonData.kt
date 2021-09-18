@@ -8,6 +8,6 @@ import org.bukkit.inventory.ItemStack
  */
 data class ConfigurableMenuButtonData(
     val itemStack: ItemStack,
-    val menuButtonType: ConfigurableMenuButtonType,
-    val menuButtonTypeData: String
+    var menuButtonType: ConfigurableMenuButtonType,
+    var menuButtonTypeData: String
 )

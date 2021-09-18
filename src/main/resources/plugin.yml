@@ -2,7 +2,7 @@ name: Tangerine
 version: 1.0.0
 main: gg.scala.tangerine.TangerineSpigotPlugin
 
-author: Scala Services
+author: Scala
 website: https://scala.gg
 
 depend: [Cubed, Lemon]

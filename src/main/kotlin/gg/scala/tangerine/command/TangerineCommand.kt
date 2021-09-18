@@ -3,6 +3,7 @@ package gg.scala.tangerine.command
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.menu.ConfigurableMenuHandler
+import gg.scala.tangerine.menu.editor.ConfigurableMenuEditor
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
@@ -21,6 +22,11 @@ class TangerineCommand : BaseCommand() {
     @Syntax("[help]")
     fun onHelp(help: CommandHelp) {
         help.showHelp()
+    }
+
+    @Subcommand("editor")
+    fun onMenuEditor(player: Player) {
+        ConfigurableMenuEditor().openMenu(player)
     }
 
     @Subcommand("setspawn")

@@ -128,7 +128,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
         )
 
         Lemon.instance.registerCompletionsAndContexts(commandManager)
-        Lemon.instance.registerCommandsInPackage(commandManager, "com.solexgames.tangerine.command")
+        Lemon.instance.registerCommandsInPackage(commandManager, "gg.scala.tangerine.command")
 
         println("Loaded command manager")
     }
