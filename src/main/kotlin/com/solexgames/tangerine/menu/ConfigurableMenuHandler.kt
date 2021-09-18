@@ -46,6 +46,11 @@ object ConfigurableMenuHandler {
         }
     }
 
+    fun reloadMenus() {
+        templates.clear()
+        initialLoad()
+    }
+
     private fun setupIfEmpty() {
         templates["server-selector"] = ConfigurableMenuTemplate("server-selector").also {
             it.buttons[13] = ConfigurableMenuButtonData(

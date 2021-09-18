@@ -1,7 +1,6 @@
 package com.solexgames.tangerine.command
 
 import com.solexgames.tangerine.TangerineSpigotPlugin
-import com.solexgames.tangerine.settings.TangerineSettings
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.annotation.CommandAlias
 import net.evilblock.cubed.util.CC

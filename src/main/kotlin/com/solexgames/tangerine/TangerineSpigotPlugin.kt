@@ -12,6 +12,7 @@ import com.solexgames.tangerine.menu.ConfigurableMenuHandler
 import com.solexgames.tangerine.module.HubModule
 import com.solexgames.tangerine.scoreboard.TangerineScoreboardOverride
 import com.solexgames.tangerine.settings.TangerineSettings
+import com.solexgames.tangerine.tracking.TangerinePlayerTracker
 import com.solexgames.tangerine.visibility.TangerineVisibilityAdapter
 import com.solexgames.tangerine.visibility.TangerineVisibilityOverride
 import io.papermc.lib.PaperLib
@@ -50,12 +51,20 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
     companion object {
         @JvmStatic
         lateinit var instance: TangerineSpigotPlugin
+
+        fun reloadConfig() {
+            instance.settings = instance.configFactory.fromFile(
+                "settings", TangerineSettings::class.java
+            )
+        }
     }
 
     lateinit var settings: TangerineSettings
 
     lateinit var configurableMenuHandler: ConfigurableMenuHandler
     lateinit var configurableItemHandler: ConfigurableItemHandler
+
+    lateinit var playerTracker: TangerinePlayerTracker
 
     var hubModule: HubModule? = null
 
@@ -96,6 +105,8 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
         configurableItemHandler = ConfigurableItemHandler
         configurableItemHandler.initialLoad()
+
+        playerTracker = TangerinePlayerTracker
 
         this.registerListeners()
         this.registerCommands()

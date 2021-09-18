@@ -2,6 +2,7 @@ package com.solexgames.tangerine.scoreboard
 
 import com.solexgames.lemon.Lemon
 import com.solexgames.tangerine.settings.TangerineSettings
+import com.solexgames.tangerine.tracking.TangerinePlayerTracker
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
 import org.bukkit.entity.Player
 import java.util.*
@@ -30,7 +31,7 @@ class TangerineScoreboardOverride(
             board.add(
                 it
                     .replace("<rank>", lemonPlayer.activeGrant!!.getRank().getColoredName())
-                    .replace("<players>", "0")
+                    .replace("<players>", TangerinePlayerTracker.globalPlayers.toString())
             )
         }
     }

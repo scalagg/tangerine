@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
+import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import java.io.File
 import java.lang.reflect.Type
@@ -44,6 +45,21 @@ object ConfigurableItemHandler {
             getDataFile().mkdirs()
 
             setupIfEmpty()
+        }
+    }
+
+    fun reloadItems() {
+        items.clear()
+        initialLoad()
+
+        Bukkit.getOnlinePlayers().forEach {
+            if (!it.hasMetadata("builder")) {
+                it.inventory.clear()
+
+                items.forEach { (index, itemStack) ->
+                    it.inventory.setItem(index, itemStack)
+                }
+            }
         }
     }
 
