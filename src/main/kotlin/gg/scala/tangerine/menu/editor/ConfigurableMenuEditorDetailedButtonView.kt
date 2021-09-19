@@ -66,7 +66,9 @@ class ConfigurableMenuEditorDetailedButtonView(
                     "${CC.GRAY}your action?",
                     "",
                     "${CC.WHITE}Example:",
-                    "${CC.GRAY}some-command",
+                    "${CC.GRAY}Command: some-commands",
+                    "${CC.GRAY}Menu: some-menu",
+                    "${CC.GRAY}Queue: a-queue",
                     "",
                     "${CC.YELLOW}Click to modify."
                 )

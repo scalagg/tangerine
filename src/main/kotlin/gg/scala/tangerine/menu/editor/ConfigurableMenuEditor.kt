@@ -1,6 +1,7 @@
 package gg.scala.tangerine.menu.editor
 
 import com.cryptomorin.xseries.XMaterial
+import gg.scala.lemon.menu.better.BetterConfirmMenu
 import gg.scala.tangerine.menu.ConfigurableMenuHandler
 import gg.scala.tangerine.menu.ConfigurableMenuTemplate
 import net.evilblock.cubed.menu.Button
@@ -45,13 +46,31 @@ class ConfigurableMenuEditor : PaginatedMenu() {
                     "${CC.GRAY}Buttons: ${CC.WHITE}${template.buttons.size}",
                     "${CC.GRAY}Max Size: ${CC.WHITE}${template.size}",
                     "",
-                    "${CC.YELLOW}Click to view details."
+                    "${CC.YELLOW}Click to view details.",
+                    "${CC.YELLOW}Shift Click to delete.",
                 )
                 .build()
         }
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
-            ConfigurableMenuEditorDetailedView(template).openMenu(player)
+            if (clickType.isShiftClick) {
+                BetterConfirmMenu(
+                    title = "Are you sure?",
+                    confirm = true,
+                    callback = {
+                        if (it) {
+                            ConfigurableMenuHandler.templates.remove(template.id)
+                            ConfigurableMenuHandler.saveData()
+
+                            player.sendMessage("${CC.RED}You've deleted the ${CC.YELLOW}${template.id}${CC.RED} template.")
+                        }
+
+                        ConfigurableMenuEditor().openMenu(player)
+                    }
+                )
+            } else {
+                ConfigurableMenuEditorDetailedView(template).openMenu(player)
+            }
         }
     }
 }
