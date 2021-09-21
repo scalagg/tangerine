@@ -1,10 +1,14 @@
 package gg.scala.tangerine.command
 
 import gg.scala.tangerine.TangerineSpigotPlugin
+import gg.scala.tangerine.menu.ConfigurableMenuOutput
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.annotation.CommandAlias
+import net.evilblock.cubed.acf.annotation.CommandPermission
+import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.CC
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 /**
  * @author GrowlyX
@@ -15,6 +19,7 @@ class TangerineConfigCommand : BaseCommand() {
     private val tangerineSettings = TangerineSpigotPlugin.instance.settings
 
     @CommandAlias("tangerineconfig|tgrconfig")
+    @CommandPermission("tangerine.command.config")
     fun onTangerineConfig(sender: CommandSender) {
         sender.sendMessage("${CC.B_PRI}Tangerine Config:")
         sender.sendMessage("")
@@ -33,5 +38,10 @@ class TangerineConfigCommand : BaseCommand() {
 
         sender.sendMessage("${CC.GRAY}Double Jump: ${CC.WHITE}${tangerineSettings.allowDoubleJump}")
         sender.sendMessage("${CC.GRAY}Player Hiding: ${CC.WHITE}${tangerineSettings.autoHidePlayers}")
+    }
+
+    @CommandAlias("menu")
+    fun onMenu(player: Player, menu: ConfigurableMenuOutput) {
+        menu.openMenu(player)
     }
 }

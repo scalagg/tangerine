@@ -5,10 +5,10 @@ import gg.scala.lemon.Lemon
 import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.player.LemonPlayer
-import gg.scala.lemon.util.QuickAccess.startListening
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.ConfigurableMenuHandler
+import gg.scala.tangerine.menu.ConfigurableMenuOutput
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.scoreboard.TangerineScoreboardOverride
 import gg.scala.tangerine.settings.TangerineSettings
@@ -20,6 +20,7 @@ import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
 import me.lucko.helper.plugin.ExtendedJavaPlugin
 import me.lucko.helper.terminable.composite.CompositeTerminable
+import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.command.manager.CubedCommandManager
 import net.evilblock.cubed.entity.EntitySerializer
 import net.evilblock.cubed.entity.animation.EntityAnimation
@@ -32,11 +33,13 @@ import net.evilblock.cubed.serialize.LocationAdapter
 import net.evilblock.cubed.serialize.VectorAdapter
 import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.serializers.impl.AbstractTypeSerializer
+import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Entity
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.inventory.ItemStack
@@ -64,11 +67,6 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
     var itemTerminable = CompositeTerminable.create()
 
     lateinit var settings: TangerineSettings
-
-    lateinit var configurableMenuHandler: ConfigurableMenuHandler
-    lateinit var configurableItemHandler: ConfigurableItemHandler
-
-    lateinit var playerTracker: TangerinePlayerTracker
 
     var hubModule: HubModule? = null
 
@@ -104,16 +102,11 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 .registerTypeAdapter(MenuTemplateButton::class.java, AbstractTypeSerializer<MenuTemplateButton>())
         }
 
-        configurableMenuHandler = ConfigurableMenuHandler
-        configurableMenuHandler.initialLoad()
-
-        configurableItemHandler = ConfigurableItemHandler
-        configurableItemHandler.initialLoad()
-
-        playerTracker = TangerinePlayerTracker
+        ConfigurableMenuHandler.initialLoad()
+        ConfigurableItemHandler.initialLoad()
 
         Schedulers.async().runRepeating(
-            playerTracker, 0L, 20L
+            TangerinePlayerTracker, 0L, 20L
         )
 
         this.registerListeners()
@@ -126,6 +119,15 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             primary = ChatColor.valueOf(Lemon.instance.lemonWebData.primary),
             secondary = ChatColor.valueOf(Lemon.instance.lemonWebData.secondary)
         )
+
+        commandManager.commandContexts.registerContext(ConfigurableMenuOutput::class.java) {
+            val firstArg = it.popFirstArg()
+
+            val template = ConfigurableMenuHandler.templates[firstArg]
+                ?: throw ConditionFailedException("No menu by the name ${CC.YELLOW}$firstArg${CC.RED} was found.")
+
+            return@registerContext ConfigurableMenuOutput(template)
+        }
 
         Lemon.instance.registerCompletionsAndContexts(commandManager)
         Lemon.instance.registerCommandsInPackage(commandManager, "gg.scala.tangerine.command")
@@ -155,7 +157,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 settings.joinMessage.forEach { player.sendMessage(it) }
             }
 
-            configurableItemHandler.items.forEach { (index, itemStack) ->
+            ConfigurableItemHandler.items.forEach { (index, itemStack) ->
                 player.inventory.setItem(index, itemStack)
             }
         }
@@ -178,20 +180,26 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
     }
 
     fun startListeningToItems() {
-        configurableItemHandler.items.values
+        ConfigurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
-            .forEach {
-                startListening(it!!, { event ->
-                    configurableMenuHandler.openMenu(event.player, "hub-selector")
-                }, itemTerminable)
+            .forEach { stack ->
+                Events.subscribe(PlayerInteractEvent::class.java)
+                    .filter { it.action.name.contains("RIGHT") }
+                    .filter { it.item.isSimilar(stack!!) }
+                    .handler {
+                        ConfigurableMenuHandler.openMenu(it.player, "hub-selector")
+                    }
             }
 
-        configurableItemHandler.items.values
+        ConfigurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Server Selector") }
-            .forEach {
-                startListening(it!!, { event ->
-                    configurableMenuHandler.openMenu(event.player, "server-selector")
-                }, itemTerminable)
+            .forEach { stack ->
+                Events.subscribe(PlayerInteractEvent::class.java)
+                    .filter { it.action.name.contains("RIGHT") }
+                    .filter { it.item.isSimilar(stack!!) }
+                    .handler {
+                        ConfigurableMenuHandler.openMenu(it.player, "server-selector")
+                    }
             }
     }
 }

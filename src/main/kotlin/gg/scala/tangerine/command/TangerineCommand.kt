@@ -15,6 +15,7 @@ import org.bukkit.entity.Player
  * @since 9/16/2021
  */
 @CommandAlias("tangerine|tgr")
+@CommandPermission("tangerine.command.tangerine")
 class TangerineCommand : BaseCommand() {
 
     @Default

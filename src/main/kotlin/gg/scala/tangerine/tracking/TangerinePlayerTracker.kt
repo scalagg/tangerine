@@ -1,8 +1,8 @@
 package gg.scala.tangerine.tracking
 
-import gg.scala.lemon.Lemon
-import com.solexgames.redis.JedisBuilder
-import com.solexgames.redis.JedisManager
+import gg.scala.banana.BananaBuilder
+import gg.scala.banana.credentials.BananaCredentials
+import gg.scala.banana.options.BananaOptions
 
 /**
  * @author GrowlyX
@@ -12,13 +12,20 @@ object TangerinePlayerTracker : Runnable {
 
     var globalPlayers = 0
 
-    private val tangerineRedisManager: JedisManager = JedisBuilder()
-        .withChannel("tangerine")
-        .withSettings(Lemon.instance.jedisSettings)
+    private val banana = BananaBuilder()
+        .options(
+            BananaOptions(
+                channel = "tangerine",
+                async = true
+            )
+        )
+        .credentials(
+            BananaCredentials()
+        )
         .build()
 
     override fun run() {
-        tangerineRedisManager.runCommand {
+        banana.useResource {
             val global = it.hget("cocoa:players", "global")
             globalPlayers = global?.toInt() ?: 0
         }

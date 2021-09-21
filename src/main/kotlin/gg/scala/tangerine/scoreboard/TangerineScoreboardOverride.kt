@@ -1,6 +1,7 @@
 package gg.scala.tangerine.scoreboard
 
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
@@ -24,8 +25,7 @@ class TangerineScoreboardOverride(
     }
 
     override fun getLines(board: LinkedList<String>, player: Player) {
-        val lemonPlayer = Lemon.instance.playerHandler
-            .findPlayer(player).orElse(null)
+        val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
 
         settings.scoreboard.forEach {
             board.add(
