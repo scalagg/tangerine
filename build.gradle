@@ -22,7 +22,7 @@ dependencies {
     implementation "io.papermc:paperlib:1.0.6"
 
     compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
-    compileOnly fileTree(dir: "lib")
+    compileOnly fileTree("lib")
 }
 
 shadowJar {

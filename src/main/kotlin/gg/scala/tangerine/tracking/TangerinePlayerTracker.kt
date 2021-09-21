@@ -1,8 +1,8 @@
 package gg.scala.tangerine.tracking
 
 import gg.scala.banana.BananaBuilder
-import gg.scala.banana.credentials.BananaCredentials
 import gg.scala.banana.options.BananaOptions
+import gg.scala.lemon.Lemon
 
 /**
  * @author GrowlyX
@@ -20,7 +20,7 @@ object TangerinePlayerTracker : Runnable {
             )
         )
         .credentials(
-            BananaCredentials()
+            Lemon.instance.credentials
         )
         .build()
 
