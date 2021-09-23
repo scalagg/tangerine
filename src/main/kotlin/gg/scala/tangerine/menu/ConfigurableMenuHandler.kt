@@ -40,7 +40,7 @@ object ConfigurableMenuHandler {
                 setupIfEmpty()
             }
         } else {
-            getDataFile().mkdirs()
+            getDataFile().createNewFile()
 
             setupIfEmpty()
         }

@@ -44,7 +44,7 @@ object ConfigurableItemHandler {
                 setupIfEmpty()
             }
         } else {
-            getDataFile().mkdirs()
+            getDataFile().createNewFile()
 
             setupIfEmpty()
         }
