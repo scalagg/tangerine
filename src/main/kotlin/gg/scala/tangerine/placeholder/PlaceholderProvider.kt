@@ -1,4 +1,4 @@
-package gg.scala.tangerine.util
+package gg.scala.tangerine.placeholder
 
 import org.bukkit.entity.Player
 

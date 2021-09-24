@@ -3,7 +3,7 @@ package gg.scala.tangerine.scoreboard
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
-import gg.scala.tangerine.util.PlaceholderHandler
+import gg.scala.tangerine.placeholder.PlaceholderHandler
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
 import org.bukkit.entity.Player
 import java.util.*

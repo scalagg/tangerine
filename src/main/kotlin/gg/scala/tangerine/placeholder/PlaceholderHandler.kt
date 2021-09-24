@@ -1,7 +1,7 @@
-package gg.scala.tangerine.util
+package gg.scala.tangerine.placeholder
 
 import gg.scala.tangerine.TangerineSpigotPlugin
-import gg.scala.tangerine.util.impl.PapiPlaceholderProvider
+import gg.scala.tangerine.placeholder.impl.PapiPlaceholderProvider
 
 /**
  * @author GrowlyX

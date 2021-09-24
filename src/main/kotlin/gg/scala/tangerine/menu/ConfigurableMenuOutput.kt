@@ -11,14 +11,11 @@ import org.bukkit.entity.Player
  */
 class ConfigurableMenuOutput(
     private val template: ConfigurableMenuTemplate
-) : Menu() {
+) : Menu(template.title) {
 
     init {
         placeholder = template.placeholder
-    }
-
-    override fun getTitle(player: Player): String {
-        return template.title
+        autoUpdate = template.updateAutomatically
     }
 
     override fun getButtons(player: Player): Map<Int, Button> {
