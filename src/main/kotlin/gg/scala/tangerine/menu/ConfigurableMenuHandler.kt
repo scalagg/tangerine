@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import com.google.gson.reflect.TypeToken
+import gg.scala.tangerine.TangerineSpigotPlugin
 import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import org.bukkit.entity.Player
@@ -21,7 +22,7 @@ object ConfigurableMenuHandler {
     val templates = mutableMapOf<String, ConfigurableMenuTemplate>()
 
     private fun getDataFile(): File {
-        return File("Tangerine", "menu-configuration.json")
+        return File(TangerineSpigotPlugin.instance.dataFolder, "menu-configuration.json")
     }
 
     fun initialLoad() {

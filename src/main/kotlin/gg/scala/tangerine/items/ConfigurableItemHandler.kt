@@ -25,7 +25,7 @@ object ConfigurableItemHandler {
     var items = mutableMapOf<Int, ItemStack?>()
 
     private fun getDataFile(): File {
-        return File("Tangerine", "item-configuration.json")
+        return File(TangerineSpigotPlugin.instance.dataFolder, "item-configuration.json")
     }
 
     fun initialLoad() {
