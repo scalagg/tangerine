@@ -5,6 +5,7 @@ import gg.scala.tangerine.menu.ConfigurableMenuOutput
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.annotation.CommandAlias
 import net.evilblock.cubed.acf.annotation.CommandPermission
+import net.evilblock.cubed.acf.annotation.Syntax
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.CC
 import org.bukkit.command.CommandSender
@@ -38,10 +39,15 @@ class TangerineConfigCommand : BaseCommand() {
 
         sender.sendMessage("${CC.GRAY}Double Jump: ${CC.WHITE}${tangerineSettings.allowDoubleJump}")
         sender.sendMessage("${CC.GRAY}Player Hiding: ${CC.WHITE}${tangerineSettings.autoHidePlayers}")
+        sender.sendMessage("${CC.GRAY}Placeholder Provider: ${CC.WHITE}${tangerineSettings.placeholderProvider}")
     }
 
+    @Syntax("<menu>")
     @CommandAlias("menu")
-    fun onMenu(player: Player, menu: ConfigurableMenuOutput) {
+    fun onMenu(
+        player: Player,
+        menu: ConfigurableMenuOutput
+    ) {
         menu.openMenu(player)
     }
 }

@@ -18,6 +18,10 @@ class ConfigurableMenuButton(
         return data.itemStack
     }
 
+    override fun getDescription(player: Player): List<String> {
+        return data.itemStack.itemMeta.lore
+    }
+
     override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
         data.menuButtonType.handle.invoke(player, data.menuButtonTypeData)
     }

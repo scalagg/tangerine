@@ -160,6 +160,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             ConfigurableItemHandler.items.forEach { (index, itemStack) ->
                 player.inventory.setItem(index, itemStack)
             }
+
+            VisibilityHandler.updateAllTo(player)
+            VisibilityHandler.updateToAll(player)
         }
 
         if (settings.allowDoubleJump) {

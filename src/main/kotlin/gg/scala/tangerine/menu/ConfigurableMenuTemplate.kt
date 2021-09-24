@@ -8,6 +8,8 @@ class ConfigurableMenuTemplate(val id: String) {
 
     var title = "Example Size"
     var size = 27
+    var placeholder = true
+
     var fallback: String? = null
     var buttons = mutableMapOf<Int, ConfigurableMenuButtonData>()
 

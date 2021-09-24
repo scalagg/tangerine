@@ -1,9 +1,7 @@
 package gg.scala.tangerine.menu
 
-import gg.scala.tangerine.menu.editor.ConfigurableMenuEditor
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
-import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
 import org.bukkit.entity.Player
 
@@ -14,6 +12,10 @@ import org.bukkit.entity.Player
 class ConfigurableMenuOutput(
     private val template: ConfigurableMenuTemplate
 ) : Menu() {
+
+    init {
+        placeholder = template.placeholder
+    }
 
     override fun getTitle(player: Player): String {
         return template.title

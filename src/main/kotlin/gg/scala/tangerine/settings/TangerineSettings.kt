@@ -3,6 +3,7 @@ package gg.scala.tangerine.settings
 import net.evilblock.cubed.util.CC
 import org.bukkit.Location
 import xyz.mkotb.configapi.Coloured
+import xyz.mkotb.configapi.RequiredField
 import xyz.mkotb.configapi.comment.Comment
 
 /**
@@ -33,6 +34,9 @@ class TangerineSettings {
         "${CC.WHITE}Welcome to the Scala Development Lobby",
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------"
     )
+
+    @RequiredField
+    val placeholderProvider = "papi"
 
     var spawnLocation: Location? = null
 
