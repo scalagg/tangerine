@@ -4,6 +4,7 @@ import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.placeholder.PlaceholderHandler
+import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 import net.evilblock.cubed.scoreboard.ScoreboardOverride
 import org.bukkit.entity.Player
 import java.util.*
@@ -12,13 +13,9 @@ import java.util.*
  * @author GrowlyX
  * @since 9/16/2021
  */
-class TangerineScoreboardOverride(
+class TangerineScoreboardAdapter(
     private val settings: TangerineSettings
-) : ScoreboardOverride() {
-
-    override fun shouldOverride(player: Player): Boolean {
-        return true
-    }
+) : ScoreboardAdapter() {
 
     override fun getTitle(player: Player): String {
         return settings.title

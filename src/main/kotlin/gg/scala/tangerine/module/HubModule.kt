@@ -1,7 +1,7 @@
 package gg.scala.tangerine.module
 
 import gg.scala.tangerine.module.impl.HubModuleItemAdapter
-import net.evilblock.cubed.scoreboard.ScoreboardOverride
+import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 
 /**
  * @author GrowlyX
@@ -10,6 +10,6 @@ import net.evilblock.cubed.scoreboard.ScoreboardOverride
 interface HubModule {
 
     val itemAdapter: HubModuleItemAdapter?
-    val scoreboardAdapter: ScoreboardOverride?
+    val scoreboardAdapter: ScoreboardAdapter?
 
 }

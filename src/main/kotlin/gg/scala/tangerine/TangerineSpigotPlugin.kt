@@ -13,7 +13,7 @@ import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
-import gg.scala.tangerine.scoreboard.TangerineScoreboardOverride
+import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
@@ -61,10 +61,18 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
         @JvmStatic
         lateinit var instance: TangerineSpigotPlugin
 
-        fun reloadConfig() {
+        @JvmStatic
+        fun reload() {
             instance.settings = instance.configFactory.fromFile(
                 "settings", TangerineSettings::class.java
             )
+        }
+
+        @JvmStatic
+        fun useModule(hubModule: HubModule) {
+            instance.hubModule = hubModule
+
+            instance.logger.info("Now loading tangerine with custom hub module.")
         }
     }
 
@@ -72,7 +80,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
     lateinit var settings: TangerineSettings
 
-    var hubModule: HubModule? = null
+    private var hubModule: HubModule? = null
 
     val configFactory: ConfigFactory = ConfigFactory.newFactory(this)
 
@@ -83,8 +91,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             "settings", TangerineSettings::class.java
         )
 
-        ScoreboardHandler.scoreboardOverride =
-            hubModule?.scoreboardAdapter ?: TangerineScoreboardOverride(this.settings)
+        ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter(this.settings))
 
         if (settings.autoHidePlayers) {
             VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
@@ -163,7 +170,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                 player.sendMessage(settings.joinMessage.toTypedArray())
             }
 
-            if (settings.shouldSendStaffInfo) {
+            if (settings.shouldSendStaffInfo && player.hasPermission(("lemon.staff"))) {
                 PlayerHandler.findPlayer(player).orElse(null)?.let { lemonPlayer ->
                     val channel = lemonPlayer.getMetadata("channel")
 

@@ -42,7 +42,7 @@ class TangerineCommand : BaseCommand() {
     fun onReload(player: Player) {
         ConfigurableMenuHandler.reloadMenus()
 
-        TangerineSpigotPlugin.reloadConfig()
+        TangerineSpigotPlugin.reload()
         ConfigurableItemHandler.reloadItems()
 
         player.sendMessage("${CC.GREEN}You've reloaded all configurations.")
