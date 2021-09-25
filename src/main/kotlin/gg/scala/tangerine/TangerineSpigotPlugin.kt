@@ -2,8 +2,10 @@ package gg.scala.tangerine
 
 import com.google.gson.LongSerializationPolicy
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.LemonConstants
 import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
+import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
@@ -159,7 +161,40 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             }
 
             if (settings.joinMessage.isNotEmpty()) {
-                settings.joinMessage.forEach { player.sendMessage(it) }
+                player.sendMessage(settings.joinMessage.toTypedArray())
+            }
+
+            if (settings.shouldSendStaffInfo) {
+                val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
+                val channel = lemonPlayer.getMetadata("channel")
+
+                player.sendMessage(arrayOf(
+                    "${CC.B_PRI}Staff Information:",
+                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Channel: ${
+                        channel?.asString()?.capitalize() ?: "${CC.RED}None"
+                    }",
+                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Messages: ${
+                        if (lemonPlayer.getSetting("staff-messages-disabled")) {
+                            "${CC.RED}Hidden"
+                        } else {
+                            "${CC.GREEN}Shown"
+                        }
+                    } ${CC.GRAY}(/tsm)",
+                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Reports: ${
+                        if (lemonPlayer.getSetting("reports-disabled")) {
+                            "${CC.RED}Hidden"
+                        } else {
+                            "${CC.GREEN}Shown"
+                        }
+                    } ${CC.GRAY}(/trm)",
+                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Filter: ${
+                        if (lemonPlayer.getSetting("filtered-messages-disabled")) {
+                            "${CC.RED}Hidden"
+                        } else {
+                            "${CC.GREEN}Shown"
+                        }
+                    } ${CC.GRAY}(/tfm)",
+                ))
             }
 
             ConfigurableItemHandler.items.forEach { (index, itemStack) ->

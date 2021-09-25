@@ -6,8 +6,11 @@ import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import gg.scala.tangerine.placeholder.PlaceholderHandler
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import net.evilblock.cubed.menu.Button
+import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
+import org.bukkit.inventory.InventoryView
 
 /**
  * @author GrowlyX
@@ -53,6 +56,10 @@ class LobbySelectorMenu(
             }
 
             return PlaceholderHandler.findProvider()?.handle(player, replacedLore) ?: replacedLore
+        }
+
+        override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
+            BungeeUtil.sendToServer(player, serverInstance.serverId)
         }
     }
 }

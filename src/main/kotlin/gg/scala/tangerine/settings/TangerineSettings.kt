@@ -43,5 +43,6 @@ class TangerineSettings {
     @Comment("Should we automatically hide players?")
     val autoHidePlayers = false
     val allowDoubleJump = true
+    val shouldSendStaffInfo = true
 
 }
