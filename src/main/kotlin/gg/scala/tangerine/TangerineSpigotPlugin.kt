@@ -7,6 +7,7 @@ import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.player.LemonPlayer
+import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
@@ -170,24 +171,24 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
                 player.sendMessage(arrayOf(
                     "${CC.B_PRI}Staff Information:",
-                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Channel: ${
+                    "${STAFF_PREFIX}${CC.SEC}Channel: ${
                         channel?.asString()?.capitalize() ?: "${CC.RED}None"
                     }",
-                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Messages: ${
+                    "${STAFF_PREFIX}${CC.SEC}Messages: ${
                         if (lemonPlayer.getSetting("staff-messages-disabled")) {
                             "${CC.RED}Hidden"
                         } else {
                             "${CC.GREEN}Shown"
                         }
                     } ${CC.GRAY}(/tsm)",
-                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Reports: ${
+                    "${STAFF_PREFIX}${CC.SEC}Reports: ${
                         if (lemonPlayer.getSetting("reports-disabled")) {
                             "${CC.RED}Hidden"
                         } else {
                             "${CC.GREEN}Shown"
                         }
                     } ${CC.GRAY}(/trm)",
-                    "${LemonConstants.STAFF_PREFIX}${CC.SEC}Filter: ${
+                    "${STAFF_PREFIX}${CC.SEC}Filter: ${
                         if (lemonPlayer.getSetting("filtered-messages-disabled")) {
                             "${CC.RED}Hidden"
                         } else {
