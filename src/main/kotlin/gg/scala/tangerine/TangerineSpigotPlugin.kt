@@ -7,11 +7,13 @@ import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
-import gg.scala.tangerine.menu.ConfigurableMenuHandler
-import gg.scala.tangerine.menu.ConfigurableMenuOutput
+import gg.scala.tangerine.configurable.ConfigurableMenuHandler
+import gg.scala.tangerine.configurable.ConfigurableMenuOutput
+import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.scoreboard.TangerineScoreboardOverride
 import gg.scala.tangerine.settings.TangerineSettings
+import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import gg.scala.tangerine.visibility.TangerineVisibilityOverride
@@ -108,6 +110,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
         Schedulers.async().runRepeating(
             TangerinePlayerTracker, 0L, 20L
         )
+        Schedulers.async().runRepeating(
+            TangerineLobbyTracker, 0L, 20L
+        )
 
         this.registerListeners()
         this.registerCommands()
@@ -190,7 +195,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                     .filter { it.action.name.contains("RIGHT") }
                     .filter { it.item.isSimilar(stack!!) }
                     .handler {
-                        ConfigurableMenuHandler.openMenu(it.player, "hub-selector")
+                        LobbySelectorMenu(
+                            ConfigurableMenuHandler.templates["hub-selector"]!!
+                        ).openMenu(it.player)
                     }
             }
 

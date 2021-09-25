@@ -1,12 +1,11 @@
 package gg.scala.tangerine.command
 
 import gg.scala.tangerine.TangerineSpigotPlugin
-import gg.scala.tangerine.menu.ConfigurableMenuOutput
+import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.annotation.CommandAlias
 import net.evilblock.cubed.acf.annotation.CommandPermission
 import net.evilblock.cubed.acf.annotation.Syntax
-import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.CC
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

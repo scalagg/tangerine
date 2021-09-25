@@ -32,7 +32,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
 
     override fun onRequest(player: OfflinePlayer?, params: String): String {
         val arguments = params.split("-")
-        val networkServer = fetchOrGetServer(arguments[1])
+        val networkServer = fetchOrGetServer(arguments[1].replace("|", "-"))
 
         when (arguments[0].lowercase(Locale.getDefault())) {
             "status" -> return if (networkServer == null) {
@@ -57,6 +57,11 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
                 "0"
             } else {
                 "${networkServer.onlinePlayers}"
+            }
+            "max" -> return if (networkServer == null) {
+                "0"
+            } else {
+                "${networkServer.maxPlayers}"
             }
         }
 

@@ -1,4 +1,4 @@
-package gg.scala.tangerine.menu
+package gg.scala.tangerine.configurable
 
 /**
  * @author GrowlyX

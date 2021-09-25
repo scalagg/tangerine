@@ -1,4 +1,4 @@
-package gg.scala.tangerine.menu
+package gg.scala.tangerine.configurable
 
 import com.cryptomorin.xseries.XMaterial
 import com.google.common.base.Charsets
@@ -6,6 +6,7 @@ import com.google.common.io.Files
 import com.google.gson.reflect.TypeToken
 import gg.scala.tangerine.TangerineSpigotPlugin
 import net.evilblock.cubed.serializers.Serializers
+import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import org.bukkit.entity.Player
 import java.io.File
@@ -67,17 +68,19 @@ object ConfigurableMenuHandler {
             )
         }
 
-        templates["hub-selector"] = ConfigurableMenuTemplate("server-selector").also {
-            it.buttons[13] = ConfigurableMenuButtonData(
-                ItemBuilder(XMaterial.INK_SAC)
-                    .name("This is an example item stack")
-                    .amount(4)
-                    .data(1)
+        templates["hub-selector"] = ConfigurableMenuTemplate("hub-selector").also {
+            it.buttons[0] = ConfigurableMenuButtonData(
+                ItemBuilder(XMaterial.NETHER_STAR)
+                    .name("${CC.B_PRI}<hub>")
                     .addToLore(
-                        "Example lore"
-                    ).build(),
-                ConfigurableMenuButtonType.COMMAND,
-                "time day"
+                        "%tangerine_status-<hub>%",
+                        "${CC.GRAY}Online: ${CC.WHITE}%tangerine_players-<hub>%/%tangerine_max-<hub>%",
+                        "",
+                        "%tangerine_joinable-<hub>%"
+                    )
+                    .build(),
+                ConfigurableMenuButtonType.NONE,
+                ""
             )
         }
 
@@ -93,7 +96,13 @@ object ConfigurableMenuHandler {
         val template = templates[id]
 
         if (template != null) {
-            ConfigurableMenuOutput(template).openMenu(player)
+            try {
+                ConfigurableMenuOutput(template).openMenu(player)
+            } catch (exception: Exception) {
+                player.sendMessage("${CC.RED}An error occurred while trying to open a menu, sorry for the inconvenience.")
+
+                exception.printStackTrace()
+            }
         }
     }
 }

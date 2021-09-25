@@ -1,12 +1,11 @@
-package gg.scala.tangerine.menu.editor
+package gg.scala.tangerine.configurable.editor
 
-import gg.scala.tangerine.menu.ConfigurableMenuButtonData
-import gg.scala.tangerine.menu.ConfigurableMenuTemplate
+import gg.scala.tangerine.configurable.ConfigurableMenuButtonData
+import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
-import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType

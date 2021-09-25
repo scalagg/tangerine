@@ -1,4 +1,4 @@
-package gg.scala.tangerine.menu
+package gg.scala.tangerine.configurable
 
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.Bukkit

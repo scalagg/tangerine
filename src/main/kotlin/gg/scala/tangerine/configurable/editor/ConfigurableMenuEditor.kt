@@ -1,9 +1,9 @@
-package gg.scala.tangerine.menu.editor
+package gg.scala.tangerine.configurable.editor
 
 import com.cryptomorin.xseries.XMaterial
 import gg.scala.lemon.menu.better.BetterConfirmMenu
-import gg.scala.tangerine.menu.ConfigurableMenuHandler
-import gg.scala.tangerine.menu.ConfigurableMenuTemplate
+import gg.scala.tangerine.configurable.ConfigurableMenuHandler
+import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.pagination.PaginatedMenu
 import net.evilblock.cubed.util.CC

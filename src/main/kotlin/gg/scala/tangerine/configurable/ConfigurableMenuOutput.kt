@@ -1,4 +1,4 @@
-package gg.scala.tangerine.menu
+package gg.scala.tangerine.configurable
 
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  * @author GrowlyX
  * @since 9/17/2021
  */
-class ConfigurableMenuOutput(
+open class ConfigurableMenuOutput(
     private val template: ConfigurableMenuTemplate
 ) : Menu(template.title) {
 

@@ -1,12 +1,12 @@
-package gg.scala.tangerine.menu.editor
+package gg.scala.tangerine.configurable.editor
 
 import com.cryptomorin.xseries.XMaterial
 import gg.scala.cookie.settings.builder.MultiOptionPlayerSettingsBuilder
 import gg.scala.lemon.player.metadata.Metadata
-import gg.scala.tangerine.menu.ConfigurableMenuButtonData
-import gg.scala.tangerine.menu.ConfigurableMenuButtonType
-import gg.scala.tangerine.menu.ConfigurableMenuHandler
-import gg.scala.tangerine.menu.ConfigurableMenuTemplate
+import gg.scala.tangerine.configurable.ConfigurableMenuButtonData
+import gg.scala.tangerine.configurable.ConfigurableMenuButtonType
+import gg.scala.tangerine.configurable.ConfigurableMenuHandler
+import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.CC
