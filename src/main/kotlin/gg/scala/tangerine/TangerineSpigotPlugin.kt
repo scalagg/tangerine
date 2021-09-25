@@ -18,7 +18,6 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
-import gg.scala.tangerine.visibility.TangerineVisibilityOverride
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
@@ -89,7 +88,6 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
         if (settings.autoHidePlayers) {
             VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
-            VisibilityHandler.registerOverride("tangerine", TangerineVisibilityOverride)
         }
 
         Serializers.useGsonBuilderThenRebuild { builder ->

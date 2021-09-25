@@ -11,6 +11,6 @@ import org.bukkit.entity.Player
 object TangerineVisibilityAdapter : VisibilityAdapter {
 
     override fun getAction(toRefresh: Player, refreshFor: Player): VisibilityAction {
-        return VisibilityAction.HIDE
+        return if (toRefresh.hasPermission("tangerine.visibility-override")) VisibilityAction.NEUTRAL else VisibilityAction.HIDE
     }
 }
