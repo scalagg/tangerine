@@ -2,16 +2,15 @@ package gg.scala.tangerine
 
 import com.google.gson.LongSerializationPolicy
 import gg.scala.lemon.Lemon
-import gg.scala.lemon.LemonConstants
 import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
-import gg.scala.tangerine.items.ConfigurableItemHandler
-import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
+import gg.scala.tangerine.items.ConfigurableItemHandler
+import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.scoreboard.TangerineScoreboardOverride
@@ -44,6 +43,7 @@ import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Entity
+import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
@@ -144,7 +144,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
     }
 
     private fun registerListeners() {
-        Events.subscribe(PlayerJoinEvent::class.java).handler { event ->
+        Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
             val player = event.player
 
             player.inventory.clear()
@@ -154,7 +154,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             player.foodLevel = 20
             player.gameMode = GameMode.ADVENTURE
 
-            player.walkSpeed = 0.4f
+            player.walkSpeed = 0.4F
             player.allowFlight = settings.allowDoubleJump
 
             if (settings.spawnLocation != null) {
@@ -166,36 +166,40 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             }
 
             if (settings.shouldSendStaffInfo) {
-                val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
-                val channel = lemonPlayer.getMetadata("channel")
+                PlayerHandler.findPlayer(player).orElse(null)?.let { lemonPlayer ->
+                    val channel = lemonPlayer.getMetadata("channel")
 
-                player.sendMessage(arrayOf(
-                    "${CC.B_PRI}Staff Information:",
-                    "${STAFF_PREFIX}${CC.SEC}Channel: ${
-                        channel?.asString()?.capitalize() ?: "${CC.RED}None"
-                    }",
-                    "${STAFF_PREFIX}${CC.SEC}Messages: ${
-                        if (lemonPlayer.getSetting("staff-messages-disabled")) {
-                            "${CC.RED}Hidden"
-                        } else {
-                            "${CC.GREEN}Shown"
-                        }
-                    } ${CC.GRAY}(/tsm)",
-                    "${STAFF_PREFIX}${CC.SEC}Reports: ${
-                        if (lemonPlayer.getSetting("reports-disabled")) {
-                            "${CC.RED}Hidden"
-                        } else {
-                            "${CC.GREEN}Shown"
-                        }
-                    } ${CC.GRAY}(/trm)",
-                    "${STAFF_PREFIX}${CC.SEC}Filter: ${
-                        if (lemonPlayer.getSetting("filtered-messages-disabled")) {
-                            "${CC.RED}Hidden"
-                        } else {
-                            "${CC.GREEN}Shown"
-                        }
-                    } ${CC.GRAY}(/tfm)",
-                ))
+                    player.sendMessage(
+                        arrayOf(
+                            "${CC.B_PRI}Staff Information:",
+                            "${STAFF_PREFIX}${CC.SEC}Channel: ${CC.AQUA}${
+                                (channel?.asString()
+                                    ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "${CC.RED}None"
+                            }",
+                            "${STAFF_PREFIX}${CC.SEC}Messages: ${
+                                if (lemonPlayer.getSetting("staff-messages-disabled")) {
+                                    "${CC.RED}Hidden"
+                                } else {
+                                    "${CC.GREEN}Shown"
+                                }
+                            } ${CC.GRAY}(/tsm)",
+                            "${STAFF_PREFIX}${CC.SEC}Reports: ${
+                                if (lemonPlayer.getSetting("reports-disabled")) {
+                                    "${CC.RED}Hidden"
+                                } else {
+                                    "${CC.GREEN}Shown"
+                                }
+                            } ${CC.GRAY}(/trm)",
+                            "${STAFF_PREFIX}${CC.SEC}Filter: ${
+                                if (lemonPlayer.getSetting("filtered-messages-disabled")) {
+                                    "${CC.RED}Hidden"
+                                } else {
+                                    "${CC.GREEN}Shown"
+                                }
+                            } ${CC.GRAY}(/tfm)",
+                        )
+                    )
+                }
             }
 
             ConfigurableItemHandler.items.forEach { (index, itemStack) ->
