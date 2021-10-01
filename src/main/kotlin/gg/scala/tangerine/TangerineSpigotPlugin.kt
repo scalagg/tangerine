@@ -6,6 +6,7 @@ import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.player.LemonPlayer
+import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
@@ -177,9 +178,11 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                     player.sendMessage(
                         arrayOf(
                             "${CC.B_PRI}Staff Information:",
-                            "${STAFF_PREFIX}${CC.SEC}Channel: ${CC.AQUA}${
+                            "${STAFF_PREFIX}${CC.SEC}Channel: ${
+                                if (channel == null) CC.RED else StaffChannelType.valueOf(channel.asString().toUpperCase()).color
+                            }${
                                 (channel?.asString()
-                                    ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "${CC.RED}None"
+                                    ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
                             }",
                             "${STAFF_PREFIX}${CC.SEC}Messages: ${
                                 if (lemonPlayer.getSetting("staff-messages-disabled")) {
@@ -237,7 +240,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
             .forEach { stack ->
                 Events.subscribe(PlayerInteractEvent::class.java)
-                    .filter { it.action.name.contains("RIGHT") }
+                    .filter { it.item != null && it.action.name.contains("RIGHT") }
                     .filter { it.item.isSimilar(stack!!) }
                     .handler {
                         LobbySelectorMenu(
@@ -250,7 +253,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Server Selector") }
             .forEach { stack ->
                 Events.subscribe(PlayerInteractEvent::class.java)
-                    .filter { it.action.name.contains("RIGHT") }
+                    .filter { it.item != null && it.action.name.contains("RIGHT") }
                     .filter { it.item.isSimilar(stack!!) }
                     .handler {
                         ConfigurableMenuHandler.openMenu(it.player, "server-selector")

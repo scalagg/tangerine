@@ -5,7 +5,6 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.placeholder.PlaceholderHandler
 import net.evilblock.cubed.scoreboard.ScoreboardAdapter
-import net.evilblock.cubed.scoreboard.ScoreboardOverride
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -23,7 +22,7 @@ class TangerineScoreboardAdapter(
 
     override fun getLines(board: LinkedList<String>, player: Player) {
         val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
-        val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, board) ?: board
+        val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboard) ?: settings.scoreboard
 
         placeholderReplaced.forEach {
             board.add(
