@@ -15,6 +15,11 @@ repositories {
         name "papermc"
         url "https://papermc.io/repo/repository/maven-public/"
     }
+
+    maven {
+        url 'https://jitpack.io'
+    }
+
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
@@ -23,6 +28,8 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
     implementation "io.papermc:paperlib:1.0.6"
+
+    implementation 'com.github.NoSequel:TabAPI:1500b03894'
 
     compileOnly 'me.clip:placeholderapi:2.10.10'
 

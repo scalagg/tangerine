@@ -28,6 +28,18 @@ class TangerineSettings {
         "${CC.GRAY}${CC.STRIKE_THROUGH}------------"
     )
 
+    val tabLeft = listOf(
+        ""
+    )
+
+    val tabMiddle = listOf(
+        ""
+    );
+
+    val tabRight = listOf(
+        ""
+    );
+
     @Coloured
     val joinMessage = listOf(
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------",
