@@ -21,6 +21,7 @@ import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
+import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
@@ -40,6 +41,7 @@ import net.evilblock.cubed.serialize.VectorAdapter
 import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.serializers.impl.AbstractTypeSerializer
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -50,6 +52,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.util.BlockVector
 import xyz.mkotb.configapi.ConfigFactory
 import java.util.*
@@ -102,7 +105,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
         if (settings.tabEnabled) {
             TabHandler(
-                TangerineTablistProvider(), this, 30L
+                v1_8_R3TabAdapter(), TangerineTablistProvider(), this, 30L
             )
         }
 
@@ -187,7 +190,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                         arrayOf(
                             "${CC.B_PRI}Staff Information:",
                             "${STAFF_PREFIX}${CC.SEC}Channel: ${
-                                if (channel == null) CC.RED else StaffChannelType.valueOf(channel.asString().toUpperCase()).color
+                                if (channel == null) CC.RED else StaffChannelType.valueOf(
+                                    channel.asString().uppercase(Locale.getDefault())
+                                ).color
                             }${
                                 (channel?.asString()
                                     ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
@@ -266,6 +271,46 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                     .handler {
                         ConfigurableMenuHandler.openMenu(it.player, "server-selector")
                     }
+            }
+
+        val `true` = FixedMetadataValue(this, true)
+
+        ConfigurableItemHandler.items
+            .filter { it.value != null && it.value!!.hasItemMeta() && it.value!!.itemMeta.displayName.contains("Players") }
+            .forEach { entry ->
+                val stack = entry.value
+
+                if (stack != null) {
+                    val enabledStack = ItemBuilder(stack.clone())
+                        .data(10).build()
+                    val disabledStack = ItemBuilder(stack.clone())
+                        .data(8).build()
+
+                    Events.subscribe(PlayerInteractEvent::class.java)
+                        .filter { it.item != null && it.action.name.contains("RIGHT") }
+                        .filter { it.item.hasItemMeta() && it.item.itemMeta.displayName.contains("Players") }
+                        .handler {
+                            val hidingNow = it.player.hasMetadata("hiding-players")
+
+                            if (hidingNow) {
+                                it.player.removeMetadata("hiding-players", this)
+                            } else {
+                                it.player.setMetadata("hiding-players", `true`)
+                            }
+
+                            it.player.inventory.setItem(
+                                entry.key,
+                                if (hidingNow) {
+                                    disabledStack
+                                } else {
+                                    enabledStack
+                                }
+                            )
+                            it.player.updateInventory()
+
+                            VisibilityHandler.updateAllTo(it.player)
+                        }
+                }
             }
     }
 }
