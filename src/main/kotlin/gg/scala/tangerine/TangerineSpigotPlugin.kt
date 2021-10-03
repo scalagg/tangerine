@@ -21,7 +21,6 @@ import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
-import io.github.nosequel.tab.v1_8_r3.v1_8_R3TabAdapter
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
@@ -105,7 +104,7 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
 
         if (settings.tabEnabled) {
             TabHandler(
-                v1_8_R3TabAdapter(), TangerineTablistProvider(), this, 30L
+                TangerineTablistProvider(), this, 30L
             )
         }
 

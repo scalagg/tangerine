@@ -29,7 +29,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
     implementation "io.papermc:paperlib:1.0.6"
 
-    implementation 'com.github.NoSequel:TabAPI:1500b03894'
+    implementation 'com.github.GrowlyX:TabAPI:c3b4356e13'
 
     compileOnly 'me.clip:placeholderapi:2.10.10'
 
