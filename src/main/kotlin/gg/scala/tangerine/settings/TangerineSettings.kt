@@ -36,11 +36,11 @@ class TangerineSettings {
 
     val tabMiddle = listOf(
         ""
-    );
+    )
 
     val tabRight = listOf(
         ""
-    );
+    )
 
     @Coloured
     val joinMessage = listOf(

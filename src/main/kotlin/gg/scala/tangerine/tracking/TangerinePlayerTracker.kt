@@ -3,6 +3,7 @@ package gg.scala.tangerine.tracking
 import gg.scala.banana.BananaBuilder
 import gg.scala.banana.options.BananaOptions
 import gg.scala.lemon.Lemon
+import java.util.concurrent.ForkJoinPool
 
 /**
  * @author GrowlyX
@@ -25,9 +26,13 @@ object TangerinePlayerTracker : Runnable {
         .build()
 
     override fun run() {
-        banana.useResource {
-            val global = it.hget("cocoa:players", "global")
-            globalPlayers = global?.toInt() ?: 0
+        ForkJoinPool.commonPool().execute {
+            banana.useResource {
+                val global = it.hget("cocoa:players", "global")
+                globalPlayers = global?.toInt() ?: 0
+
+                println("$globalPlayers $global")
+            }
         }
     }
 }

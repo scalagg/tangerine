@@ -3,6 +3,7 @@ package gg.scala.tangerine.placeholder.extension
 import com.solexgames.daddyshark.commons.model.ServerInstance
 import gg.scala.lemon.Lemon
 import gg.scala.tangerine.TangerineSpigotPlugin
+import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import me.lucko.helper.Schedulers
 import net.evilblock.cubed.util.CC
@@ -53,6 +54,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
                     "${CC.GREEN}Click to connect!"
                 }
             }
+            "globalplayers" -> TangerinePlayerTracker.globalPlayers
             "sbdisplay" -> return if (networkServer == null) {
                 "${CC.RED}Offline"
             } else if (networkServer.whitelisted){
@@ -72,7 +74,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
             }
         }
 
-        return "${CC.GOLD}Unavailable."
+        return "${CC.GOLD}Loading..."
     }
 
     private fun fetchOrGetServer(id: String): ServerInstance? {
