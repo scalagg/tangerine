@@ -53,6 +53,13 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
                     "${CC.GREEN}Click to connect!"
                 }
             }
+            "sbdisplay" -> return if (networkServer == null) {
+                "${CC.RED}Offline"
+            } else if (networkServer.whitelisted){
+                "${CC.YELLOW}Whitelisted"
+            } else {
+                "${CC.WHITE}${networkServer.onlinePlayers}/${networkServer.maxPlayers}"
+            }
             "players" -> return if (networkServer == null) {
                 "0"
             } else {
@@ -74,6 +81,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
         }
 
         val runnable = UpdateRunnable(id)
+
         Schedulers.async()
             .runRepeating(runnable, 0L, 20L)
 
@@ -88,7 +96,9 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
 
         override fun run() {
             Lemon.instance.handler.fetchServerInstanceById(instance)?.thenAccept {
-                cachedServers[instance] = it
+                run {
+                    cachedServers[instance] = it
+                }
             }
         }
     }
