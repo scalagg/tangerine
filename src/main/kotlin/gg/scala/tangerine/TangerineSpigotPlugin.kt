@@ -16,9 +16,11 @@ import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
+import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
+import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
@@ -97,6 +99,10 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
         if (settings.autoHidePlayers) {
             VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
         }
+
+        TabHandler(
+            TangerineTablistProvider(), this, 30L
+        )
 
         Serializers.useGsonBuilderThenRebuild { builder ->
             builder.serializeNulls().setPrettyPrinting()

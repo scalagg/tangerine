@@ -20,4 +20,8 @@ class PapiPlaceholderProvider : PlaceholderProvider {
     override fun handle(player: Player, list: List<String>): MutableList<String> {
         return PlaceholderAPI.setPlaceholders(player, list)
     }
+
+    override fun handle(player: Player, list: String): String {
+        return PlaceholderAPI.setPlaceholders(player, list)
+    }
 }
