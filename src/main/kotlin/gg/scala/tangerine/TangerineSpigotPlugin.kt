@@ -100,9 +100,11 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
             VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
         }
 
-        TabHandler(
-            TangerineTablistProvider(), this, 30L
-        )
+        if (settings.tabEnabled) {
+            TabHandler(
+                TangerineTablistProvider(), this, 30L
+            )
+        }
 
         Serializers.useGsonBuilderThenRebuild { builder ->
             builder.serializeNulls().setPrettyPrinting()

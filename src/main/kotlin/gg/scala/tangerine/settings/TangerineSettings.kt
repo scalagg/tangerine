@@ -28,6 +28,8 @@ class TangerineSettings {
         "${CC.GRAY}${CC.STRIKE_THROUGH}------------"
     )
 
+    val tabEnabled = true
+
     val tabLeft = listOf(
         ""
     )
