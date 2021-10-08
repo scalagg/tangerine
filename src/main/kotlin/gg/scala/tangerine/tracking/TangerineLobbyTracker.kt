@@ -3,6 +3,7 @@ package gg.scala.tangerine.tracking
 import com.solexgames.daddyshark.commons.model.ServerInstance
 import gg.scala.lemon.Lemon
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 /**
  * @author GrowlyX

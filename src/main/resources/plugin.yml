@@ -5,4 +5,4 @@ main: gg.scala.tangerine.TangerineSpigotPlugin
 author: Scala
 website: https://scala.gg
 
-depend: [Cubed, Lemon]
+depend: [Cubed, Lemon, helper]
