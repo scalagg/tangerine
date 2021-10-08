@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
  */
 class PapiPlaceholderProvider : PlaceholderProvider {
 
-    val list = mutableListOf()
+    private val list = mutableListOf<String>()
 
     init {
         if (TangerineServerPlaceholderExpansion.canRegister()) {
@@ -20,18 +20,18 @@ class PapiPlaceholderProvider : PlaceholderProvider {
     }
 
     override fun handle(player: Player, list: List<String>): MutableList<String> {
-        try {
-            return PlaceholderAPI.setPlaceholders(player, list)
+        return try {
+            PlaceholderAPI.setPlaceholders(player, list)
         } catch (e: Exception) {
-            return list
+            list.toMutableList()
         }
     }
 
     override fun handle(player: Player, list: String): String {
-        try {
-            return PlaceholderAPI.setPlaceholders(player, list)
+        return try {
+            PlaceholderAPI.setPlaceholders(player, list)
         } catch (e: Exception) {
-            return ""
+            list
         }
     }
 }

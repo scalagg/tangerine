@@ -1,6 +1,7 @@
 package gg.scala.tangerine.scoreboard
 
 import gg.scala.lemon.handler.PlayerHandler
+import gg.scala.lemon.handler.RankHandler
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.placeholder.PlaceholderHandler
@@ -27,7 +28,7 @@ class TangerineScoreboardAdapter(
         placeholderReplaced.forEach {
             board.add(
                 it
-                    .replace("<rank>", lemonPlayer.activeGrant!!.getRank().getColoredName())
+                    .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
                     .replace("<players>", TangerinePlayerTracker.globalPlayers.toString())
             )
         }
