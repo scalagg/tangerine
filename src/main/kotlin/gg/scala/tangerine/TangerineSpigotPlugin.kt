@@ -300,9 +300,9 @@ class TangerineSpigotPlugin : ExtendedJavaPlugin() {
                             it.player.inventory.setItem(
                                 entry.key,
                                 if (hidingNow) {
-                                    disabledStack
-                                } else {
                                     enabledStack
+                                } else {
+                                    disabledStack
                                 }
                             )
                             it.player.updateInventory()
