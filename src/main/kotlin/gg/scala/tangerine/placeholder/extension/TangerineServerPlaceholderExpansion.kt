@@ -1,7 +1,7 @@
 package gg.scala.tangerine.placeholder.extension
 
-import com.solexgames.daddyshark.commons.model.ServerInstance
-import gg.scala.lemon.Lemon
+import gg.scala.lemon.handler.ServerHandler
+import gg.scala.lemon.server.ServerInstance
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -16,8 +16,8 @@ import java.util.*
  */
 object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
 
-    private val cachedServers = mutableMapOf<String, ServerInstance>()
-    private val serverRunnables = mutableListOf<Runnable>()
+    val cachedServers = mutableMapOf<String, ServerInstance?>()
+    val serverRunnables = mutableListOf<UpdateRunnable>()
 
     override fun getIdentifier(): String {
         return "tangerine"
@@ -79,28 +79,37 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
 
     private fun fetchOrGetServer(id: String): ServerInstance? {
         if (cachedServers.containsKey(id)) {
-            return cachedServers[id]!!
+            return cachedServers[id]
+        }
+
+        val foundUpdater = serverRunnables.firstOrNull {
+            it.instance == id
+        }
+
+        if (foundUpdater != null) {
+            // there's an active updater for this instance,
+            // it just hasn't fetched the server yet.
+            return null
         }
 
         val runnable = UpdateRunnable(id)
 
-        Schedulers.async()
-            .runRepeating(runnable, 0L, 20L)
+        Schedulers.async().runRepeating(
+            runnable, 0L, 40L
+        )
 
         serverRunnables.add(runnable)
 
         return null
     }
 
-    private class UpdateRunnable(
-        private val instance: String
+    class UpdateRunnable(
+        val instance: String
     ) : Runnable {
 
         override fun run() {
-            Lemon.instance.handler.fetchServerInstanceById(instance)?.thenAccept {
-                run {
-                    cachedServers[instance] = it
-                }
+            ServerHandler.fetchServerInstanceById(instance).thenAccept {
+                cachedServers[instance] = it
             }
         }
     }

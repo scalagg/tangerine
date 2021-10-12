@@ -1,6 +1,6 @@
 package gg.scala.tangerine.menu
 
-import com.solexgames.daddyshark.commons.model.ServerInstance
+import gg.scala.lemon.server.ServerInstance
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import gg.scala.tangerine.placeholder.PlaceholderHandler

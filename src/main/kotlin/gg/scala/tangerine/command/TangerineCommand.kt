@@ -4,6 +4,7 @@ import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.editor.ConfigurableMenuEditor
+import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
@@ -36,6 +37,13 @@ class TangerineCommand : BaseCommand() {
         TangerineSpigotPlugin.instance.configFactory.save("settings", TangerineSpigotPlugin.instance.settings)
 
         player.sendMessage("${CC.GREEN}You've set the lobby spawn.")
+    }
+
+    @Subcommand("contents")
+    fun onContents(player: Player)
+    {
+        player.sendMessage("cached=" + TangerineServerPlaceholderExpansion.cachedServers.size)
+        player.sendMessage("runnables=" + TangerineServerPlaceholderExpansion.serverRunnables.size)
     }
 
     @Subcommand("reload")

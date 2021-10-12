@@ -1,9 +1,8 @@
 package gg.scala.tangerine.tracking
 
-import com.solexgames.daddyshark.commons.model.ServerInstance
-import gg.scala.lemon.Lemon
+import gg.scala.lemon.handler.ServerHandler
+import gg.scala.lemon.server.ServerInstance
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 /**
  * @author GrowlyX
@@ -14,8 +13,8 @@ object TangerineLobbyTracker : Runnable {
     val lobbies = mutableMapOf<Int, ServerInstance>()
 
     override fun run() {
-        Lemon.instance.handler.fetchOnlineServerInstancesByGroup("hub")?.thenAccept { instances ->
-            instances
+        ServerHandler.fetchOnlineServerInstancesByGroup("hub").thenAccept { instances ->
+            instances.values
                 .map {
                     Pair(
                         Scanner(it.serverId)

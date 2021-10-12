@@ -29,7 +29,7 @@ class TangerineScoreboardAdapter(
             board.add(
                 it
                     .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
-                    .replace("<players>", TangerinePlayerTracker.globalPlayers.toString())
+                    .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
             )
         }
     }
