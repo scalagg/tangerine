@@ -108,7 +108,9 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
     ) : Runnable {
 
         override fun run() {
-            ServerHandler.fetchServerInstanceById(instance).thenAccept {
+            ServerHandler.fetchServerInstanceById(
+                instance
+            ).thenAccept {
                 cachedServers[instance] = it
             }
         }

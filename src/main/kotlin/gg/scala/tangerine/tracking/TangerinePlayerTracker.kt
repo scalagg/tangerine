@@ -18,7 +18,6 @@ object TangerinePlayerTracker : Runnable {
         .options(
             BananaOptions(
                 channel = "tangerine",
-                async = true,
             )
         )
         .credentials(

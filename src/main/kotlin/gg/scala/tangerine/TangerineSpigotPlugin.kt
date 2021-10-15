@@ -1,6 +1,7 @@
 package gg.scala.tangerine
 
 import com.google.gson.LongSerializationPolicy
+import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.lemon.Lemon
 import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
@@ -60,7 +61,7 @@ import java.util.*
  * @author GrowlyX
  * @since 9/16/2021
  */
-class TangerineSpigotPlugin : ExtendedJavaPlugin() {
+class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
     companion object {
         @JvmStatic
