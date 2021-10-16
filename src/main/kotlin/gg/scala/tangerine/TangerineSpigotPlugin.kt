@@ -165,12 +165,13 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         wrappedNotebook.setDescription(
             "&6&lWelcome to PvPBar!",
             "",
-            "&7Follow us:",
+            "&7Follow us:&r",
             "@itsthreazy",
             "@devgrowlzs",
             "@puugzlol",
             "",
-            "Something something..."
+            "&aThis is an example of",
+            "&aLemon's notebook wrapper."
         )
 
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
