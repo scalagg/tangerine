@@ -6,6 +6,7 @@ import gg.scala.lemon.Lemon
 import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
+import gg.scala.lemon.notebook.NotebookHandler
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
@@ -42,6 +43,7 @@ import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.serializers.impl.AbstractTypeSerializer
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
+import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -158,6 +160,19 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     }
 
     private fun registerListeners() {
+        val wrappedNotebook = NotebookHandler.createNotebook()
+        wrappedNotebook.setTitle("Notebook Wrapper")
+        wrappedNotebook.setDescription(
+            "&6&lWelcome to PvPBar!",
+            "",
+            "&7Follow us:",
+            "@itsthreazy",
+            "@devgrowlzs",
+            "@puugzlol",
+            "",
+            "Something something..."
+        )
+
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
             val player = event.player
 
@@ -226,6 +241,10 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
             VisibilityHandler.updateAllTo(player)
             VisibilityHandler.updateToAll(player)
+
+            Tasks.delayed(1L) {
+                wrappedNotebook.open(player)
+            }
         }
 
         if (settings.allowDoubleJump) {
