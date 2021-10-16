@@ -14,7 +14,7 @@ open class ConfigurableMenuOutput(
 ) : Menu(template.title) {
 
     init {
-        placeholder = template.placeholder
+        placeholdBorders = template.placeholder
         autoUpdate = template.updateAutomatically
     }
 

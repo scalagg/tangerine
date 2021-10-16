@@ -10,6 +10,7 @@ import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
 import net.evilblock.cubed.util.CC
 import org.bukkit.entity.Player
+import xyz.mkotb.configapi.ConfigFactory
 
 /**
  * @author GrowlyX
@@ -18,6 +19,8 @@ import org.bukkit.entity.Player
 @CommandAlias("tangerine|tgr")
 @CommandPermission("tangerine.command.tangerine")
 class TangerineCommand : BaseCommand() {
+
+    val configFactory: ConfigFactory = ConfigFactory.newFactory(TangerineSpigotPlugin.instance)
 
     @Default
     @HelpCommand
@@ -34,7 +37,7 @@ class TangerineCommand : BaseCommand() {
     @Subcommand("setspawn")
     fun onSetSpawn(player: Player) {
         TangerineSpigotPlugin.instance.settings.spawnLocation = player.location
-        TangerineSpigotPlugin.instance.configFactory.save("settings", TangerineSpigotPlugin.instance.settings)
+        configFactory.save("settings", TangerineSpigotPlugin.instance.settings)
 
         player.sendMessage("${CC.GREEN}You've set the lobby spawn.")
     }

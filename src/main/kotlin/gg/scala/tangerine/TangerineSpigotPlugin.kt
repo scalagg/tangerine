@@ -69,9 +69,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
         @JvmStatic
         fun reload() {
-            instance.settings = instance.configFactory.fromFile(
-                "settings", TangerineSettings::class.java
-            )
         }
 
         @JvmStatic
@@ -88,10 +85,10 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
     private var hubModule: HubModule? = null
 
-    val configFactory: ConfigFactory = ConfigFactory.newFactory(this)
-
     override fun enable() {
         instance = this
+
+        val configFactory: ConfigFactory = ConfigFactory.newFactory(this)
 
         settings = configFactory.fromFile(
             "settings", TangerineSettings::class.java
