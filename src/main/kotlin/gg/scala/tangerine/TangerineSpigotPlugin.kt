@@ -7,6 +7,7 @@ import gg.scala.lemon.adapt.LemonPlayerAdapter
 import gg.scala.lemon.adapt.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.notebook.NotebookHandler
+import gg.scala.lemon.notebook.WrappedNotebook
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
@@ -26,7 +27,6 @@ import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
-import me.lucko.helper.plugin.ExtendedJavaPlugin
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.command.manager.CubedCommandManager
@@ -160,18 +160,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     }
 
     private fun registerListeners() {
-        val wrappedNotebook = NotebookHandler.createNotebook()
-        wrappedNotebook.setTitle("Notebook Wrapper")
-        wrappedNotebook.setDescription(
-            "&6&lWelcome to PvPBar!",
-            "",
-            "&7Follow us:&r",
-            "@itsthreazy",
-            "@devgrowlzs",
-            "@puugzlol",
-            "",
-            "&aThis is an example of",
-            "&aLemon's notebook wrapper."
+        val bok = WrappedNotebook()
+        bok.setDescription(
+            "Something"
         )
 
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
@@ -244,7 +235,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             VisibilityHandler.updateToAll(player)
 
             Tasks.delayed(1L) {
-                wrappedNotebook.open(player)
+                bok.open(player)
             }
         }
 
