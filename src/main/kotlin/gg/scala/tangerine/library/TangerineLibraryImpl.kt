@@ -21,4 +21,7 @@ object TangerineLibraryImpl
     val TAB_API = Library("com.github.GrowlyX", "TabAPI", "e01fba589e")
         .repository("https://jitpack.io")
 
+    @JvmStatic
+    val XENON_PARTICLES = Library("xyz.xenondevs", "particle", "1.6.6")
+
 }

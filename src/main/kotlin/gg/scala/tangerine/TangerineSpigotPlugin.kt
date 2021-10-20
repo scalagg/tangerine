@@ -3,10 +3,9 @@ package gg.scala.tangerine
 import com.google.gson.LongSerializationPolicy
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.lemon.Lemon
-import gg.scala.lemon.adapt.LemonPlayerAdapter
-import gg.scala.lemon.adapt.UUIDAdapter
+import gg.scala.lemon.adapter.LemonPlayerAdapter
+import gg.scala.lemon.adapter.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
-import gg.scala.lemon.notebook.NotebookHandler
 import gg.scala.lemon.notebook.WrappedNotebook
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
@@ -57,6 +56,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import org.bukkit.util.BlockVector
 import xyz.mkotb.configapi.ConfigFactory
+import xyz.xenondevs.particle.ParticleEffect
 import java.util.*
 
 /**
@@ -162,7 +162,14 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     private fun registerListeners() {
         val bok = WrappedNotebook()
         bok.setDescription(
-            "Something"
+            "      &6&lPvPBar Network",
+            " &8You're in one of our lobbies.",
+            "",
+            "      &6&lAnnouncements:",
+            "  &8Season one of our practice",
+            "  &8gamemode has just released.",
+            "",
+            "&7&oUse the server-selector to join!"
         )
 
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
@@ -186,7 +193,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                 player.sendMessage(settings.joinMessage.toTypedArray())
             }
 
-            if (settings.shouldSendStaffInfo && player.hasPermission(("lemon.staff"))) {
+            if (settings.shouldSendStaffInfo && player.hasPermission("lemon.staff")) {
                 PlayerHandler.findPlayer(player).orElse(null)?.let { lemonPlayer ->
                     val channel = lemonPlayer.getMetadata("channel")
 
@@ -245,9 +252,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                 .handler {
                     val vector = it.player.location.direction
                         .multiply(2.5).setY(1.1)
-                    it.isCancelled = true
 
+                    it.isCancelled = true
                     it.player.velocity = vector
+
+                    ParticleEffect.FLAME.display(it.player.location)
                 }
         }
 

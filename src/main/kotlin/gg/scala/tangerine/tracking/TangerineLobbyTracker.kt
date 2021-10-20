@@ -14,6 +14,8 @@ object TangerineLobbyTracker : Runnable {
 
     override fun run() {
         ServerHandler.fetchOnlineServerInstancesByGroup("hub").thenAccept { instances ->
+            lobbies.clear()
+
             instances.values
                 .map {
                     Pair(
