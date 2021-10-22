@@ -38,7 +38,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
 
-    compileOnly fileTree("lib")
+    compileOnly fileTree(dir: "lib")
 }
 
 shadowJar {
