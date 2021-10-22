@@ -10,7 +10,7 @@ import java.util.*
  */
 object TangerineLobbyTracker : Runnable {
 
-    val lobbies = mutableMapOf<Int, ServerInstance>()
+    val lobbies = linkedMapOf<Int, ServerInstance>()
 
     override fun run() {
         ServerHandler.fetchOnlineServerInstancesByGroup("hub").thenAccept { instances ->

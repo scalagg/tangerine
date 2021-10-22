@@ -15,8 +15,8 @@ enum class ConfigurableMenuButtonType(
     COMMAND({ player, data ->
         Bukkit.dispatchCommand(player, data)
     }),
-    QUEUE({ player, _ ->
-        player.sendMessage("${net.evilblock.cubed.util.CC.RED}Not available.")
+    QUEUE({ player, data ->
+        Bukkit.dispatchCommand(player, "joinqueue $data")
     }),
     SEND_SERVER({ player, data ->
         BungeeUtil.sendToServer(player, data)
