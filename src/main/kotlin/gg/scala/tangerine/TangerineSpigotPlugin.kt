@@ -100,8 +100,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             "settings", TangerineSettings::class.java
         )
 
-        ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter(this.settings))
-
         if (settings.autoHidePlayers) {
             VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
         }
@@ -143,6 +141,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         } else {
             DefaultQueuePlatform
         }
+
+        ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter(this.settings))
 
         this.registerListeners()
         this.registerCommands()
