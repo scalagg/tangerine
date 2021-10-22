@@ -16,6 +16,9 @@ import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
+import gg.scala.tangerine.queue.QueuePlatform
+import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
+import gg.scala.tangerine.queue.impl.MelonQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
@@ -83,6 +86,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
     var itemTerminable = CompositeTerminable.create()
 
+    lateinit var platform: QueuePlatform
     lateinit var settings: TangerineSettings
 
     private var hubModule: HubModule? = null
@@ -132,6 +136,13 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         Schedulers.async().runRepeating(
             TangerineLobbyTracker, 0L, 20L
         )
+
+        platform = if (server.pluginManager.getPlugin("Melon") != null)
+        {
+            MelonQueuePlatform()
+        } else {
+            DefaultQueuePlatform
+        }
 
         this.registerListeners()
         this.registerCommands()

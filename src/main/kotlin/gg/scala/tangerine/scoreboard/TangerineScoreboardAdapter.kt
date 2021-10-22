@@ -23,7 +23,9 @@ class TangerineScoreboardAdapter(
 
     override fun getLines(board: LinkedList<String>, player: Player) {
         val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
-        val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboard) ?: settings.scoreboard
+
+        val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboard)
+            ?: settings.scoreboard
 
         placeholderReplaced.forEach {
             board.add(

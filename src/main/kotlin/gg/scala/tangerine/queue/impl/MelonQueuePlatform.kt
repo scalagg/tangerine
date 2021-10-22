@@ -64,9 +64,4 @@ class MelonQueuePlatform : QueuePlatform
 
         return null
     }
-
-    override fun joinQueue(player: Player, server: String)
-    {
-        Bukkit.dispatchCommand(player, "joinqueue $server")
-    }
 }

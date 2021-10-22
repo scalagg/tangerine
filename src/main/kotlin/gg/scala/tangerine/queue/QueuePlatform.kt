@@ -17,6 +17,4 @@ interface QueuePlatform
     fun getQueuePosition(player: Player): Int
 
     fun getQueuePlayers(player: Player): Int
-
-    fun joinQueue(player: Player, server: String)
 }
