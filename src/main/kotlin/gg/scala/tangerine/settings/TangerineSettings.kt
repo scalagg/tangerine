@@ -28,6 +28,19 @@ class TangerineSettings {
         "${CC.GRAY}${CC.STRIKE_THROUGH}------------"
     )
 
+    @Coloured
+    val scoreboardQueued = listOf(
+        "${CC.GRAY}${CC.STRIKE_THROUGH}------------",
+        "${CC.WHITE}Online:",
+        "${CC.PRI}<players>",
+        "",
+        "${CC.WHITE}Rank:",
+        "${CC.PRI}<rank>",
+        "",
+        "${CC.PRI}scala.gg",
+        "${CC.GRAY}${CC.STRIKE_THROUGH}------------"
+    )
+
     val tabEnabled = true
 
     val tabLeft = listOf(

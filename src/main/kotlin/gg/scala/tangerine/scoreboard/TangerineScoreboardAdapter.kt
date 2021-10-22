@@ -2,6 +2,7 @@ package gg.scala.tangerine.scoreboard
 
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RankHandler
+import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.placeholder.PlaceholderHandler
@@ -17,6 +18,8 @@ class TangerineScoreboardAdapter(
     private val settings: TangerineSettings
 ) : ScoreboardAdapter() {
 
+    private val platform = TangerineSpigotPlugin.instance.platform
+
     override fun getTitle(player: Player): String {
         return settings.title
     }
@@ -24,15 +27,34 @@ class TangerineScoreboardAdapter(
     override fun getLines(board: LinkedList<String>, player: Player) {
         val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
 
-        val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboard)
-            ?: settings.scoreboard
+        if (platform.isInQueue(player))
+        {
+            val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboardQueued)
+                ?: settings.scoreboardQueued
 
-        placeholderReplaced.forEach {
-            board.add(
-                it
-                    .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
-                    .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
-            )
+            placeholderReplaced.forEach {
+                board.add(
+                    it
+                        .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
+                        .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
+                        .replace("<queue_name>", platform.getQueueName(player))
+                        .replace("<queue_lane>", platform.getQueueLane(player))
+                        .replace("<queue_position>", platform.getQueuePosition(player).toString())
+                        .replace("<queue_maximum>", platform.getQueuePlayers(player).toString())
+                )
+            }
+        } else
+        {
+            val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboard)
+                ?: settings.scoreboard
+
+            placeholderReplaced.forEach {
+                board.add(
+                    it
+                        .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
+                        .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
+                )
+            }
         }
     }
 
