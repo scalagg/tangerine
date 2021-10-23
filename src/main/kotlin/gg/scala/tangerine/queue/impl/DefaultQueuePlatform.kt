@@ -14,6 +14,11 @@ object DefaultQueuePlatform : QueuePlatform
         return false
     }
 
+    override fun queued(server: String): Int
+    {
+        return 0
+    }
+
     override fun getQueueName(player: Player): String
     {
         return ""

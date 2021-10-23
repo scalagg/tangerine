@@ -17,6 +17,14 @@ class MelonQueuePlatform : QueuePlatform
         return getParent(player) != null
     }
 
+    override fun queued(server: String): Int
+    {
+        val queue = MelonSpigotPlugin.getInstance()
+            .queueHandler.parentQueueMap[server]
+
+        return queue?.allQueued ?: 0
+    }
+
     override fun getQueueName(player: Player): String
     {
         return getParent(player)!!.fancyName
