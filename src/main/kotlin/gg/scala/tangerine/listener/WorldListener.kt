@@ -3,10 +3,14 @@ package gg.scala.tangerine.listener
 import gg.scala.tangerine.TangerineSpigotPlugin
 import io.papermc.lib.PaperLib
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.ItemBuilder
+import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.Material
 import org.bukkit.SkullType
+import org.bukkit.Sound
 import org.bukkit.block.Skull
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.EnderPearl
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -19,6 +23,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.*
 import org.bukkit.event.weather.ThunderChangeEvent
 import org.bukkit.event.weather.WeatherChangeEvent
+import org.spigotmc.event.entity.EntityDismountEvent
 
 /**
  * @author GrowlyX
@@ -206,6 +211,54 @@ object WorldListener : Listener
         if (!event.player.hasMetadata("builder"))
         {
             event.isCancelled = true
+        }
+    }
+
+    private val pearl = ItemBuilder(Material.ENDER_PEARL).name(CC.B_PRI + "Enderpearl").build()
+
+    @EventHandler
+    fun onProjectileLaunchEvent(event: ProjectileLaunchEvent)
+    {
+        if (event.entity is EnderPearl && event.entity.shooter is Player)
+        {
+            val player = event.entity.shooter as Player
+
+            if (player.vehicle != null)
+            {
+                val vehicle = player.vehicle
+                player.eject()
+                vehicle.remove()
+            }
+
+            event.entity.velocity = player.location.direction.normalize().multiply(1.5F)
+            event.entity.passenger = player
+
+            player.world.playSound(player.location, Sound.ENDERMAN_TELEPORT, 1.0F, 1.0F)
+
+            Tasks.delayed(1L)
+            {
+                player.inventory.setItem(8, pearl)
+                player.updateInventory()
+            }
+        }
+    }
+
+    @EventHandler
+    fun onEntityDismountEvent(event: EntityDismountEvent)
+    {
+        if (event.entity is Player && event.entity.vehicle is EnderPearl)
+        {
+            val vehicle = event.entity.vehicle
+
+            event.entity.eject()
+
+            Tasks.delayed(1L)
+            {
+                if (!vehicle.isDead)
+                {
+                    vehicle.remove()
+                }
+            }
         }
     }
 }
