@@ -69,7 +69,7 @@ object TangerineGroupPlaceholderExpansion : PlaceholderExpansion() {
                 "${networkServer.onlinePlayers}"
             }
             "complete" -> return if (networkServer == null) {
-                "0 / 0 ${CC.GRAY}(${
+                "${CC.RED}Offline ${CC.GRAY}(${
                     TangerineSpigotPlugin.instance.platform.queued(server)
                 } queued)"
             } else {
