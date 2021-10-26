@@ -24,6 +24,7 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
+import gg.scala.tangerine.updater.NpcTextUpdater
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
@@ -127,6 +128,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
         ConfigurableMenuHandler.initialLoad()
         ConfigurableItemHandler.initialLoad()
+
+        NpcTextUpdater.initialLoad()
 
         Schedulers.async().runRepeating(
             TangerinePlayerTracker, 0L, 20L
