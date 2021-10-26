@@ -23,5 +23,8 @@ enum class ConfigurableMenuButtonType(
     }),
     MENU({ player, data ->
         ConfigurableMenuHandler.openMenu(player, data)
+    }),
+    AGF({ player, data ->
+        gg.scala.tangerine.agflink.AgfGameInfoDisplayMenu(gg.scala.tangerine.agflink.AgfGameType.valueOf(data)).openMenu(player)
     })
 }

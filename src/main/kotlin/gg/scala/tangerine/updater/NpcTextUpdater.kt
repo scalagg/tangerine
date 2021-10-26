@@ -25,7 +25,8 @@ object NpcTextUpdater : Runnable
             if (it is NpcEntity)
             {
                 it.hologram.updateLines(
-                    PlaceholderHandler.findProvider()?.handle(null, it.getLines()) ?: it.getLines()
+                    PlaceholderHandler.findProvider()?.handle(null, it.getLines())
+                        ?: it.getLines()
                 )
             }
         }

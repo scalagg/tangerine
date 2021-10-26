@@ -10,6 +10,7 @@ import gg.scala.lemon.notebook.WrappedNotebook
 import gg.scala.lemon.player.LemonPlayer
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
+import gg.scala.tangerine.agflink.AgfGameInfoUpdater
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import gg.scala.tangerine.items.ConfigurableItemHandler
@@ -130,6 +131,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         ConfigurableItemHandler.initialLoad()
 
         NpcTextUpdater.initialLoad()
+        AgfGameInfoUpdater.start()
 
         Schedulers.async().runRepeating(
             TangerinePlayerTracker, 0L, 20L
