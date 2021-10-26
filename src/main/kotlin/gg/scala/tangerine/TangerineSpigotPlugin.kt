@@ -176,18 +176,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     }
 
     private fun registerListeners() {
-        val bok = WrappedNotebook()
-        bok.setDescription(
-            "      &6&lPvPBar Network",
-            " &8You're in one of our lobbies.",
-            "",
-            "      &6&lAnnouncements:",
-            "  &8Season one of our practice",
-            "  &8gamemode has just released.",
-            "",
-            "&7&oUse the server-selector to join!"
-        )
-
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
             val player = event.player
 
@@ -256,10 +244,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
             VisibilityHandler.updateAllTo(player)
             VisibilityHandler.updateToAll(player)
-
-            Tasks.delayed(1L) {
-                bok.open(player)
-            }
         }
 
         if (settings.allowDoubleJump) {
