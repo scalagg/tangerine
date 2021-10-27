@@ -2,6 +2,7 @@ package gg.scala.tangerine.agflink
 
 import gg.scala.lemon.handler.ServerHandler
 import gg.scala.lemon.server.ServerInstance
+import java.util.concurrent.TimeUnit
 
 /**
  * @author GrowlyX
@@ -9,7 +10,10 @@ import gg.scala.lemon.server.ServerInstance
  */
 object AgfGameInfoUpdater : Thread("AGF - Info Thread")
 {
-    val gameInfo = mutableMapOf<AgfGameType, List<ServerInstance>>()
+    val gameInfo = mutableMapOf<AgfGameType, MutableList<ServerInstance>>()
+
+    @JvmStatic
+    val FIVE_SECONDS = TimeUnit.SECONDS.toMillis(5L)
 
     override fun run()
     {
@@ -19,7 +23,14 @@ object AgfGameInfoUpdater : Thread("AGF - Info Thread")
             {
                 AgfGameType.ALL.forEach { agfGameType ->
                     ServerHandler.fetchOnlineServerInstancesByGroup(agfGameType.group).thenAccept {
-                        gameInfo[agfGameType] = it.values.toList()
+                        gameInfo[agfGameType] = it.values.toMutableList()
+                    }
+
+                    gameInfo[agfGameType]?.toList()?.forEach {
+                        if (it.lastHeartbeat + FIVE_SECONDS < System.currentTimeMillis())
+                        {
+                            gameInfo[agfGameType]?.remove(it)
+                        }
                     }
                 }
             } catch (exception: Exception)
