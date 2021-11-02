@@ -1,5 +1,7 @@
 package gg.scala.tangerine.configurable
 
+import gg.scala.tangerine.agflink.AgfGameInfoDisplayMenu
+import gg.scala.tangerine.agflink.AgfGameType
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -25,6 +27,12 @@ enum class ConfigurableMenuButtonType(
         ConfigurableMenuHandler.openMenu(player, data)
     }),
     AGF({ player, data ->
-        gg.scala.tangerine.agflink.AgfGameInfoDisplayMenu(gg.scala.tangerine.agflink.AgfGameType.valueOf(data)).openMenu(player)
+        try
+        {
+            AgfGameInfoDisplayMenu(AgfGameType.valueOf(data)).openMenu(player)
+        } catch (exception: Exception)
+        {
+            player.sendMessage("${net.evilblock.cubed.util.CC.RED}Sorry, all ${net.evilblock.cubed.util.CC.YELLOW}$data${net.evilblock.cubed.util.CC.RED} servers are offline.")
+        }
     })
 }
