@@ -15,10 +15,10 @@ enum class ConfigurableMenuButtonType(
 ) {
     NONE({ _, _ -> }),
     COMMAND({ player, data ->
-        Bukkit.dispatchCommand(player, data)
+        player.chat("/$data")
     }),
     QUEUE({ player, data ->
-        Bukkit.dispatchCommand(player, "joinqueue $data")
+        player.chat("/joinqueue $data")
     }),
     SEND_SERVER({ player, data ->
         BungeeUtil.sendToServer(player, data)
