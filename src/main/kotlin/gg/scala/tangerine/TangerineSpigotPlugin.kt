@@ -44,6 +44,7 @@ import net.evilblock.cubed.serialize.ItemStackAdapter
 import net.evilblock.cubed.serialize.LocationAdapter
 import net.evilblock.cubed.serialize.VectorAdapter
 import net.evilblock.cubed.serializers.Serializers
+import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.serializers.impl.AbstractTypeSerializer
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -54,6 +55,7 @@ import org.bukkit.GameMode
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import org.bukkit.event.EventPriority
+import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
@@ -73,17 +75,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     companion object {
         @JvmStatic
         lateinit var instance: TangerineSpigotPlugin
-
-        @JvmStatic
-        fun reload() {
-        }
-
-        @JvmStatic
-        fun useModule(hubModule: HubModule) {
-            instance.hubModule = hubModule
-
-            instance.logger.info("Now loading tangerine with custom hub module.")
-        }
     }
 
     var itemTerminable = CompositeTerminable.create()
@@ -96,7 +87,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     override fun enable() {
         instance = this
 
-        val configFactory: ConfigFactory = ConfigFactory.newFactory(this)
+        val configFactory = ConfigFactory.newFactory(this)
 
         settings = configFactory.fromFile(
             "settings", TangerineSettings::class.java
@@ -112,19 +103,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             )
         }
 
-        Serializers.useGsonBuilderThenRebuild { builder ->
-            builder.serializeNulls().setPrettyPrinting()
-                .setLongSerializationPolicy(LongSerializationPolicy.STRING)
-                .registerTypeHierarchyAdapter(ItemStack::class.java, ItemStackAdapter())
-                .registerTypeHierarchyAdapter(Location::class.java, LocationAdapter())
-                .registerTypeHierarchyAdapter(Vector::class.java, VectorAdapter())
-                .registerTypeHierarchyAdapter(BlockVector::class.java, BlockVectorAdapter())
-                .registerTypeAdapter(Entity::class.java, EntitySerializer)
-                .registerTypeAdapter(UUID::class.java, UUIDAdapter)
-                .registerTypeAdapter(LemonPlayer::class.java, LemonPlayerAdapter)
-                .registerTypeAdapter(EntityAnimation::class.java, AbstractTypeSerializer<EntityAnimation>())
-                .registerTypeAdapter(MenuTemplate::class.java, AbstractTypeSerializer<MenuTemplate<*>>())
-                .registerTypeAdapter(MenuTemplateButton::class.java, AbstractTypeSerializer<MenuTemplateButton>())
+        useGsonBuilderThenRebuild {
+            it.setPrettyPrinting()
         }
 
         ConfigurableMenuHandler.initialLoad()
@@ -171,11 +151,19 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
         Lemon.instance.registerCompletionsAndContexts(commandManager)
         Lemon.instance.registerCommandsInPackage(commandManager, "gg.scala.tangerine.command")
-
-        println("Loaded command manager")
     }
 
     private fun registerListeners() {
+        Events.subscribe(AsyncPlayerChatEvent::class.java, EventPriority.HIGHEST)
+            .filter { !settings.allowPlayerChat }
+            .handler {
+                if (!it.player.hasPermission("tangerine.chat-bypass"))
+                {
+                    it.player.sendMessage("${CC.RED}You're not allowed to talk in the hub.")
+                    it.isCancelled = true
+                }
+            }
+
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
             val player = event.player
 

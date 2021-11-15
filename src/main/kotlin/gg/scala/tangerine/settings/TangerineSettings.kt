@@ -72,4 +72,6 @@ class TangerineSettings {
     val allowDoubleJump = true
     val shouldSendStaffInfo = true
 
+    val allowPlayerChat = true
+
 }

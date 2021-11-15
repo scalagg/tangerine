@@ -52,8 +52,6 @@ class TangerineCommand : BaseCommand() {
     @Subcommand("reload")
     fun onReload(player: Player) {
         ConfigurableMenuHandler.reloadMenus()
-
-        TangerineSpigotPlugin.reload()
         ConfigurableItemHandler.reloadItems()
 
         player.sendMessage("${CC.GREEN}You've reloaded all configurations.")

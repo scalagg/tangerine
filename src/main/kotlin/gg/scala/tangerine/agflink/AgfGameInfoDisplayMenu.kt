@@ -105,7 +105,7 @@ class AgfGameInfoDisplayMenu(
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView)
         {
-            player.performCommand("join ${serverInstance.serverId}")
+            player.chat("/join ${serverInstance.serverId}")
         }
 
         private fun getInability() = if (serverInstance.whitelisted)
