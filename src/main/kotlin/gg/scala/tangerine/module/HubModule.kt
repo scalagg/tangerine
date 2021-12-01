@@ -8,8 +8,6 @@ import net.evilblock.cubed.scoreboard.ScoreboardAdapter
  * @since 8/5/2021
  */
 interface HubModule {
-
-    val itemAdapter: HubModuleItemAdapter?
-    val scoreboardAdapter: ScoreboardAdapter?
-
+    val itemAdapter: HubModuleItemAdapter
+    val scoreboardAdapter: ScoreboardAdapter
 }

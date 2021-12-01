@@ -25,6 +25,13 @@ class TangerineScoreboardAdapter(
     }
 
     override fun getLines(board: LinkedList<String>, player: Player) {
+        val hubModule = TangerineSpigotPlugin.instance.hubModule
+
+        if (hubModule != null)
+        {
+            return hubModule.scoreboardAdapter.getLines(board, player)
+        }
+
         val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
 
         if (platform.isInQueue(player))

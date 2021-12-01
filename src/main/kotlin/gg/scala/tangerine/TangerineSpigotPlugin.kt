@@ -82,7 +82,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     lateinit var platform: QueuePlatform
     lateinit var settings: TangerineSettings
 
-    private var hubModule: HubModule? = null
+    var hubModule: HubModule? = null
 
     override fun enable() {
         instance = this
@@ -226,8 +226,14 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                 }
             }
 
-            ConfigurableItemHandler.items.forEach { (index, itemStack) ->
-                player.inventory.setItem(index, itemStack)
+            if (hubModule != null)
+            {
+                hubModule!!.itemAdapter.handle(player)
+            } else
+            {
+                ConfigurableItemHandler.items.forEach { (index, itemStack) ->
+                    player.inventory.setItem(index, itemStack)
+                }
             }
 
             VisibilityHandler.updateAllTo(player)
