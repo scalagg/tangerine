@@ -1,5 +1,5 @@
 plugins {
-    id "idea"
+    id "maven-publish"
     id "org.jetbrains.kotlin.jvm" version "1.6.0"
     id "com.github.johnrengelman.shadow" version "5.2.0"
 }
@@ -38,13 +38,32 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC2'
+
     compileOnly fileTree("lib")
+}
+
+compileKotlin {
+    kotlinOptions.javaParameters = true
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 shadowJar {
     archiveClassifier.set("")
 
+    exclude "**/*.kotlin_metadata"
+    exclude "**/*.kotlin_builtins"
+    exclude "META-INF/"
+
     archiveFileName = "Tangerine.jar"
 }
 
-tasks.build.dependsOn(shadowJar)
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+        }
+    }
+}
+
+tasks.build.dependsOn(shadowJar, publishing)
