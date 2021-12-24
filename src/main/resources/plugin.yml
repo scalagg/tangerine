@@ -1,5 +1,5 @@
 name: Tangerine
-version: 1.0.0
+version: @version
 main: gg.scala.tangerine.TangerineSpigotPlugin
 
 author: Scala
