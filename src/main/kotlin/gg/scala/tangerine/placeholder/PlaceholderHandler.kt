@@ -1,5 +1,7 @@
 package gg.scala.tangerine.placeholder
 
+import gg.scala.flavor.service.Configure
+import gg.scala.flavor.service.Service
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.placeholder.impl.PapiPlaceholderProvider
 
@@ -7,11 +9,13 @@ import gg.scala.tangerine.placeholder.impl.PapiPlaceholderProvider
  * @author GrowlyX
  * @since 9/24/2021
  */
+@Service
 object PlaceholderHandler {
 
     private val providers = mutableMapOf<String, PlaceholderProvider>()
 
-    init {
+    @Configure
+    fun configure() {
         providers["papi"] = PapiPlaceholderProvider()
     }
 

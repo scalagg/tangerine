@@ -14,15 +14,17 @@ object TangerinePlayerTracker : Runnable {
 
     var globalPlayers = 0
 
-    private val banana = BananaBuilder()
-        .options(
-            BananaOptions(
-                channel = "tangerine",
+    private val banana by lazy {
+        BananaBuilder()
+            .options(
+                BananaOptions(
+                    channel = "tangerine",
+                )
             )
-        )
-        .credentials(
-            Lemon.instance.credentials
-        ).build()
+            .credentials(
+                Lemon.instance.credentials
+            ).build()
+    }
 
     override fun run() {
         banana.useResource {

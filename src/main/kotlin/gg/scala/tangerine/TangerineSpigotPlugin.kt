@@ -1,13 +1,10 @@
 package gg.scala.tangerine
 
-import com.google.gson.LongSerializationPolicy
 import gg.scala.commons.ExtendedScalaPlugin
+import gg.scala.flavor.Flavor
+import gg.scala.flavor.FlavorOptions
 import gg.scala.lemon.Lemon
-import gg.scala.lemon.adapter.LemonPlayerAdapter
-import gg.scala.lemon.adapter.UUIDAdapter
 import gg.scala.lemon.handler.PlayerHandler
-import gg.scala.lemon.notebook.WrappedNotebook
-import gg.scala.lemon.player.LemonPlayer
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
 import gg.scala.tangerine.agflink.AgfGameInfoUpdater
@@ -34,34 +31,19 @@ import me.lucko.helper.Schedulers
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.command.manager.CubedCommandManager
-import net.evilblock.cubed.entity.EntitySerializer
-import net.evilblock.cubed.entity.animation.EntityAnimation
-import net.evilblock.cubed.menu.template.MenuTemplate
-import net.evilblock.cubed.menu.template.MenuTemplateButton
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
-import net.evilblock.cubed.serialize.BlockVectorAdapter
-import net.evilblock.cubed.serialize.ItemStackAdapter
-import net.evilblock.cubed.serialize.LocationAdapter
-import net.evilblock.cubed.serialize.VectorAdapter
-import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
-import net.evilblock.cubed.serializers.impl.AbstractTypeSerializer
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
-import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
-import org.bukkit.Location
-import org.bukkit.entity.Entity
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
-import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
-import org.bukkit.util.BlockVector
 import xyz.mkotb.configapi.ConfigFactory
 import xyz.xenondevs.particle.ParticleEffect
 import java.util.*
@@ -107,14 +89,14 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             it.setPrettyPrinting()
         }
 
-        ConfigurableMenuHandler.initialLoad()
-        ConfigurableItemHandler.initialLoad()
+        val flavor = Flavor.create<TangerineSpigotPlugin>(
+            FlavorOptions(logger)
+        )
 
-        NpcTextUpdater.initialLoad()
         AgfGameInfoUpdater.start()
 
         Schedulers.async().runRepeating(
-            TangerinePlayerTracker, 0L, 20L
+            TangerinePlayerTracker, 0L, 5L
         )
         Schedulers.async().runRepeating(
             TangerineLobbyTracker, 0L, 20L
@@ -176,6 +158,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
             player.walkSpeed = 0.4F
             player.allowFlight = settings.allowDoubleJump
+            player.inventory.heldItemSlot = 0
 
             if (settings.spawnLocation != null) {
                 PaperLib.teleportAsync(player, settings.spawnLocation!!)

@@ -4,6 +4,8 @@ import com.cryptomorin.xseries.XMaterial
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import com.google.gson.reflect.TypeToken
+import gg.scala.flavor.service.Configure
+import gg.scala.flavor.service.Service
 import gg.scala.tangerine.TangerineSpigotPlugin
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.serializers.Serializers
@@ -18,6 +20,7 @@ import java.lang.reflect.Type
  * @author GrowlyX
  * @since 9/17/2021
  */
+@Service
 object ConfigurableItemHandler {
 
     private val dataType: Type = object : TypeToken<MutableMap<Int, ItemStack?>>() {}.type
@@ -28,7 +31,8 @@ object ConfigurableItemHandler {
         return File(TangerineSpigotPlugin.instance.dataFolder, "item-configuration.json")
     }
 
-    fun initialLoad() {
+    @Configure
+    fun configure() {
         if (getDataFile().exists()) {
             val reader = Files.newReader(getDataFile(), Charsets.UTF_8)
 
@@ -57,7 +61,7 @@ object ConfigurableItemHandler {
         TangerineSpigotPlugin.instance.itemTerminable = CompositeTerminable.create()
 
         items.clear()
-        initialLoad()
+        configure()
 
         TangerineSpigotPlugin.instance.startListeningToItems()
 

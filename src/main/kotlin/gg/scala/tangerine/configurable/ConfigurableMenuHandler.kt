@@ -4,6 +4,8 @@ import com.cryptomorin.xseries.XMaterial
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import com.google.gson.reflect.TypeToken
+import gg.scala.flavor.service.Configure
+import gg.scala.flavor.service.Service
 import gg.scala.tangerine.TangerineSpigotPlugin
 import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.util.CC
@@ -16,6 +18,7 @@ import java.lang.reflect.Type
  * @author GrowlyX
  * @since 9/17/2021
  */
+@Service
 object ConfigurableMenuHandler {
 
     private val dataType: Type = object : TypeToken<MutableCollection<ConfigurableMenuTemplate>>() {}.type
@@ -26,7 +29,8 @@ object ConfigurableMenuHandler {
         return File(TangerineSpigotPlugin.instance.dataFolder, "menu-configuration.json")
     }
 
-    fun initialLoad() {
+    @Configure
+    fun configure() {
         if (getDataFile().exists()) {
             val reader = Files.newReader(getDataFile(), Charsets.UTF_8)
 
@@ -50,7 +54,7 @@ object ConfigurableMenuHandler {
 
     fun reloadMenus() {
         templates.clear()
-        initialLoad()
+        configure()
     }
 
     private fun setupIfEmpty() {
