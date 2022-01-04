@@ -93,6 +93,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             FlavorOptions(logger)
         )
 
+        flavor.startup()
+
         AgfGameInfoUpdater.start()
 
         Schedulers.async().runRepeating(
