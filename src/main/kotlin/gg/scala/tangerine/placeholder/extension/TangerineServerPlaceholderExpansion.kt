@@ -105,7 +105,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
         val runnable = UpdateRunnable(id)
 
         Schedulers.async().runRepeating(
-            runnable, 0L, 40L
+            runnable, 0L, 10L
         )
 
         serverRunnables.add(runnable)
