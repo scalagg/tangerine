@@ -1,4 +1,4 @@
-package gg.scala.tangerine.agflink
+package gg.scala.tangerine.gaming
 
 import gg.scala.lemon.server.ServerInstance
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
@@ -16,8 +16,8 @@ import org.bukkit.inventory.InventoryView
  * @author GrowlyX
  * @since 10/26/2021
  */
-class AgfGameInfoDisplayMenu(
-    private val agfGameType: AgfGameType
+class CgsGameInfoDisplayMenu(
+    private val agfGameType: CgsGameType
 ) : Menu("Servers ${Constants.DOUBLE_ARROW_RIGHT} ${agfGameType.formatted}")
 {
     init
@@ -28,14 +28,15 @@ class AgfGameInfoDisplayMenu(
 
     override fun size(buttons: Map<Int, Button>): Int
     {
-        // TODO: 10/26/2021 change dynamically depending on amount of servers online
+        // TODO: 10/26/2021 change dynamically
+        //  depending on amount of servers online
         return 27
     }
 
     override fun getButtons(player: Player): Map<Int, Button>
     {
         return hashMapOf<Int, Button>().also {
-            val servers = AgfGameInfoUpdater.gameInfo[agfGameType]
+            val servers = CgsGameInfoUpdater.gameInfo[agfGameType]
 
             servers?.forEach { gameInfo ->
                 if (it.size == 7)
@@ -64,7 +65,7 @@ class AgfGameInfoDisplayMenu(
         private val serverInstance: ServerInstance
     ) : Button()
     {
-        private val gameState = AgfGameState.valueOf(
+        private val gameState = CgsGameState.valueOf(
             serverInstance.metaData["game-state"]!!
         )
 
@@ -77,10 +78,10 @@ class AgfGameInfoDisplayMenu(
         {
             return when (gameState)
             {
-                AgfGameState.WAITING -> 5
-                AgfGameState.IN_GAME -> 13
-                AgfGameState.STARTING -> 4
-                AgfGameState.ENDING -> 1
+                CgsGameState.WAITING -> 5
+                CgsGameState.IN_GAME -> 13
+                CgsGameState.STARTING -> 4
+                CgsGameState.ENDING -> 1
             }
         }
 
@@ -118,10 +119,10 @@ class AgfGameInfoDisplayMenu(
 
         private fun getStatus() = when (gameState)
         {
-            AgfGameState.WAITING -> "${CC.YELLOW}Waiting for players..."
-            AgfGameState.IN_GAME -> "${CC.D_GREEN}Game running..."
-            AgfGameState.STARTING -> "${CC.GREEN}Game starting..."
-            AgfGameState.ENDING -> "${CC.GOLD}Booting up..."
+            CgsGameState.WAITING -> "${CC.YELLOW}Waiting for players..."
+            CgsGameState.IN_GAME -> "${CC.D_GREEN}Game running..."
+            CgsGameState.STARTING -> "${CC.GREEN}Game starting..."
+            CgsGameState.ENDING -> "${CC.GOLD}Booting up..."
         }
     }
 }

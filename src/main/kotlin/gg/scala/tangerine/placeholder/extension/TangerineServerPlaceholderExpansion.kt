@@ -36,7 +36,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
         val server = arguments[1].replace("|", "-")
         val networkServer = fetchOrGetServer(server)
 
-        when (arguments[0].lowercase(Locale.getDefault())) {
+        when (arguments[0].lowercase()) {
             "status" -> return if (networkServer == null) {
                 "${CC.RED}Server offline"
             } else {
@@ -59,7 +59,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
             "sbdisplay" -> return if (networkServer == null) {
                 "${CC.RED}Offline"
             } else if (networkServer.whitelisted){
-                "${CC.YELLOW}Whitelisted"
+                "${CC.RED}Whitelisted"
             } else {
                 "${CC.WHITE}${networkServer.onlinePlayers}/${networkServer.maxPlayers}"
             }

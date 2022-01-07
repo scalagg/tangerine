@@ -7,7 +7,7 @@ import gg.scala.lemon.Lemon
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
-import gg.scala.tangerine.agflink.AgfGameInfoUpdater
+import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import gg.scala.tangerine.items.ConfigurableItemHandler
@@ -22,7 +22,6 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
-import gg.scala.tangerine.updater.NpcTextUpdater
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
@@ -81,7 +80,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
         if (settings.tabEnabled) {
             TabHandler(
-                TangerineTablistProvider(), this, 30L
+                TangerineTablistProvider, this, 30L
             )
         }
 
@@ -95,7 +94,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
         flavor.startup()
 
-        AgfGameInfoUpdater.start()
+        CgsGameInfoUpdater.start()
 
         Schedulers.async().runRepeating(
             TangerinePlayerTracker, 0L, 5L

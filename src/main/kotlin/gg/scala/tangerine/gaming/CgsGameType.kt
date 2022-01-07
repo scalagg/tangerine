@@ -1,10 +1,10 @@
-package gg.scala.tangerine.agflink
+package gg.scala.tangerine.gaming
 
 /**
  * @author GrowlyX
  * @since 10/26/2021
  */
-enum class AgfGameType(
+enum class CgsGameType(
     val formatted: String,
     val group: String
 )

@@ -1,4 +1,4 @@
-package gg.scala.tangerine.agflink
+package gg.scala.tangerine.gaming
 
 import gg.scala.lemon.handler.ServerHandler
 import gg.scala.lemon.server.ServerInstance
@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit
  * @author GrowlyX
  * @since 10/26/2021
  */
-object AgfGameInfoUpdater : Thread("AGF - Info Thread")
+object CgsGameInfoUpdater : Thread("AGF - Info Thread")
 {
-    val gameInfo = mutableMapOf<AgfGameType, MutableList<ServerInstance>>()
+    val gameInfo = mutableMapOf<CgsGameType, MutableList<ServerInstance>>()
 
     @JvmStatic
     val FIVE_SECONDS = TimeUnit.SECONDS.toMillis(5L)
@@ -21,7 +21,7 @@ object AgfGameInfoUpdater : Thread("AGF - Info Thread")
         {
             try
             {
-                AgfGameType.ALL.forEach { agfGameType ->
+                CgsGameType.ALL.forEach { agfGameType ->
                     ServerHandler.fetchOnlineServerInstancesByGroup(agfGameType.group).thenAccept {
                         gameInfo[agfGameType] = it.values.toMutableList()
                     }

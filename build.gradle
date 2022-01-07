@@ -56,14 +56,13 @@ dependencies {
 
     compileOnly "io.papermc:paperlib:1.0.6"
 
-    implementation 'com.github.GrowlyX:TabAPI:e01fba589e'
+    implementation 'com.github.NoSequel:TabAPI:d2c627839e'
     compileOnly "com.github.mkotb:ConfigAPI:e1c8df3f13"
 
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
 
     implementation "gg.scala.flavor:flavor:0.1.1"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC2'
 
     compileOnly fileTree("lib")
 }
@@ -91,4 +90,4 @@ publishing {
     }
 }
 
-tasks.build.dependsOn(shadowJar, publishing)
+tasks.build.dependsOn(shadowJar, publishShadowPublicationToMavenLocal)
