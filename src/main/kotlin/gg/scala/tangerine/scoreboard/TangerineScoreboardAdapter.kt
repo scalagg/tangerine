@@ -14,11 +14,12 @@ import java.util.*
  * @author GrowlyX
  * @since 9/16/2021
  */
-class TangerineScoreboardAdapter(
-    private val settings: TangerineSettings
-) : ScoreboardAdapter() {
+class TangerineScoreboardAdapter : ScoreboardAdapter() {
 
     private val platform = TangerineSpigotPlugin.instance.platform
+
+    private val settings: TangerineSettings
+        get() = TangerineSpigotPlugin.instance.settings
 
     override fun getTitle(player: Player): String {
         return settings.title
@@ -45,7 +46,6 @@ class TangerineScoreboardAdapter(
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                         .replace("<queue_name>", platform.getQueueName(player))
-                        .replace("<queue_lane>", platform.getQueueLane(player))
                         .replace("<queue_position>", platform.getQueuePosition(player).toString())
                         .replace("<queue_maximum>", platform.getQueuePlayers(player).toString())
                 )

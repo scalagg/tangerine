@@ -9,14 +9,9 @@ import org.bukkit.entity.Player
 interface QueuePlatform
 {
     fun isInQueue(player: Player): Boolean
-
     fun queued(server: String): Int
 
     fun getQueueName(player: Player): String
-
-    fun getQueueLane(player: Player): String
-
     fun getQueuePosition(player: Player): Int
-
     fun getQueuePlayers(player: Player): Int
 }

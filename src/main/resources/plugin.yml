@@ -8,3 +8,5 @@ website: https://scala.gg
 load: POSTWORLD
 
 depend: [Cubed, Lemon, helper]
+softdepend:
+  - cougar

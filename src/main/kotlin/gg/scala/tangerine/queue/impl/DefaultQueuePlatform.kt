@@ -24,11 +24,6 @@ object DefaultQueuePlatform : QueuePlatform
         return ""
     }
 
-    override fun getQueueLane(player: Player): String
-    {
-        return ""
-    }
-
     override fun getQueuePosition(player: Player): Int
     {
         return 0

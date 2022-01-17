@@ -16,7 +16,7 @@ import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
 import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
-import gg.scala.tangerine.queue.impl.MelonQueuePlatform
+import gg.scala.tangerine.queue.impl.CougarQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
@@ -35,8 +35,10 @@ import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.visibility.VisibilityHandler
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
+import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerInteractEvent
@@ -84,6 +86,15 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             )
         }
 
+        Bukkit.getWorlds().forEach {
+            it.entities.forEach { entity ->
+                if (entity !is Player)
+                {
+                    entity.remove()
+                }
+            }
+        }
+
         useGsonBuilderThenRebuild {
             it.setPrettyPrinting()
         }
@@ -103,14 +114,14 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             TangerineLobbyTracker, 0L, 20L
         )
 
-        platform = if (server.pluginManager.getPlugin("Melon") != null)
+        platform = if (server.pluginManager.getPlugin("cougar") != null)
         {
-            MelonQueuePlatform()
+            CougarQueuePlatform()
         } else {
             DefaultQueuePlatform
         }
 
-        ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter(this.settings))
+        ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter())
 
         this.registerListeners()
         this.registerCommands()
@@ -271,7 +282,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         val `true` = FixedMetadataValue(this, true)
 
         ConfigurableItemHandler.items
-            .filter { it.value != null && it.value!!.hasItemMeta() && it.value!!.itemMeta.displayName.contains("Players") }
+            .filter { it.value != null && it.value!!.hasItemMeta() && it.value!!.itemMeta.displayName.contains("Player") }
             .forEach { entry ->
                 val stack = entry.value
 
@@ -283,7 +294,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
                     Events.subscribe(PlayerInteractEvent::class.java)
                         .filter { it.item != null && it.action.name.contains("RIGHT") }
-                        .filter { it.item.hasItemMeta() && it.item.itemMeta.displayName.contains("Players") }
+                        .filter { it.item.hasItemMeta() && it.item.itemMeta.displayName.contains("Player") }
                         .handler {
                             val hidingNow = it.player.hasMetadata("hiding-players")
 

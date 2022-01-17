@@ -5,6 +5,7 @@ import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.editor.ConfigurableMenuEditor
 import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
+import gg.scala.tangerine.settings.TangerineSettings
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
@@ -53,6 +54,10 @@ class TangerineCommand : BaseCommand() {
     fun onReload(player: Player) {
         ConfigurableMenuHandler.reloadMenus()
         ConfigurableItemHandler.reloadItems()
+
+        TangerineSpigotPlugin.instance.settings = configFactory.fromFile(
+            "settings", TangerineSettings::class.java
+        )
 
         player.sendMessage("${CC.GREEN}You've reloaded all configurations.")
     }
