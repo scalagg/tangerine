@@ -27,6 +27,8 @@ import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
+import me.lucko.helper.plugin.ap.Plugin
+import me.lucko.helper.plugin.ap.PluginDependency
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.command.manager.CubedCommandManager
@@ -53,6 +55,15 @@ import java.util.*
  * @author GrowlyX
  * @since 9/16/2021
  */
+@Plugin(
+    name = "Tangerine",
+    depends = [
+        PluginDependency("Cubed"),
+        PluginDependency("helper"),
+        PluginDependency("Lemon"),
+        PluginDependency("cougar", soft = true),
+    ]
+)
 class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
     companion object {
