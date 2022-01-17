@@ -32,8 +32,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.10.10'
     compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
 
-    implementation "gg.scala.flavor:flavor:0.1.1"
-
+    compileOnly "gg.scala.lemon:bukkit:1.1.0"
     compileOnly fileTree("lib")
 }
 
