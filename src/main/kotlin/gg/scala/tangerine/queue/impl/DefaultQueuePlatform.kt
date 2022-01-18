@@ -33,4 +33,9 @@ object DefaultQueuePlatform : QueuePlatform
     {
         return 0
     }
+
+    override fun joinQueue(player: Player, server: String)
+    {
+        player.sendMessage("We were unable to queue you for this server.")
+    }
 }
