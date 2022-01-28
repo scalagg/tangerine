@@ -4,6 +4,7 @@ import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.flavor.Flavor
 import gg.scala.flavor.FlavorOptions
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.handler.ChatHandler
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
@@ -41,7 +42,9 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
+import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -159,15 +162,19 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     }
 
     private fun registerListeners() {
-        Events.subscribe(AsyncPlayerChatEvent::class.java, EventPriority.HIGHEST)
-            .filter { !settings.allowPlayerChat }
-            .handler {
-                if (!it.player.hasPermission("tangerine.chat-bypass"))
-                {
-                    it.player.sendMessage("${CC.RED}You're not allowed to talk in the hub.")
-                    it.isCancelled = true
-                }
+        val emptyPair = Pair("", false)
+
+        ChatHandler.registerChatCheck {
+            if (
+                !settings.allowPlayerChat &&
+                !it.player.hasPermission("tangerine.chat-bypass")
+            )
+            {
+                return@registerChatCheck Pair("${CC.RED}You're not allowed to talk in the hub.", true)
             }
+
+            return@registerChatCheck emptyPair
+        }
 
         Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
             val player = event.player
