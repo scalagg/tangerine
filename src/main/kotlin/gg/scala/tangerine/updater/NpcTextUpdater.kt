@@ -24,14 +24,11 @@ object NpcTextUpdater : Runnable
 
     override fun run()
     {
-        EntityHandler.getEntities().forEach {
-            if (it is NpcEntity)
-            {
-                it.hologram.updateLines(
-                    PlaceholderHandler.findProvider()?.handle(null, it.getLines())
-                        ?: it.getLines()
-                )
-            }
+        EntityHandler.getEntitiesByType(NpcEntity::class.java).forEach {
+            it.hologram.updateLines(
+                PlaceholderHandler.findProvider()?.handle(null, it.getLines())
+                    ?: it.getLines()
+            )
         }
     }
 }
