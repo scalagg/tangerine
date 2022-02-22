@@ -22,6 +22,13 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
         get() = TangerineSpigotPlugin.instance.settings
 
     override fun getTitle(player: Player): String {
+        val hubModule = TangerineSpigotPlugin.instance.hubModule
+
+        if (hubModule != null)
+        {
+            return hubModule.scoreboardAdapter.getTitle(player)
+        }
+
         return settings.title
     }
 
