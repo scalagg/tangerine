@@ -6,18 +6,19 @@ import gg.scala.flavor.FlavorOptions
 import gg.scala.lemon.Lemon
 import gg.scala.lemon.handler.ChatHandler
 import gg.scala.lemon.handler.PlayerHandler
+import gg.scala.lemon.handler.RedisHandler
 import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
-import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
+import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
-import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.queue.impl.CougarQueuePlatform
+import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
@@ -34,6 +35,7 @@ import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.command.manager.CubedCommandManager
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
+import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -42,10 +44,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
-import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
@@ -134,6 +133,18 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         } else {
             DefaultQueuePlatform
         }
+
+        RedisHandler.buildMessage(
+            "add-server",
+            "id" to Lemon.instance
+                .settings.id,
+            "address" to "127.0.0.1",
+            "port" to Bukkit.getPort()
+                .toString()
+        ).dispatch(
+            "cocoa",
+            Lemon.instance.banana
+        )
 
         ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter())
 
@@ -336,5 +347,18 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                         }
                 }
             }
+    }
+
+    override fun disable()
+    {
+        RedisHandler.buildMessage(
+            "remove-server",
+            "id" to Lemon.instance
+                .settings.id
+        ).apply {
+            Lemon.instance.banana.useResource {
+                it.publish("cocoa", Serializers.gson.toJson(this))
+            }
+        }
     }
 }
