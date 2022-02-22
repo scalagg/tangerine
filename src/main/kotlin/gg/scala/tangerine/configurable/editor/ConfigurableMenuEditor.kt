@@ -1,10 +1,10 @@
 package gg.scala.tangerine.configurable.editor
 
 import com.cryptomorin.xseries.XMaterial
-import gg.scala.lemon.menu.better.BetterConfirmMenu
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import net.evilblock.cubed.menu.Button
+import net.evilblock.cubed.menu.menus.ConfirmMenu
 import net.evilblock.cubed.menu.pagination.PaginatedMenu
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Constants
@@ -54,7 +54,7 @@ class ConfigurableMenuEditor : PaginatedMenu() {
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
             if (clickType.isShiftClick) {
-                BetterConfirmMenu(
+                ConfirmMenu(
                     title = "Are you sure?",
                     confirm = true,
                     callback = {
