@@ -24,6 +24,7 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
+import gg.scala.tangerine.updater.CgsGameNpcUpdater
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
@@ -145,6 +146,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             "cocoa",
             Lemon.instance.banana
         )
+
+        if (Bukkit.getPluginManager().getPlugin("CGS-Lobby") != null)
+        {
+            CgsGameNpcUpdater.configure()
+        }
 
         ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter())
 

@@ -1,7 +1,5 @@
 package gg.scala.tangerine.configurable
 
-import gg.scala.tangerine.gaming.CgsGameInfoDisplayMenu
-import gg.scala.tangerine.gaming.CgsGameType
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.entity.Player
 
@@ -17,7 +15,13 @@ enum class ConfigurableMenuButtonType(
         player.chat("/$data")
     }),
     QUEUE({ player, data ->
-        gg.scala.tangerine.TangerineSpigotPlugin.instance.platform.joinQueue(player, data)
+        try
+        {
+            gg.scala.tangerine.TangerineSpigotPlugin.instance.platform.joinQueue(player, data)
+        } catch (e: Exception)
+        {
+            player.sendMessage("${net.evilblock.cubed.util.CC.RED}${e.message}")
+        }
     }),
     SEND_SERVER({ player, data ->
         BungeeUtil.sendToServer(player, data)
@@ -26,12 +30,9 @@ enum class ConfigurableMenuButtonType(
         ConfigurableMenuHandler.openMenu(player, data)
     }),
     AGF({ player, data ->
-        try
-        {
-            CgsGameInfoDisplayMenu(CgsGameType.valueOf(data)).openMenu(player)
-        } catch (exception: Exception)
-        {
-            player.sendMessage("${net.evilblock.cubed.util.CC.RED}Sorry, all ${net.evilblock.cubed.util.CC.YELLOW}$data${net.evilblock.cubed.util.CC.RED} servers are offline.")
-        }
+        player.sendMessage("${net.evilblock.cubed.util.CC.SEC}Sending you to a ${net.evilblock.cubed.util.CC.PRI}UHC Meetup${net.evilblock.cubed.util.CC.SEC} lobby server...")
+
+        // TODO: 2/22/2022 join an actual uhcm server
+        BungeeUtil.sendToServer(player, "na-uml-1")
     })
 }

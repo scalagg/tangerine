@@ -50,7 +50,9 @@ dependencies {
     compileOnly 'gg.scala.cougar:spigot:1.0.0'
     compileOnly 'gg.scala.spigot:sspigot-server:1.0.6'
 
-    compileOnly "net.evilblock.cubed:bukkit:1.3.3@jar"
+    compileOnly "gg.scala.cgs:lobby:1.0.6"
+
+    compileOnly "net.evilblock.cubed:bukkit:1.3.4.1"
 }
 
 compileKotlin {
