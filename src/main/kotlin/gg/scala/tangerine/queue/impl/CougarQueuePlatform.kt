@@ -5,10 +5,14 @@ import gg.scala.cougar.common.ScCougarPlatform
 import gg.scala.cougar.common.queue.impl.wrapper.CougarQueueWrapper
 import gg.scala.cougar.spigot.ScalaCougarSpigotEngine
 import gg.scala.cougar.spigot.command.impl.JoinQueueCommand
+import gg.scala.store.storage.impl.CachedDataStoreStorageLayer
+import gg.scala.store.storage.type.DataStoreStorageType
 import gg.scala.tangerine.queue.QueuePlatform
 import net.evilblock.cubed.util.CC
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author GrowlyX
@@ -41,12 +45,18 @@ class CougarQueuePlatform : QueuePlatform
         return getQueue(player)?.sizeOfQueue() ?: 0
     }
 
+    private val queues: ConcurrentHashMap<UUID, CougarQueueWrapper>
+        get() = ScalaCougarSpigotEngine.queueLayer.useLayerWithReturn<CachedDataStoreStorageLayer<CougarQueueWrapper>, ConcurrentHashMap<UUID, CougarQueueWrapper>>(
+            DataStoreStorageType.CACHE
+        ) {
+            this.connection.getConnection()
+        }
+
     override fun joinQueue(player: Player, server: String)
     {
-        val wrapper = ScalaCougarSpigotEngine.queueLayer
-            .localCache.values.firstOrNull { wrapper ->
-                wrapper.serverId.equals(server, true)
-            }
+        val wrapper = queues.values.firstOrNull { wrapper ->
+            wrapper.serverId.equals(server, true)
+        }
 
         if (wrapper == null)
         {
@@ -59,17 +69,15 @@ class CougarQueuePlatform : QueuePlatform
 
     private fun getQueue(player: Player): CougarQueueWrapper?
     {
-        return ScCougarPlatform.INSTANCE.queueLayer
-            .localCache.values.firstOrNull {
-                it.internalQueue.contains(player.uniqueId)
-            }
+        return queues.values.firstOrNull {
+            it.internalQueue.contains(player.uniqueId)
+        }
     }
 
     private fun getQueue(server: String): CougarQueueWrapper?
     {
-        return ScCougarPlatform.INSTANCE.queueLayer
-            .localCache.values.firstOrNull {
-                it.serverId.equals(server, true)
-            }
+        return queues.values.firstOrNull {
+            it.serverId.equals(server, true)
+        }
     }
 }

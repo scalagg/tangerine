@@ -4,6 +4,7 @@ import gg.scala.cgs.lobby.gamemode.CgsGameLobby
 import gg.scala.cgs.lobby.updater.CgsGameInfoUpdater
 import gg.scala.flavor.service.Configure
 import gg.scala.flavor.service.Service
+import gg.scala.flavor.service.ignore.IgnoreAutoScan
 import me.lucko.helper.Schedulers
 import net.evilblock.cubed.entity.EntityHandler
 import net.evilblock.cubed.entity.npc.NpcEntity
@@ -14,6 +15,7 @@ import net.evilblock.cubed.util.CC
  * @since 2/26/2022
  */
 @Service
+@IgnoreAutoScan
 object CgsGameNpcUpdater : Runnable
 {
     @Configure

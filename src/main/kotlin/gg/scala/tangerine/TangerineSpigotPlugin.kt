@@ -122,7 +122,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         CgsGameInfoUpdater.start()
 
         Schedulers.async().runRepeating(
-            TangerinePlayerTracker, 0L, 5L
+            TangerinePlayerTracker, 0L, 2L
         )
         Schedulers.async().runRepeating(
             TangerineLobbyTracker, 0L, 20L
