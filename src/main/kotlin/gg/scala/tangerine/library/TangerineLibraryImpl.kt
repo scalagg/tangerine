@@ -27,6 +27,6 @@ import gg.scala.commons.library.model.Library
 @Library(
     groupId = "xyz.xenondevs",
     artifactId = "particle",
-    version = "1.6.6",
+    version = "1.7",
 )
 object TangerineLibraryImpl

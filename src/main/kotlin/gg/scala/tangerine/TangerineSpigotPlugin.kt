@@ -1,5 +1,6 @@
 package gg.scala.tangerine
 
+import gg.scala.aware.thread.AwareThreadContext
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.flavor.Flavor
 import gg.scala.flavor.FlavorOptions
@@ -142,9 +143,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             "address" to "127.0.0.1",
             "port" to Bukkit.getPort()
                 .toString()
-        ).dispatch(
-            "cocoa",
-            Lemon.instance.banana
+        ).publish(
+            channel = "cocoa"
         )
 
         if (Bukkit.getPluginManager().getPlugin("CGS-Lobby") != null)
@@ -361,10 +361,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             "remove-server",
             "id" to Lemon.instance
                 .settings.id
-        ).apply {
-            Lemon.instance.banana.useResource {
-                it.publish("cocoa", Serializers.gson.toJson(this))
-            }
-        }
+        ).publish(
+            channel = "cocoa",
+            context = AwareThreadContext.SYNC
+        )
     }
 }
