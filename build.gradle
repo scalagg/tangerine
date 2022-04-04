@@ -2,8 +2,8 @@ import java.util.stream.Collectors
 
 plugins {
     id "maven-publish"
-    id "org.jetbrains.kotlin.jvm" version "1.6.10"
-    id "org.jetbrains.kotlin.kapt" version "1.6.10"
+    id "org.jetbrains.kotlin.jvm" version "1.6.20"
+    id "org.jetbrains.kotlin.kapt" version "1.6.20"
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.6.20'
 
     compileOnly 'xyz.xenondevs:particle:1.7'
     compileOnly "io.papermc:paperlib:1.0.6"
