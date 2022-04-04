@@ -114,9 +114,10 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             it.setPrettyPrinting()
         }
 
-        val flavor = Flavor.create<TangerineSpigotPlugin>(
-            FlavorOptions(logger)
-        )
+        val flavor = Flavor
+            .create<TangerineSpigotPlugin>(
+                FlavorOptions(logger)
+            )
 
         flavor.startup()
 

@@ -59,6 +59,8 @@ object ConfigurableMenuHandler {
 
     private fun setupIfEmpty() {
         templates["server-selector"] = ConfigurableMenuTemplate("server-selector").also {
+            it.id = "Server Selector"
+
             it.buttons[13] = ConfigurableMenuButtonData(
                 ItemBuilder(XMaterial.INK_SAC)
                     .name("This is an example item stack")
@@ -67,12 +69,30 @@ object ConfigurableMenuHandler {
                     .addToLore(
                         "Example lore"
                     ).build(),
-                ConfigurableMenuButtonType.COMMAND,
-                "time day"
+                ConfigurableMenuButtonType.MENU,
+                "other-selector"
+            )
+        }
+
+        templates["other-selector"] = ConfigurableMenuTemplate("other-selector").also {
+            it.id = "Secondary Selector"
+
+            it.buttons[13] = ConfigurableMenuButtonData(
+                ItemBuilder(XMaterial.INK_SAC)
+                    .name("This is an example item stack")
+                    .amount(4)
+                    .data(1)
+                    .addToLore(
+                        "Example lore"
+                    ).build(),
+                ConfigurableMenuButtonType.MENU,
+                "server-selector"
             )
         }
 
         templates["hub-selector"] = ConfigurableMenuTemplate("hub-selector").also {
+            it.id = "Lobby Selector"
+
             it.buttons[0] = ConfigurableMenuButtonData(
                 ItemBuilder(XMaterial.NETHER_STAR)
                     .name("${CC.B_PRI}<hub>")

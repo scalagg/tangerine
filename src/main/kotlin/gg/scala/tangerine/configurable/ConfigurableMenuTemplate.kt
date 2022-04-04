@@ -4,8 +4,8 @@ package gg.scala.tangerine.configurable
  * @author GrowlyX
  * @since 9/17/2021
  */
-class ConfigurableMenuTemplate(val id: String) {
-
+class ConfigurableMenuTemplate(var id: String)
+{
     var title = "Example Size"
 
     var size = 27
@@ -14,5 +14,4 @@ class ConfigurableMenuTemplate(val id: String) {
 
     var fallback: String? = null
     var buttons = mutableMapOf<Int, ConfigurableMenuButtonData>()
-
 }
