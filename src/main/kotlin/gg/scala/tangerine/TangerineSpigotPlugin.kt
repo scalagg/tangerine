@@ -5,10 +5,10 @@ import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.flavor.Flavor
 import gg.scala.flavor.FlavorOptions
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.channel.channels.staff.StaffChatChannelType
 import gg.scala.lemon.handler.ChatHandler
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RedisHandler
-import gg.scala.lemon.player.channel.impl.staff.StaffChannelType
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
@@ -224,7 +224,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                         arrayOf(
                             "${CC.B_PRI}Staff Information:",
                             "${STAFF_PREFIX}${CC.SEC}Channel: ${
-                                if (channel == null) CC.RED else StaffChannelType.valueOf(
+                                if (channel == null) CC.RED else StaffChatChannelType.valueOf(
                                     channel.asString().uppercase(Locale.getDefault())
                                 ).color
                             }${
