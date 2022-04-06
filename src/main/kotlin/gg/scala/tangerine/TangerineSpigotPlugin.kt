@@ -224,9 +224,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                         arrayOf(
                             "${CC.B_PRI}Staff Information:",
                             "${STAFF_PREFIX}${CC.SEC}Channel: ${
-                                if (channel == null) CC.RED else StaffChatChannelType.valueOf(
-                                    channel.asString().uppercase(Locale.getDefault())
-                                ).color
+                                if (channel == null) CC.RED else ChatColor.valueOf(
+                                    StaffChatChannelType.valueOf(
+                                        channel.asString().uppercase(Locale.getDefault())
+                                    ).color.toString()
+                                )
                             }${
                                 (channel?.asString()
                                     ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
