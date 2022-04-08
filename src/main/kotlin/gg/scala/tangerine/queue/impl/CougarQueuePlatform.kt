@@ -1,23 +1,11 @@
 package gg.scala.tangerine.queue.impl
 
-import co.aikar.commands.ConditionFailedException
-import gg.scala.cougar.common.ScCougarPlatform
 import gg.scala.cougar.common.queue.impl.wrapper.CougarQueueWrapper
 import gg.scala.cougar.spigot.ScalaCougarSpigotEngine
 import gg.scala.cougar.spigot.command.impl.JoinQueueCommand
-import gg.scala.lemon.handler.ServerHandler
-import gg.scala.lemon.server.ServerInstance
-import gg.scala.store.controller.DataStoreObjectControllerCache
-import gg.scala.store.spigot.ScalaDataStoreSpigot
-import gg.scala.store.spigot.ScalaDataStoreSpigotImpl
-import gg.scala.store.storage.impl.CachedDataStoreStorageLayer
-import gg.scala.store.storage.type.DataStoreStorageType
 import gg.scala.tangerine.queue.QueuePlatform
 import net.evilblock.cubed.util.CC
-import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author GrowlyX
