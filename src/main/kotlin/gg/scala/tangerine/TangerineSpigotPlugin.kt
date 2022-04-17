@@ -121,12 +121,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
         CgsGameInfoUpdater.start()
 
-        platform = if (server.pluginManager.getPlugin("cougar") != null)
-        {
-            CougarQueuePlatform()
-        } else {
-            DefaultQueuePlatform
-        }
+        platform = DefaultQueuePlatform
 
         RedisHandler.buildMessage(
             "add-server",
@@ -139,13 +134,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             channel = "cocoa"
         )
 
-        if (Bukkit.getPluginManager().getPlugin("CGS-Lobby") != null)
-        {
-            CgsGameNpcUpdater.configure()
-        }
-
         ScoreboardHandler.configure(
-            hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter()
+            hubModule?.scoreboardAdapter
+                ?: TangerineScoreboardAdapter()
         )
 
         this.registerListeners()

@@ -1,5 +1,6 @@
 package gg.scala.tangerine.menu
 
+import com.cryptomorin.xseries.XMaterial
 import gg.scala.lemon.server.ServerInstance
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
@@ -7,7 +8,6 @@ import gg.scala.tangerine.placeholder.PlaceholderHandler
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.util.bungee.BungeeUtil
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.InventoryView
@@ -36,8 +36,10 @@ class LobbySelectorMenu(
         private val serverInstance: ServerInstance
     ) : Button() {
 
-        override fun getMaterial(player: Player): Material {
-            return template.buttons[0]!!.itemStack.type
+        override fun getMaterial(player: Player): XMaterial {
+            return XMaterial.matchXMaterial(
+                template.buttons[0]!!.itemStack.type
+            )
         }
 
         override fun getName(player: Player): String {

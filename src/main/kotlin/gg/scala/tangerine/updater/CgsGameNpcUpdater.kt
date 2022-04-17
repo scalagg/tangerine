@@ -2,6 +2,7 @@ package gg.scala.tangerine.updater
 
 import gg.scala.cgs.lobby.gamemode.CgsGameLobby
 import gg.scala.cgs.lobby.updater.CgsGameInfoUpdater
+import gg.scala.commons.annotations.plugin.SoftDependency
 import gg.scala.flavor.service.Configure
 import gg.scala.flavor.service.Service
 import gg.scala.flavor.service.ignore.IgnoreAutoScan
@@ -16,6 +17,7 @@ import net.evilblock.cubed.util.CC
  */
 @Service
 @IgnoreAutoScan
+@SoftDependency("CGS-Lobby")
 object CgsGameNpcUpdater : Runnable
 {
     @Configure
