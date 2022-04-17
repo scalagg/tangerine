@@ -1,5 +1,8 @@
 package gg.scala.tangerine.command
 
+import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
+import gg.scala.flavor.inject.Inject
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
@@ -17,28 +20,38 @@ import xyz.mkotb.configapi.ConfigFactory
  * @author GrowlyX
  * @since 9/16/2021
  */
+@AutoRegister
 @CommandAlias("tangerine|tgr")
 @CommandPermission("tangerine.command.tangerine")
-class TangerineCommand : BaseCommand() {
-
-    val configFactory: ConfigFactory = ConfigFactory.newFactory(TangerineSpigotPlugin.instance)
+object TangerineCommand : ScalaCommand()
+{
+    @Inject
+    lateinit var plugin: TangerineSpigotPlugin
 
     @Default
     @HelpCommand
     @Syntax("[help]")
-    fun onHelp(help: CommandHelp) {
+    fun onHelp(help: CommandHelp)
+    {
         help.showHelp()
     }
 
     @Subcommand("editor")
-    fun onMenuEditor(player: Player) {
+    fun onMenuEditor(player: Player)
+    {
         ConfigurableMenuEditor().openMenu(player)
     }
 
     @Subcommand("setspawn")
-    fun onSetSpawn(player: Player) {
-        TangerineSpigotPlugin.instance.settings.spawnLocation = player.location
-        configFactory.save("settings", TangerineSpigotPlugin.instance.settings)
+    fun onSetSpawn(player: Player)
+    {
+        plugin.settings
+            .spawnLocation = player.location
+
+        val factory = ConfigFactory
+            .newFactory(plugin)
+
+        factory.save("settings", plugin.settings)
 
         player.sendMessage("${CC.GREEN}You've set the lobby spawn.")
     }
@@ -51,13 +64,12 @@ class TangerineCommand : BaseCommand() {
     }
 
     @Subcommand("reload")
-    fun onReload(player: Player) {
+    fun onReload(player: Player)
+    {
         ConfigurableMenuHandler.reloadMenus()
         ConfigurableItemHandler.reloadItems()
 
-        TangerineSpigotPlugin.instance.settings = configFactory.fromFile(
-            "settings", TangerineSettings::class.java
-        )
+        plugin.configContainerized.loadAll()
 
         player.sendMessage("${CC.GREEN}You've reloaded all configurations.")
     }

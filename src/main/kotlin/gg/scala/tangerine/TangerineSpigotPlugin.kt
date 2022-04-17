@@ -2,6 +2,9 @@ package gg.scala.tangerine
 
 import gg.scala.aware.thread.AwareThreadContext
 import gg.scala.commons.ExtendedScalaPlugin
+import gg.scala.commons.annotations.container.ContainerDisable
+import gg.scala.commons.annotations.container.ContainerEnable
+import gg.scala.commons.config.annotations.ContainerConfig
 import gg.scala.flavor.Flavor
 import gg.scala.flavor.FlavorOptions
 import gg.scala.lemon.Lemon
@@ -68,6 +71,10 @@ import java.util.*
         PluginDependency("cougar", soft = true),
     ]
 )
+@ContainerConfig(
+    value = "settings",
+    model = TangerineSettings::class
+)
 class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
     companion object {
@@ -82,17 +89,15 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
 
     var hubModule: HubModule? = null
 
-    override fun enable() {
+    @ContainerEnable
+    fun containerEnable() {
         instance = this
-
-        val configFactory = ConfigFactory.newFactory(this)
-
-        settings = configFactory.fromFile(
-            "settings", TangerineSettings::class.java
-        )
+        settings = config()
 
         if (settings.autoHidePlayers) {
-            VisibilityHandler.registerAdapter("tangerine", TangerineVisibilityAdapter)
+            VisibilityHandler.registerAdapter(
+                "tangerine", TangerineVisibilityAdapter
+            )
         }
 
         if (settings.tabEnabled) {
@@ -114,21 +119,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             it.setPrettyPrinting()
         }
 
-        val flavor = Flavor
-            .create<TangerineSpigotPlugin>(
-                FlavorOptions(logger)
-            )
-
-        flavor.startup()
-
         CgsGameInfoUpdater.start()
-
-        Schedulers.async().runRepeating(
-            TangerinePlayerTracker, 0L, 2L
-        )
-        Schedulers.async().runRepeating(
-            TangerineLobbyTracker, 0L, 20L
-        )
 
         platform = if (server.pluginManager.getPlugin("cougar") != null)
         {
@@ -153,30 +144,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             CgsGameNpcUpdater.configure()
         }
 
-        ScoreboardHandler.configure(hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter())
-
-        this.registerListeners()
-        this.registerCommands()
-    }
-
-    private fun registerCommands() {
-        val commandManager = CubedCommandManager(
-            plugin = this,
-            primary = ChatColor.valueOf(Lemon.instance.lemonWebData.primary),
-            secondary = ChatColor.valueOf(Lemon.instance.lemonWebData.secondary)
+        ScoreboardHandler.configure(
+            hubModule?.scoreboardAdapter ?: TangerineScoreboardAdapter()
         )
 
-        commandManager.commandContexts.registerContext(ConfigurableMenuOutput::class.java) {
-            val firstArg = it.popFirstArg()
-
-            val template = ConfigurableMenuHandler.templates[firstArg]
-                ?: throw ConditionFailedException("No menu by the name ${CC.YELLOW}$firstArg${CC.RED} was found.")
-
-            return@registerContext ConfigurableMenuOutput(template)
-        }
-
-        Lemon.instance.registerCompletionsAndContexts(commandManager)
-        Lemon.instance.registerCommandsInPackage(commandManager, "gg.scala.tangerine.command")
+        this.registerListeners()
     }
 
     private fun registerListeners() {
@@ -227,7 +199,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                                 if (channel == null) CC.RED else ChatColor.valueOf(
                                     StaffChatChannelType.valueOf(
                                         channel.asString().uppercase(Locale.getDefault())
-                                    ).color.toString()
+                                    ).color.toString().uppercase()
                                 )
                             }${
                                 (channel?.asString()
@@ -288,8 +260,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         }
 
         startListeningToItems()
-
-        server.pluginManager.registerEvents(WorldListener, this)
     }
 
     fun startListeningToItems() {
@@ -358,7 +328,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             }
     }
 
-    override fun disable()
+    @ContainerDisable
+    fun containerDisable()
     {
         RedisHandler.buildMessage(
             "remove-server",

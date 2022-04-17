@@ -1,5 +1,6 @@
 package gg.scala.tangerine.listener
 
+import gg.scala.commons.annotations.Listeners
 import gg.scala.tangerine.TangerineSpigotPlugin
 import io.papermc.lib.PaperLib
 import net.evilblock.cubed.util.CC
@@ -29,9 +30,9 @@ import org.spigotmc.event.entity.EntityDismountEvent
  * @author GrowlyX
  * @since 9/16/2021
  */
+@Listeners
 object WorldListener : Listener
 {
-
     @EventHandler
     fun onDropItem(event: PlayerDropItemEvent)
     {

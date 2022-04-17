@@ -1,18 +1,22 @@
 package gg.scala.tangerine.tracking
 
+import gg.scala.commons.annotations.runnables.Repeating
 import gg.scala.lemon.handler.ServerHandler
 import gg.scala.lemon.server.ServerInstance
+import me.lucko.helper.promise.ThreadContext
 import java.util.*
 
 /**
  * @author GrowlyX
  * @since 9/18/2021
  */
-object TangerineLobbyTracker : Runnable {
-
+@Repeating(20L, context = ThreadContext.ASYNC)
+object TangerineLobbyTracker : Runnable
+{
     val lobbies = linkedMapOf<Int, ServerInstance>()
 
-    override fun run() {
+    override fun run()
+    {
         ServerHandler.fetchOnlineServerInstancesByGroup("hub").thenAccept { instances ->
             lobbies.clear()
 

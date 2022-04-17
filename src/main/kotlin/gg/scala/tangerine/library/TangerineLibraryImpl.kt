@@ -1,5 +1,6 @@
 package gg.scala.tangerine.library
 
+import gg.scala.commons.annotations.LibraryLoader
 import gg.scala.commons.library.model.Library
 
 /**
@@ -29,4 +30,5 @@ import gg.scala.commons.library.model.Library
     artifactId = "particle",
     version = "1.7",
 )
+@LibraryLoader
 object TangerineLibraryImpl
