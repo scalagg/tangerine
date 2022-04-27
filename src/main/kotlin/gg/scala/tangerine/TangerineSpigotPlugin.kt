@@ -5,8 +5,6 @@ import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.annotations.container.ContainerDisable
 import gg.scala.commons.annotations.container.ContainerEnable
 import gg.scala.commons.config.annotations.ContainerConfig
-import gg.scala.flavor.Flavor
-import gg.scala.flavor.FlavorOptions
 import gg.scala.lemon.Lemon
 import gg.scala.lemon.channel.channels.staff.StaffChatChannelType
 import gg.scala.lemon.handler.ChatHandler
@@ -14,33 +12,23 @@ import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RedisHandler
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
-import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.items.ConfigurableItemHandler
-import gg.scala.tangerine.listener.WorldListener
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
-import gg.scala.tangerine.queue.impl.CougarQueuePlatform
 import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
-import gg.scala.tangerine.tracking.TangerineLobbyTracker
-import gg.scala.tangerine.tracking.TangerinePlayerTracker
-import gg.scala.tangerine.updater.CgsGameNpcUpdater
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
-import me.lucko.helper.Schedulers
 import me.lucko.helper.plugin.ap.Plugin
 import me.lucko.helper.plugin.ap.PluginDependency
 import me.lucko.helper.terminable.composite.CompositeTerminable
-import net.evilblock.cubed.acf.ConditionFailedException
-import net.evilblock.cubed.command.manager.CubedCommandManager
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
-import net.evilblock.cubed.serializers.Serializers
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -54,7 +42,6 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.metadata.FixedMetadataValue
-import xyz.mkotb.configapi.ConfigFactory
 import xyz.xenondevs.particle.ParticleEffect
 import java.util.*
 
@@ -75,9 +62,10 @@ import java.util.*
     value = "settings",
     model = TangerineSettings::class
 )
-class TangerineSpigotPlugin : ExtendedScalaPlugin() {
-
-    companion object {
+class TangerineSpigotPlugin : ExtendedScalaPlugin()
+{
+    companion object
+    {
         @JvmStatic
         lateinit var instance: TangerineSpigotPlugin
     }
@@ -90,17 +78,20 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
     var hubModule: HubModule? = null
 
     @ContainerEnable
-    fun containerEnable() {
+    fun containerEnable()
+    {
         instance = this
         settings = config()
 
-        if (settings.autoHidePlayers) {
+        if (settings.autoHidePlayers)
+        {
             VisibilityHandler.registerAdapter(
                 "tangerine", TangerineVisibilityAdapter
             )
         }
 
-        if (settings.tabEnabled) {
+        if (settings.tabEnabled)
+        {
             TabHandler(
                 TangerineTablistProvider, this, 30L
             )
@@ -142,7 +133,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         this.registerListeners()
     }
 
-    private fun registerListeners() {
+    private fun registerListeners()
+    {
         val emptyPair = Pair("", false)
 
         ChatHandler.registerChatCheck {
@@ -171,15 +163,18 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             player.allowFlight = settings.allowDoubleJump
             player.inventory.heldItemSlot = 0
 
-            if (settings.spawnLocation != null) {
+            if (settings.spawnLocation != null)
+            {
                 PaperLib.teleportAsync(player, settings.spawnLocation!!)
             }
 
-            if (settings.joinMessage.isNotEmpty()) {
+            if (settings.joinMessage.isNotEmpty())
+            {
                 player.sendMessage(settings.joinMessage.toTypedArray())
             }
 
-            if (settings.shouldSendStaffInfo && player.hasPermission("lemon.staff")) {
+            if (settings.shouldSendStaffInfo && player.hasPermission("lemon.staff"))
+            {
                 PlayerHandler.findPlayer(player).orElse(null)?.let { lemonPlayer ->
                     val channel = lemonPlayer.getMetadata("channel")
 
@@ -197,23 +192,29 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                                     ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
                             }",
                             "${STAFF_PREFIX}${CC.SEC}Messages: ${
-                                if (lemonPlayer.getSetting("staff-messages-disabled")) {
+                                if (lemonPlayer.getSetting("staff-messages-disabled"))
+                                {
                                     "${CC.RED}Hidden"
-                                } else {
+                                } else
+                                {
                                     "${CC.GREEN}Shown"
                                 }
                             } ${CC.GRAY}(/tsm)",
                             "${STAFF_PREFIX}${CC.SEC}Reports: ${
-                                if (lemonPlayer.getSetting("reports-disabled")) {
+                                if (lemonPlayer.getSetting("reports-disabled"))
+                                {
                                     "${CC.RED}Hidden"
-                                } else {
+                                } else
+                                {
                                     "${CC.GREEN}Shown"
                                 }
                             } ${CC.GRAY}(/trm)",
                             "${STAFF_PREFIX}${CC.SEC}Filter: ${
-                                if (lemonPlayer.getSetting("filtered-messages-disabled")) {
+                                if (lemonPlayer.getSetting("filtered-messages-disabled"))
+                                {
                                     "${CC.RED}Hidden"
-                                } else {
+                                } else
+                                {
                                     "${CC.GREEN}Shown"
                                 }
                             } ${CC.GRAY}(/tfm)",
@@ -236,7 +237,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             VisibilityHandler.updateToAll(player)
         }
 
-        if (settings.allowDoubleJump) {
+        if (settings.allowDoubleJump)
+        {
             Events.subscribe(PlayerToggleFlightEvent::class.java)
                 .filter { it.player.gameMode == GameMode.ADVENTURE }
                 .handler {
@@ -253,7 +255,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
         startListeningToItems()
     }
 
-    fun startListeningToItems() {
+    fun startListeningToItems()
+    {
         ConfigurableItemHandler.items.values
             .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
             .forEach { stack ->
@@ -285,7 +288,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
             .forEach { entry ->
                 val stack = entry.value
 
-                if (stack != null) {
+                if (stack != null)
+                {
                     val enabledStack = ItemBuilder(stack.clone())
                         .data(10).build()
                     val disabledStack = ItemBuilder(stack.clone())
@@ -297,17 +301,21 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin() {
                         .handler {
                             val hidingNow = it.player.hasMetadata("hiding-players")
 
-                            if (hidingNow) {
+                            if (hidingNow)
+                            {
                                 it.player.removeMetadata("hiding-players", this)
-                            } else {
+                            } else
+                            {
                                 it.player.setMetadata("hiding-players", `true`)
                             }
 
                             it.player.inventory.setItem(
                                 entry.key,
-                                if (hidingNow) {
+                                if (hidingNow)
+                                {
                                     enabledStack
-                                } else {
+                                } else
+                                {
                                     disabledStack
                                 }
                             )

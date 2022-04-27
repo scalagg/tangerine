@@ -9,11 +9,14 @@ import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.editor.ConfigurableMenuEditor
 import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
 import gg.scala.tangerine.settings.TangerineSettings
+import me.lucko.helper.Events
 import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
 import net.evilblock.cubed.util.CC
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.metadata.FixedMetadataValue
 import xyz.mkotb.configapi.ConfigFactory
 
 /**
@@ -28,21 +31,44 @@ object TangerineCommand : ScalaCommand()
     @Inject
     lateinit var plugin: TangerineSpigotPlugin
 
+    init
+    {
+        Events.subscribe(PlayerQuitEvent::class.java)
+            .handler {
+                it.player.removeMetadata("builder", plugin)
+            }
+    }
+
     @Default
     @HelpCommand
     @Syntax("[help]")
+    @Description("View command help.")
     fun onHelp(help: CommandHelp)
     {
         help.showHelp()
     }
 
     @Subcommand("editor")
+    @Description("Open the menu editor.")
     fun onMenuEditor(player: Player)
     {
         ConfigurableMenuEditor().openMenu(player)
     }
 
+    @Subcommand("build-mode")
+    @Description("Enter build mode.")
+    fun onBuildMode(player: Player)
+    {
+        player.setMetadata(
+            "builder",
+            FixedMetadataValue(plugin, true)
+        )
+
+        player.sendMessage("${CC.GREEN}You've entered build mode.")
+    }
+
     @Subcommand("setspawn")
+    @Description("Set the lobby spawn.")
     fun onSetSpawn(player: Player)
     {
         plugin.settings
@@ -57,6 +83,7 @@ object TangerineCommand : ScalaCommand()
     }
 
     @Subcommand("contents")
+    @Description("View expansion contents.")
     fun onContents(player: Player)
     {
         player.sendMessage("cached=" + TangerineServerPlaceholderExpansion.cachedServers.size)
@@ -64,6 +91,7 @@ object TangerineCommand : ScalaCommand()
     }
 
     @Subcommand("reload")
+    @Description("Reload configuration files.")
     fun onReload(player: Player)
     {
         ConfigurableMenuHandler.reloadMenus()
