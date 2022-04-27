@@ -53,7 +53,7 @@ import java.util.*
 @Plugin(
     name = "Tangerine",
     depends = [
-        PluginDependency("Cubed"),
+        PluginDependency("scala-commons"),
         PluginDependency("helper"),
         PluginDependency("Lemon"),
         PluginDependency("cougar", soft = true),
