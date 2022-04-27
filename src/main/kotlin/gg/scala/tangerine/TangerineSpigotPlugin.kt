@@ -11,6 +11,7 @@ import gg.scala.lemon.handler.ChatHandler
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RedisHandler
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
+import gg.scala.tangerine.command.TangerineCommand
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.items.ConfigurableItemHandler
@@ -131,6 +132,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
         )
 
         this.registerListeners()
+
+        ConfigurableMenuHandler.reloadMenus()
+        ConfigurableItemHandler.reloadItems()
     }
 
     private fun registerListeners()

@@ -98,6 +98,7 @@ object TangerineCommand : ScalaCommand()
         ConfigurableItemHandler.reloadItems()
 
         plugin.configContainerized.loadAll()
+        plugin.settings = plugin.config()
 
         player.sendMessage("${CC.GREEN}You've reloaded all configurations.")
     }
