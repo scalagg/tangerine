@@ -54,7 +54,6 @@ import java.util.*
     name = "Tangerine",
     depends = [
         PluginDependency("scala-commons"),
-        PluginDependency("helper"),
         PluginDependency("Lemon"),
         PluginDependency("cougar", soft = true),
     ]
