@@ -96,7 +96,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
         if (settings.tabEnabled)
         {
             TabHandler(
-                TangerineTablistProvider, this, 30L
+                TangerineTablistProvider, this, 10L
             )
         }
 
