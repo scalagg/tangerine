@@ -75,7 +75,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
     var itemTerminable = CompositeTerminable.create()
 
     lateinit var platform: QueuePlatform
-    lateinit var settings: TangerineSettings
+
+    val settings: TangerineSettings
+        get() = this.config()
 
     var hubModule: HubModule? = null
 
@@ -83,7 +85,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
     fun containerEnable()
     {
         instance = this
-        settings = config()
 
         if (settings.autoHidePlayers)
         {
