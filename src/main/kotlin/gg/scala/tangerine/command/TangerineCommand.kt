@@ -7,6 +7,7 @@ import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.editor.ConfigurableMenuEditor
+import gg.scala.tangerine.menu.JoinMessageEditMenu
 import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
 import gg.scala.tangerine.settings.TangerineSettings
 import me.lucko.helper.Events
@@ -14,6 +15,7 @@ import net.evilblock.cubed.acf.BaseCommand
 import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.Constants
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.metadata.FixedMetadataValue
@@ -67,6 +69,14 @@ object TangerineCommand : ScalaCommand()
         player.sendMessage("${CC.GREEN}You've entered build mode.")
     }
 
+    @Subcommand("join-message-editor")
+    fun onJoinMessageEdit(player: Player)
+    {
+        JoinMessageEditMenu(
+            plugin.settings.joinMessage
+        ).openMenu(player)
+    }
+
     @Subcommand("setspawn")
     @Description("Set the lobby spawn.")
     fun onSetSpawn(player: Player)
@@ -98,8 +108,7 @@ object TangerineCommand : ScalaCommand()
         ConfigurableItemHandler.reloadItems()
 
         plugin.configContainerized.loadAll()
-        plugin.settings = plugin.config()
 
-        player.sendMessage("${CC.GREEN}You've reloaded all configurations.")
+        player.sendMessage("${CC.D_GREEN}${Constants.CHECK_SYMBOL} ${CC.GREEN}You've reloaded all configurations.")
     }
 }

@@ -56,7 +56,7 @@ class TangerineSettings {
     )
 
     @Coloured
-    val joinMessage = listOf(
+    val joinMessage = mutableListOf(
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------",
         "${CC.WHITE}Welcome to the Scala Development Lobby",
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------"
