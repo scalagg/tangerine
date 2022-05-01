@@ -1,12 +1,16 @@
 package gg.scala.tangerine.queue.impl
 
 import gg.scala.commons.annotations.plugin.SoftDependency
+import gg.scala.cougar.common.queue.impl.wrapper.CougarQueueWrapper
+import gg.scala.cougar.spigot.ScalaCougarSpigotEngine
+import gg.scala.cougar.spigot.command.impl.JoinQueueCommand
 import gg.scala.flavor.inject.Inject
 import gg.scala.flavor.service.Configure
 import gg.scala.flavor.service.Service
 import gg.scala.flavor.service.ignore.IgnoreAutoScan
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.queue.QueuePlatform
+import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.util.CC
 import org.bukkit.entity.Player
 
@@ -17,9 +21,9 @@ import org.bukkit.entity.Player
 @Service
 @IgnoreAutoScan
 @SoftDependency("cougar")
-class CougarQueuePlatform /*: QueuePlatform*/
+object CougarQueuePlatform : QueuePlatform
 {
-    /*@Inject
+    @Inject
     lateinit var plugin: TangerineSpigotPlugin
 
     @Configure
@@ -66,7 +70,18 @@ class CougarQueuePlatform /*: QueuePlatform*/
             return
         }
 
-        JoinQueueCommand.onJoinQueue(player, wrapper)
+        kotlin.runCatching {
+            JoinQueueCommand.onJoinQueue(player, wrapper)
+        }.onFailure {
+            // possible security issue if we don't check
+            if (it is ConditionFailedException)
+            {
+                player.sendMessage("${CC.RED}${it.message}")
+            } else
+            {
+                player.sendMessage("${CC.RED}Something went terribly wrong while processing this task.")
+            }
+        }
     }
 
     private fun getQueue(player: Player): CougarQueueWrapper?
@@ -83,5 +98,5 @@ class CougarQueuePlatform /*: QueuePlatform*/
             .localCache().values.firstOrNull {
                 it.serverId.equals(server, true)
             }
-    }*/
+    }
 }

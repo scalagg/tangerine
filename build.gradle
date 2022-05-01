@@ -48,7 +48,7 @@ dependencies {
     compileOnly 'gg.scala.spigot:sspigot-server:1.0.7'
 
     compileOnly "gg.scala.cgs:lobby:1.0.6"
-//    compileOnly 'gg.scala.cougar:spigot:1.0.3-exp'
+    compileOnly 'gg.scala.cougar:spigot:1.0.3'
 }
 
 compileKotlin {
