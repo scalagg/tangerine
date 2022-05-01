@@ -24,7 +24,8 @@ object TangerineTablistUpdater
     @JvmStatic
     val cached = ConcurrentHashMap<UUID, TabElement>()
 
-    private val executor = Executors.newScheduledThreadPool(1)
+    private val executor = Executors
+        .newSingleThreadScheduledExecutor()
 
     @Configure
     fun configure()
@@ -44,8 +45,6 @@ object TangerineTablistUpdater
                 val settings = TangerineSpigotPlugin.instance.settings
                 val placeholder = PlaceholderHandler.findProvider()
 
-                // you could maybe do like arrayOf(left, middle, right).forEachIndexed and
-                // then do this stuff, but that would be slower!!! so i did this!!!
                 settings.tabLeft.forEachIndexed { index, string ->
                     element.add(0, index, placeholder?.handle(player, string)
                         ?.replace("{global}", TangerinePlayerTracker.globalPlayers.toString()) ?: string)
