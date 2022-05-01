@@ -20,11 +20,10 @@ import org.bukkit.entity.Player
  */
 @Service
 @IgnoreAutoScan
-@SoftDependency("cougar")
 object CougarQueuePlatform : QueuePlatform
 {
-    @Inject
-    lateinit var plugin: TangerineSpigotPlugin
+    // TODO: 5/1/2022 sonmewofi
+    private var plugin = TangerineSpigotPlugin.instance
 
     @Configure
     fun configure()

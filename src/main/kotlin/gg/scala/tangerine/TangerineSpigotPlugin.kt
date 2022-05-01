@@ -18,6 +18,7 @@ import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
+import gg.scala.tangerine.queue.impl.CougarQueuePlatform
 import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
@@ -60,7 +61,8 @@ import java.util.*
 )
 @ContainerConfig(
     value = "settings",
-    model = TangerineSettings::class
+    model = TangerineSettings::class,
+    crossSync = true
 )
 class TangerineSpigotPlugin : ExtendedScalaPlugin()
 {
@@ -112,7 +114,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
         CgsGameInfoUpdater.start()
 
-        platform = DefaultQueuePlatform
+        platform = CougarQueuePlatform
 
         RedisHandler.buildMessage(
             "add-server",
