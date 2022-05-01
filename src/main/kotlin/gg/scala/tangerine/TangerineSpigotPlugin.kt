@@ -11,7 +11,6 @@ import gg.scala.lemon.handler.ChatHandler
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RedisHandler
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
-import gg.scala.tangerine.command.TangerineCommand
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.items.ConfigurableItemHandler
@@ -19,7 +18,6 @@ import gg.scala.tangerine.menu.LobbySelectorMenu
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
 import gg.scala.tangerine.queue.impl.CougarQueuePlatform
-import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
