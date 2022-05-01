@@ -10,6 +10,7 @@ import me.lucko.helper.Events
 import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit
 object TangerineTablistUpdater
 {
     @JvmStatic
-    val cached = mutableMapOf<UUID, TabElement>()
+    val cached = ConcurrentHashMap<UUID, TabElement>()
 
     private val executor = Executors.newScheduledThreadPool(1)
 
