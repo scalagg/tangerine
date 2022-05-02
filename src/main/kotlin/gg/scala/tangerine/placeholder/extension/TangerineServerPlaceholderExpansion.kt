@@ -77,6 +77,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
                     TangerineSpigotPlugin.instance.platform.queued(server)
                 } queued)"
             }
+            "queued" -> TangerineSpigotPlugin.instance.platform.queued(server)
             "max" -> return if (networkServer == null) {
                 "0"
             } else {
