@@ -14,82 +14,107 @@ import java.util.*
  * @author GrowlyX
  * @since 9/24/2021
  */
-object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
+object TangerineServerPlaceholderExpansion : PlaceholderExpansion()
+{
 
     val cachedServers = mutableMapOf<String, ServerInstance?>()
     val serverRunnables = mutableListOf<UpdateRunnable>()
 
-    override fun getIdentifier(): String {
+    override fun getIdentifier(): String
+    {
         return "tangerine"
     }
 
-    override fun getAuthor(): String {
+    override fun getAuthor(): String
+    {
         return "Scala"
     }
 
-    override fun getVersion(): String {
+    override fun getVersion(): String
+    {
         return TangerineSpigotPlugin.instance.description.version
     }
 
-    override fun onRequest(player: OfflinePlayer?, params: String): String {
+    override fun onRequest(player: OfflinePlayer?, params: String): String?
+    {
         val arguments = params.split("-")
         val server = arguments[1].replace("|", "-")
         val networkServer = fetchOrGetServer(server)
 
-        when (arguments[0].lowercase()) {
-            "status" -> return if (networkServer == null) {
+        when (arguments[0].lowercase())
+        {
+            "status" -> return if (networkServer == null)
+            {
                 "${CC.RED}Server offline"
-            } else {
-                return if (networkServer.whitelisted) {
+            } else
+            {
+                return if (networkServer.whitelisted)
+                {
                     "${CC.YELLOW}Server whitelisted"
-                } else {
+                } else
+                {
                     "${CC.GREEN}Server online"
                 }
             }
-            "joinable" -> return if (networkServer == null) {
+            "joinable" -> return if (networkServer == null)
+            {
                 "${CC.RED}Currently cannot join."
-            } else {
-                return if (networkServer.whitelisted) {
+            } else
+            {
+                return if (networkServer.whitelisted)
+                {
                     "${CC.YELLOW}Currently whitelisted!"
-                } else {
+                } else
+                {
                     "${CC.GREEN}Click to connect!"
                 }
             }
-            "globalplayers" -> TangerinePlayerTracker.globalPlayers
-            "sbdisplay" -> return if (networkServer == null) {
+            "globalplayers" -> return TangerinePlayerTracker.globalPlayers.toString()
+            "sbdisplay" -> return if (networkServer == null)
+            {
                 "${CC.RED}Offline"
-            } else if (networkServer.whitelisted){
+            } else if (networkServer.whitelisted)
+            {
                 "${CC.RED}Whitelisted"
-            } else {
+            } else
+            {
                 "${CC.WHITE}${networkServer.onlinePlayers}/${networkServer.maxPlayers}"
             }
-            "players" -> return if (networkServer == null) {
+            "players" -> return if (networkServer == null)
+            {
                 "0"
-            } else {
+            } else
+            {
                 "${networkServer.onlinePlayers}"
             }
-            "complete" -> return if (networkServer == null) {
+            "complete" -> return if (networkServer == null)
+            {
                 "0/0 ${CC.GRAY}(${
                     TangerineSpigotPlugin.instance.platform.queued(server)
                 } queued)"
-            } else {
+            } else
+            {
                 "${networkServer.onlinePlayers}/${networkServer.maxPlayers} ${CC.GRAY}(${
                     TangerineSpigotPlugin.instance.platform.queued(server)
                 } queued)"
             }
-            "queued" -> TangerineSpigotPlugin.instance.platform.queued(server)
-            "max" -> return if (networkServer == null) {
+            "queued" -> return TangerineSpigotPlugin.instance.platform.queued(server).toString()
+            "max" -> return if (networkServer == null)
+            {
                 "0"
-            } else {
+            } else
+            {
                 "${networkServer.maxPlayers}"
             }
         }
 
-        return "${CC.GOLD}Loading..."
+        return null
     }
 
-    private fun fetchOrGetServer(id: String): ServerInstance? {
-        if (cachedServers.containsKey(id)) {
+    private fun fetchOrGetServer(id: String): ServerInstance?
+    {
+        if (cachedServers.containsKey(id))
+        {
             return cachedServers[id]
         }
 
@@ -97,7 +122,8 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
             it.instance == id
         }
 
-        if (foundUpdater != null) {
+        if (foundUpdater != null)
+        {
             // there's an active updater for this instance,
             // it just hasn't fetched the server yet.
             return null
@@ -116,9 +142,11 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion() {
 
     class UpdateRunnable(
         val instance: String
-    ) : Runnable {
+    ) : Runnable
+    {
 
-        override fun run() {
+        override fun run()
+        {
             ServerHandler.fetchServerInstanceById(
                 instance
             ).thenAccept {
