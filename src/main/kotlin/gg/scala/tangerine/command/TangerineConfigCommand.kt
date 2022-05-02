@@ -47,7 +47,6 @@ class TangerineConfigCommand : ScalaCommand()
         sender.sendMessage("${CC.GRAY}Placeholder Provider: ${CC.WHITE}${plugin.settings.placeholderProvider}")
     }
 
-    @Syntax("<menu>")
     @CommandAlias("menu")
     fun onMenu(
         player: Player,

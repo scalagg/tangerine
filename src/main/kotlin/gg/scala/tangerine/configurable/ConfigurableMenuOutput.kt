@@ -10,16 +10,30 @@ import org.bukkit.entity.Player
  * @since 9/17/2021
  */
 open class ConfigurableMenuOutput(
-    private val template: ConfigurableMenuTemplate
-) : Menu(template.title) {
+    private val template: String
+) : Menu() {
 
     init {
+        val template = ConfigurableMenuHandler
+            .templates[template]!!
+
         placeholdBorders = template.placeholder
         autoUpdate = template.updateAutomatically
     }
 
+    override fun getTitle(player: Player): String
+    {
+        val template = ConfigurableMenuHandler
+            .templates[template]!!
+
+        return template.title
+    }
+
     override fun getButtons(player: Player): Map<Int, Button> {
         return hashMapOf<Int, Button>().also {
+            val template = ConfigurableMenuHandler
+                .templates[template]!!
+
             template.buttons.forEach { entry ->
                 it[entry.key] = ConfigurableMenuButton(entry.value)
             }
@@ -27,10 +41,16 @@ open class ConfigurableMenuOutput(
     }
 
     override fun size(buttons: Map<Int, Button>): Int {
+        val template = ConfigurableMenuHandler
+            .templates[template]!!
+
         return template.size
     }
 
     override fun onClose(player: Player, manualClose: Boolean) {
+        val template = ConfigurableMenuHandler
+            .templates[template]!!
+
         template.fallback?.let {
             delayed(1L) {
                 ConfigurableMenuHandler.openMenu(player, it)

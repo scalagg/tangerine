@@ -121,7 +121,7 @@ object ConfigurableMenuHandler {
 
         if (template != null) {
             try {
-                ConfigurableMenuOutput(template).openMenu(player)
+                ConfigurableMenuOutput(id).openMenu(player)
             } catch (exception: Exception) {
                 player.sendMessage("${CC.RED}An error occurred while trying to open a menu, sorry for the inconvenience.")
 

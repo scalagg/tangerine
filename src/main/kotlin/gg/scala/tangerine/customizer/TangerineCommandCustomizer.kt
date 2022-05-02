@@ -24,7 +24,7 @@ object TangerineCommandCustomizer
             val template = ConfigurableMenuHandler.templates[firstArg]
                 ?: throw ConditionFailedException("No menu by the name ${CC.YELLOW}$firstArg${CC.RED} was found.")
 
-            return@registerContext ConfigurableMenuOutput(template)
+            return@registerContext ConfigurableMenuOutput(template.id)
         }
     }
 }

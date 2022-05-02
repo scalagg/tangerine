@@ -16,6 +16,7 @@ import net.evilblock.cubed.acf.CommandHelp
 import net.evilblock.cubed.acf.annotation.*
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Constants
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.metadata.FixedMetadataValue
@@ -102,7 +103,7 @@ object TangerineCommand : ScalaCommand()
 
     @Subcommand("reload")
     @Description("Reload configuration files.")
-    fun onReload(player: Player)
+    fun onReload(player: CommandSender)
     {
         ConfigurableMenuHandler.reloadMenus()
         ConfigurableItemHandler.reloadItems()

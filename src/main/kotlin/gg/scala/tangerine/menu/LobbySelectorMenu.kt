@@ -18,7 +18,7 @@ import org.bukkit.inventory.InventoryView
  */
 class LobbySelectorMenu(
     private val template: ConfigurableMenuTemplate
-) : ConfigurableMenuOutput(template) {
+) : ConfigurableMenuOutput(template.id) {
 
     override fun getButtons(player: Player): Map<Int, Button> {
         return mutableMapOf<Int, Button>().also { map ->
