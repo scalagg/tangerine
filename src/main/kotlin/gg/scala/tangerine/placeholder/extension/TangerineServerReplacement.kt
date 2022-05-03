@@ -104,12 +104,13 @@ object TangerineServerReplacement : Replacement
         }
 
         val runnable = UpdateRunnable(id)
+            .apply {
+                serverRunnables.add(this)
+            }
 
         Schedulers.async().runRepeating(
             runnable, 0L, 10L
         )
-
-        this.serverRunnables.add(runnable)
 
         return null
     }

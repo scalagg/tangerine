@@ -44,8 +44,8 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
 
         if (platform.isInQueue(player))
         {
-            val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboardQueued)
-                ?: settings.scoreboardQueued
+            val placeholderReplaced = PlaceholderHandler.findProvider()
+                .handle(player, settings.scoreboardQueued)
 
             placeholderReplaced.forEach {
                 board.add(
@@ -59,8 +59,8 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
             }
         } else
         {
-            val placeholderReplaced = PlaceholderHandler.findProvider()?.handle(player, settings.scoreboard)
-                ?: settings.scoreboard
+            val placeholderReplaced = PlaceholderHandler.findProvider()
+                .handle(player, settings.scoreboard)
 
             placeholderReplaced.forEach {
                 board.add(

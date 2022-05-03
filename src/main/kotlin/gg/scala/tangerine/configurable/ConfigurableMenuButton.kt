@@ -26,7 +26,7 @@ open class ConfigurableMenuButton(
 
         return ItemBuilder(data.itemStack.type)
             .data(data.itemStack.data.data.toShort())
-            .setLore(PlaceholderHandler.findProvider()?.handle(player, originalLore) ?: originalLore)
+            .setLore(PlaceholderHandler.findProvider().handle(player, originalLore))
             .amount(data.itemStack.amount)
             .addFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE)
             .name(data.itemStack.itemMeta.displayName)

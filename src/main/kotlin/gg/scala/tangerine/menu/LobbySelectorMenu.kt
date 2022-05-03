@@ -57,7 +57,7 @@ class LobbySelectorMenu(
                 )
             }
 
-            return PlaceholderHandler.findProvider()?.handle(player, replacedLore) ?: replacedLore
+            return PlaceholderHandler.findProvider().handle(player, replacedLore)
         }
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {

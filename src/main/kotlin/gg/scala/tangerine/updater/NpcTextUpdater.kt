@@ -7,6 +7,7 @@ import gg.scala.tangerine.placeholder.PlaceholderHandler
 import me.lucko.helper.Schedulers
 import net.evilblock.cubed.entity.EntityHandler
 import net.evilblock.cubed.entity.npc.NpcEntity
+import org.bukkit.Bukkit
 
 /**
  * @author GrowlyX
@@ -31,11 +32,18 @@ object NpcTextUpdater : Runnable
 
     override fun run()
     {
-        EntityHandler.getEntitiesByType(NpcEntity::class.java).forEach {
-            it.hologram.updateLines(
-                PlaceholderHandler.findProvider()?.handle(null, it.getLines())
-                    ?: it.getLines()
-            )
-        }
+        val players = Bukkit
+            .getOnlinePlayers()
+
+        if (players.isEmpty())
+            return
+
+        EntityHandler.getEntitiesByType(NpcEntity::class.java)
+            .forEach {
+                it.hologram.updateLines(
+                    PlaceholderHandler.findProvider()
+                        .handle(players.first(), it.getLines())
+                )
+            }
     }
 }

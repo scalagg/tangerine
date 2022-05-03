@@ -8,7 +8,7 @@ import gg.scala.tangerine.placeholder.impl.ScalaPlaceholderProvider
  */
 object PlaceholderHandler
 {
-    private var provider: PlaceholderProvider? =
+    private var provider: PlaceholderProvider =
         ScalaPlaceholderProvider
 
     fun updateProvider(
@@ -18,7 +18,7 @@ object PlaceholderHandler
         this.provider = provider
     }
 
-    fun findProvider(): PlaceholderProvider?
+    fun findProvider(): PlaceholderProvider
     {
         return this.provider
     }
