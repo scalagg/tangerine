@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
  */
 interface PlaceholderProvider {
 
-    fun handle(player: Player?, list: List<String>): MutableList<String>
+    fun handle(player: Player, list: List<String>): MutableList<String>
     fun handle(player: Player, list: String): String
 
 }
