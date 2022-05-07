@@ -68,7 +68,7 @@ object CougarQueuePlatform : QueuePlatform
         }
 
         kotlin.runCatching {
-//            JoinQueueCommand.onJoinQueue(player, wrapper)
+            JoinQueueCommand.onJoinQueue(player, wrapper)
         }.onFailure {
             // possible security issue if we don't check
             if (it is ConditionFailedException)
