@@ -11,9 +11,9 @@ import gg.scala.tangerine.menu.JoinMessageEditMenu
 import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
 import gg.scala.tangerine.settings.TangerineSettings
 import me.lucko.helper.Events
-import net.evilblock.cubed.acf.BaseCommand
-import net.evilblock.cubed.acf.CommandHelp
-import net.evilblock.cubed.acf.annotation.*
+import gg.scala.commons.acf.BaseCommand
+import gg.scala.commons.acf.CommandHelp
+import gg.scala.commons.acf.annotation.*
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Constants
 import org.bukkit.command.CommandSender

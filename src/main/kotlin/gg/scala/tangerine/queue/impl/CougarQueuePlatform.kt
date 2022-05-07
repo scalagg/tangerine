@@ -1,16 +1,14 @@
 package gg.scala.tangerine.queue.impl
 
-import gg.scala.commons.annotations.plugin.SoftDependency
+import gg.scala.commons.acf.ConditionFailedException
 import gg.scala.cougar.common.queue.impl.wrapper.CougarQueueWrapper
 import gg.scala.cougar.spigot.ScalaCougarSpigotEngine
 import gg.scala.cougar.spigot.command.impl.JoinQueueCommand
-import gg.scala.flavor.inject.Inject
 import gg.scala.flavor.service.Configure
 import gg.scala.flavor.service.Service
 import gg.scala.flavor.service.ignore.IgnoreAutoScan
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.queue.QueuePlatform
-import net.evilblock.cubed.acf.ConditionFailedException
 import net.evilblock.cubed.util.CC
 import org.bukkit.entity.Player
 
@@ -70,7 +68,7 @@ object CougarQueuePlatform : QueuePlatform
         }
 
         kotlin.runCatching {
-            JoinQueueCommand.onJoinQueue(player, wrapper)
+//            JoinQueueCommand.onJoinQueue(player, wrapper)
         }.onFailure {
             // possible security issue if we don't check
             if (it is ConditionFailedException)

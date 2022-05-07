@@ -53,7 +53,7 @@ class LobbySelectorMenu(
 
             originalLore.forEach {
                 replacedLore.add(
-                    it.replace("<hub>", serverInstance.serverId.replace("-", "|"))
+                    it.replace("<hub>", serverInstance.serverId)
                 )
             }
 

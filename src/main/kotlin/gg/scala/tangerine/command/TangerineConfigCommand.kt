@@ -5,10 +5,10 @@ import gg.scala.commons.command.ScalaCommand
 import gg.scala.flavor.inject.Inject
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
-import net.evilblock.cubed.acf.BaseCommand
-import net.evilblock.cubed.acf.annotation.CommandAlias
-import net.evilblock.cubed.acf.annotation.CommandPermission
-import net.evilblock.cubed.acf.annotation.Syntax
+import gg.scala.commons.acf.BaseCommand
+import gg.scala.commons.acf.annotation.CommandAlias
+import gg.scala.commons.acf.annotation.CommandPermission
+import gg.scala.commons.acf.annotation.Syntax
 import net.evilblock.cubed.util.CC
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
