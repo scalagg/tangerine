@@ -32,6 +32,7 @@ import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
+import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -153,7 +154,10 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             return@registerChatCheck emptyPair
         }
 
-        Events.subscribe(PlayerJoinEvent::class.java, EventPriority.LOWEST).handler { event ->
+        Events.subscribe(
+            PlayerJoinEvent::class.java,
+            EventPriority.LOWEST
+        ).handler { event ->
             val player = event.player
 
             player.inventory.clear()
@@ -174,56 +178,64 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             if (settings.joinMessage.isNotEmpty())
             {
-                player.sendMessage(settings.joinMessage.toTypedArray())
+                Tasks.delayed(10L) {
+                    settings.joinMessage.forEach {
+                        player.sendMessage(it)
+                    }
+                }
             }
 
             if (settings.shouldSendStaffInfo && player.hasPermission("lemon.staff"))
             {
                 PlayerHandler.findPlayer(player).orElse(null)?.let { lemonPlayer ->
                     val channel = lemonPlayer.getMetadata("channel")
-
-                    player.sendMessage(
-                        arrayOf(
-                            "${CC.B_PRI}Staff Information:",
-                            "${STAFF_PREFIX}${CC.SEC}Channel: ${
-                                if (channel == null) CC.RED else ChatColor.valueOf(
-                                    StaffChatChannelType.valueOf(
-                                        channel.asString().uppercase(Locale.getDefault())
-                                    ).color.toString().uppercase()
-                                )
-                            }${
-                                (channel?.asString()
-                                    ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
-                            }",
-                            "${STAFF_PREFIX}${CC.SEC}Messages: ${
-                                if (lemonPlayer.getSetting("staff-messages-disabled"))
-                                {
-                                    "${CC.RED}Hidden"
-                                } else
-                                {
-                                    "${CC.GREEN}Shown"
-                                }
-                            } ${CC.GRAY}(/tsm)",
-                            "${STAFF_PREFIX}${CC.SEC}Reports: ${
-                                if (lemonPlayer.getSetting("reports-disabled"))
-                                {
-                                    "${CC.RED}Hidden"
-                                } else
-                                {
-                                    "${CC.GREEN}Shown"
-                                }
-                            } ${CC.GRAY}(/trm)",
-                            "${STAFF_PREFIX}${CC.SEC}Filter: ${
-                                if (lemonPlayer.getSetting("filtered-messages-disabled"))
-                                {
-                                    "${CC.RED}Hidden"
-                                } else
-                                {
-                                    "${CC.GREEN}Shown"
-                                }
-                            } ${CC.GRAY}(/tfm)",
-                        )
+                    val messages = listOf(
+                        "${CC.B_PRI}Staff Information:",
+                        "${STAFF_PREFIX}${CC.SEC}Channel: ${
+                            if (channel == null) CC.RED else ChatColor.valueOf(
+                                StaffChatChannelType.valueOf(
+                                    channel.asString().uppercase(Locale.getDefault())
+                                ).color.toString().uppercase()
+                            )
+                        }${
+                            (channel?.asString()
+                                ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
+                        }",
+                        "${STAFF_PREFIX}${CC.SEC}Messages: ${
+                            if (lemonPlayer.getSetting("staff-messages-disabled"))
+                            {
+                                "${CC.RED}Hidden"
+                            } else
+                            {
+                                "${CC.GREEN}Shown"
+                            }
+                        } ${CC.GRAY}(/tsm)",
+                        "${STAFF_PREFIX}${CC.SEC}Reports: ${
+                            if (lemonPlayer.getSetting("reports-disabled"))
+                            {
+                                "${CC.RED}Hidden"
+                            } else
+                            {
+                                "${CC.GREEN}Shown"
+                            }
+                        } ${CC.GRAY}(/trm)",
+                        "${STAFF_PREFIX}${CC.SEC}Filter: ${
+                            if (lemonPlayer.getSetting("filtered-messages-disabled"))
+                            {
+                                "${CC.RED}Hidden"
+                            } else
+                            {
+                                "${CC.GREEN}Shown"
+                            }
+                        } ${CC.GRAY}(/tfm)",
                     )
+
+                    Tasks.delayed(10L) {
+                        for (message in messages)
+                        {
+                            player.sendMessage(message)
+                        }
+                    }
                 }
             }
 
