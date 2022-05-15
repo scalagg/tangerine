@@ -73,7 +73,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
     var itemTerminable = CompositeTerminable.create()
 
-    lateinit var platform: QueuePlatform
+    val platform: QueuePlatform
+        get() = CougarQueuePlatform
 
     val settings: TangerineSettings
         get() = this.config()
@@ -113,8 +114,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
         }
 
         CgsGameInfoUpdater.start()
-
-        platform = CougarQueuePlatform
 
         RedisHandler.buildMessage(
             "add-server",

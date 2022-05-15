@@ -20,15 +20,6 @@ import org.bukkit.entity.Player
 @IgnoreAutoScan
 object CougarQueuePlatform : QueuePlatform
 {
-    // TODO: 5/1/2022 sonmewofi
-    private var plugin = TangerineSpigotPlugin.instance
-
-    @Configure
-    fun configure()
-    {
-        plugin.platform = this
-    }
-
     override fun isInQueue(player: Player): Boolean
     {
         return getQueue(player) != null

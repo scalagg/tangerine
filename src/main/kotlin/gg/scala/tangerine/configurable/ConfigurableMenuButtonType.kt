@@ -15,13 +15,7 @@ enum class ConfigurableMenuButtonType(
         player.chat("/$data")
     }),
     QUEUE({ player, data ->
-        try
-        {
-            gg.scala.tangerine.TangerineSpigotPlugin.instance.platform.joinQueue(player, data)
-        } catch (e: Exception)
-        {
-            player.sendMessage("${net.evilblock.cubed.util.CC.RED}${e.message}")
-        }
+        gg.scala.tangerine.TangerineSpigotPlugin.instance.platform.joinQueue(player, data)
     }),
     SEND_SERVER({ player, data ->
         BungeeUtil.sendToServer(player, data)
