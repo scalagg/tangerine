@@ -62,9 +62,6 @@ class TangerineSettings {
         "${CC.PRI}${CC.STRIKE_THROUGH}-----------------------------------------------"
     )
 
-    @RequiredField
-    val placeholderProvider = "papi"
-
     var spawnLocation: Location? = null
 
     @Comment("Should we automatically hide players?")

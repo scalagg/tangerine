@@ -44,7 +44,6 @@ class TangerineConfigCommand : ScalaCommand()
 
         sender.sendMessage("${CC.GRAY}Double Jump: ${CC.WHITE}${plugin.settings.allowDoubleJump}")
         sender.sendMessage("${CC.GRAY}Player Hiding: ${CC.WHITE}${plugin.settings.autoHidePlayers}")
-        sender.sendMessage("${CC.GRAY}Placeholder Provider: ${CC.WHITE}${plugin.settings.placeholderProvider}")
     }
 
     @CommandAlias("menu")
