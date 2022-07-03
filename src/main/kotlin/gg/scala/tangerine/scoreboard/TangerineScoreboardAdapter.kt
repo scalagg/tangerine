@@ -40,7 +40,9 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
             return hubModule.scoreboardAdapter.getLines(board, player)
         }
 
-        val lemonPlayer = PlayerHandler.findPlayer(player).orElse(null)
+        val lemonPlayer = PlayerHandler
+            .find(player.uniqueId)
+            ?: return
 
         if (platform.isInQueue(player))
         {
