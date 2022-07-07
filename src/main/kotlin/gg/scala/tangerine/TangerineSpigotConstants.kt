@@ -9,6 +9,6 @@ import net.evilblock.cubed.util.CC
 object TangerineSpigotConstants {
 
     @JvmStatic
-    val STAFF_PREFIX = "${CC.PRI}${CC.BOLD}Staff ${CC.GRAY}${CC.BOLD}${net.evilblock.cubed.util.bukkit.Constants.DOUBLE_ARROW_RIGHT} ${CC.SEC}"
+    val STAFF_PREFIX = "${CC.PRI}${CC.BOLD}Staff ${CC.GRAY}${net.evilblock.cubed.util.bukkit.Constants.DOUBLE_ARROW_RIGHT} ${CC.SEC}"
 
 }

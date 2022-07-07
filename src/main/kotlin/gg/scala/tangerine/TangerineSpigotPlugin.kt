@@ -264,7 +264,12 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     it.isCancelled = true
                     it.player.velocity = vector
 
-                    ParticleEffect.FLAME.display(it.player.location)
+                    ParticleEffect.FLAME.display(
+                        it.player.location,
+                        *Bukkit.getOnlinePlayers()
+                            .filter { other -> other.canSee(it.player) }
+                            .toTypedArray()
+                    )
                 }
         }
 
