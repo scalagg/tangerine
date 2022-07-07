@@ -1,7 +1,9 @@
 package gg.scala.tangerine.settings
 
+import com.cryptomorin.xseries.XSound
 import net.evilblock.cubed.util.CC
 import org.bukkit.Location
+import org.bukkit.Sound
 import xyz.mkotb.configapi.Coloured
 import xyz.mkotb.configapi.RequiredField
 import xyz.mkotb.configapi.comment.Comment
@@ -70,5 +72,10 @@ class TangerineSettings {
     val shouldSendStaffInfo = true
 
     val allowPlayerChat = true
+
+    val doubleJumpParticle = true
+
+    val doubleJumpSound = true
+    val doubleJumpSoundType = Sound.EXPLODE
 
 }

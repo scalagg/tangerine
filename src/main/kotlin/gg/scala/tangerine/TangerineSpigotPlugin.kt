@@ -1,5 +1,6 @@
 package gg.scala.tangerine
 
+import com.cryptomorin.xseries.XSound
 import gg.scala.aware.thread.AwareThreadContext
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.annotations.container.ContainerDisable
@@ -264,12 +265,22 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     it.isCancelled = true
                     it.player.velocity = vector
 
-                    ParticleEffect.FLAME.display(
-                        it.player.location,
-                        *Bukkit.getOnlinePlayers()
-                            .filter { other -> other.canSee(it.player) }
-                            .toTypedArray()
-                    )
+                    if (settings.doubleJumpParticle)
+                    {
+                        ParticleEffect.FLAME.display(
+                            it.player.location,
+                            *Bukkit.getOnlinePlayers()
+                                .filter { other -> other.canSee(it.player) }
+                                .toTypedArray()
+                        )
+                    }
+
+                    if (settings.doubleJumpSound)
+                    {
+                        XSound
+                            .matchXSound(settings.doubleJumpSoundType)
+                            .play(it.player)
+                    }
                 }
         }
 
