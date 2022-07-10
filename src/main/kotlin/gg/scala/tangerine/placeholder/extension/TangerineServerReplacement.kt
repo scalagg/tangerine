@@ -26,7 +26,7 @@ object TangerineServerReplacement : Replacement
     override val replacements =
         ReplacementBuilder
             .newBuilder()
-            .processStatic("global") {
+            .process("global") { _, _ ->
                 TangerinePlayerTracker.globalPlayers.toString()
             }
             .process("status") { _, id ->
@@ -62,8 +62,14 @@ object TangerineServerReplacement : Replacement
                     "${CC.YELLOW}Whitelisted"
                 } else
                 {
-                    "${CC.WHITE}${server.onlinePlayers}/${server.maxPlayers}"
+                    "${server.onlinePlayers}/${server.maxPlayers}"
                 }
+            }
+            .process("players2") { _, id ->
+                val server = this.server(id)
+                    ?: return@process "0"
+
+                "${server.onlinePlayers}/${server.maxPlayers}"
             }
             .process("players") { _, id ->
                 val server = this.server(id)

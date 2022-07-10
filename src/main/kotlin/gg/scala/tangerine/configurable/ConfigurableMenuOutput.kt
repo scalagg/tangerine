@@ -10,7 +10,8 @@ import org.bukkit.entity.Player
  * @since 9/17/2021
  */
 open class ConfigurableMenuOutput(
-    private val template: String
+    private val template: String,
+    val fallbackOverride: Boolean = false
 ) : Menu() {
 
     init {
@@ -50,6 +51,9 @@ open class ConfigurableMenuOutput(
     override fun onClose(player: Player, manualClose: Boolean) {
         val template = ConfigurableMenuHandler
             .templates[template]!!
+
+        if (fallbackOverride)
+            return
 
         template.fallback?.let {
             delayed(1L) {

@@ -77,7 +77,7 @@ object TangerineServerPlaceholderExpansion : PlaceholderExpansion()
                 "${CC.RED}Whitelisted"
             } else
             {
-                "${CC.WHITE}${networkServer.onlinePlayers}/${networkServer.maxPlayers}"
+                "${networkServer.onlinePlayers}/${networkServer.maxPlayers}"
             }
             "players" -> return if (networkServer == null)
             {
