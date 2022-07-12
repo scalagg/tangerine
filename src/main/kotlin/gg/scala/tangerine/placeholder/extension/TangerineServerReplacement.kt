@@ -41,6 +41,18 @@ object TangerineServerReplacement : Replacement
                     "${CC.GREEN}Server online"
                 }
             }
+            .process("status-stripped") { _, id ->
+                val server = this.server(id)
+                    ?: return@process "${CC.RED}Offline"
+
+                if (server.whitelisted)
+                {
+                    "${CC.YELLOW}Whitelisted"
+                } else
+                {
+                    "${CC.GREEN}Online"
+                }
+            }
             .process("join-status") { _, id ->
                 val server = this.server(id)
                     ?: return@process "${CC.RED}Currently cannot join."
