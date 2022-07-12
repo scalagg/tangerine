@@ -59,7 +59,7 @@ dependencies {
     compileOnly "com.github.mkotb:ConfigAPI:e1c8df3f13"
 
     compileOnly "me.clip:placeholderapi:2.10.10"
-    compileOnly "gg.scala.commons:bukkit:2.0.0"
+    compileOnly "gg.scala.commons:bukkit:2.0.1"
     compileOnly "gg.scala.cloudsync:spigot:1.0.1"
 
     compileOnly "gg.scala.lemon:bukkit:1.2.2"

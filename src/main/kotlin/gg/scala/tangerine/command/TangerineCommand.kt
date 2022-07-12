@@ -1,19 +1,17 @@
 package gg.scala.tangerine.command
 
+import gg.scala.commons.acf.CommandHelp
+import gg.scala.commons.acf.annotation.*
 import gg.scala.commons.annotations.commands.AutoRegister
 import gg.scala.commons.command.ScalaCommand
 import gg.scala.flavor.inject.Inject
 import gg.scala.tangerine.TangerineSpigotPlugin
-import gg.scala.tangerine.items.ConfigurableItemHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.editor.ConfigurableMenuEditor
+import gg.scala.tangerine.items2.TangerineItems2Service
 import gg.scala.tangerine.menu.JoinMessageEditMenu
 import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
-import gg.scala.tangerine.settings.TangerineSettings
 import me.lucko.helper.Events
-import gg.scala.commons.acf.BaseCommand
-import gg.scala.commons.acf.CommandHelp
-import gg.scala.commons.acf.annotation.*
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Constants
 import org.bukkit.command.CommandSender
@@ -106,7 +104,7 @@ object TangerineCommand : ScalaCommand()
     fun onReload(player: CommandSender)
     {
         ConfigurableMenuHandler.reloadMenus()
-        ConfigurableItemHandler.reloadItems()
+        TangerineItems2Service.reload()
 
         plugin.configContainerized.loadAll()
 

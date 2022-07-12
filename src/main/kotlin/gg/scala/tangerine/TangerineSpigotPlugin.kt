@@ -14,8 +14,7 @@ import gg.scala.lemon.handler.RedisHandler
 import gg.scala.tangerine.TangerineSpigotConstants.STAFF_PREFIX
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
-import gg.scala.tangerine.items.ConfigurableItemHandler
-import gg.scala.tangerine.menu.LobbySelectorMenu
+import gg.scala.tangerine.items2.Items2Config
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
 import gg.scala.tangerine.queue.impl.CougarQueuePlatform
@@ -28,11 +27,9 @@ import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import me.lucko.helper.plugin.ap.Plugin
 import me.lucko.helper.plugin.ap.PluginDependency
-import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
-import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
@@ -40,10 +37,8 @@ import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
-import org.bukkit.metadata.FixedMetadataValue
 import xyz.xenondevs.particle.ParticleEffect
 import java.util.*
 
@@ -72,8 +67,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
         @JvmStatic
         lateinit var instance: TangerineSpigotPlugin
     }
-
-    var itemTerminable = CompositeTerminable.create()
 
     val platform: QueuePlatform
         get() = CougarQueuePlatform
@@ -136,7 +129,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
         this.registerListeners()
 
         ConfigurableMenuHandler.reloadMenus()
-        ConfigurableItemHandler.reloadItems()
     }
 
     private fun registerListeners()
@@ -245,9 +237,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                 hubModule!!.itemAdapter.handle(player)
             } else
             {
-                ConfigurableItemHandler.items.forEach { (index, itemStack) ->
-                    player.inventory.setItem(index, itemStack)
-                }
+                config<Items2Config>()
+                    .items
+                    .forEach { model ->
+                        player.inventory.setItem(model.position, model.item)
+                    }
             }
 
             VisibilityHandler.updateAllTo(player)
@@ -283,80 +277,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     }
                 }
         }
-
-        startListeningToItems()
-    }
-
-    fun startListeningToItems()
-    {
-        ConfigurableItemHandler.items.values
-            .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Hub Selector") }
-            .forEach { stack ->
-                Events.subscribe(PlayerInteractEvent::class.java)
-                    .filter { it.item != null && it.action.name.contains("RIGHT") }
-                    .filter { it.item.isSimilar(stack!!) }
-                    .handler {
-                        LobbySelectorMenu(
-                            ConfigurableMenuHandler.templates["hub-selector"]!!
-                        ).openMenu(it.player)
-                    }
-            }
-
-        ConfigurableItemHandler.items.values
-            .filter { it != null && it.hasItemMeta() && it.itemMeta.displayName.contains("Server Selector") }
-            .forEach { stack ->
-                Events.subscribe(PlayerInteractEvent::class.java)
-                    .filter { it.item != null && it.action.name.contains("RIGHT") }
-                    .filter { it.item.isSimilar(stack!!) }
-                    .handler {
-                        ConfigurableMenuHandler.openMenu(it.player, "server-selector")
-                    }
-            }
-
-        val `true` = FixedMetadataValue(this, true)
-
-        ConfigurableItemHandler.items
-            .filter { it.value != null && it.value!!.hasItemMeta() && it.value!!.itemMeta.displayName.contains("Player") }
-            .forEach { entry ->
-                val stack = entry.value
-
-                if (stack != null)
-                {
-                    val enabledStack = ItemBuilder(stack.clone())
-                        .data(10).build()
-                    val disabledStack = ItemBuilder(stack.clone())
-                        .data(8).build()
-
-                    Events.subscribe(PlayerInteractEvent::class.java)
-                        .filter { it.item != null && it.action.name.contains("RIGHT") }
-                        .filter { it.item.hasItemMeta() && it.item.itemMeta.displayName.contains("Player") }
-                        .handler {
-                            val hidingNow = it.player.hasMetadata("hiding-players")
-
-                            if (hidingNow)
-                            {
-                                it.player.removeMetadata("hiding-players", this)
-                            } else
-                            {
-                                it.player.setMetadata("hiding-players", `true`)
-                            }
-
-                            it.player.inventory.setItem(
-                                entry.key,
-                                if (hidingNow)
-                                {
-                                    enabledStack
-                                } else
-                                {
-                                    disabledStack
-                                }
-                            )
-                            it.player.updateInventory()
-
-                            VisibilityHandler.updateAllTo(it.player)
-                        }
-                }
-            }
     }
 
     @ContainerDisable
