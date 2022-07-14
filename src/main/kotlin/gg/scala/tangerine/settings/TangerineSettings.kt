@@ -1,12 +1,14 @@
 package gg.scala.tangerine.settings
 
 import com.cryptomorin.xseries.XSound
+import com.cryptomorin.xseries.particles.XParticle
 import net.evilblock.cubed.util.CC
 import org.bukkit.Location
 import org.bukkit.Sound
 import xyz.mkotb.configapi.Coloured
 import xyz.mkotb.configapi.RequiredField
 import xyz.mkotb.configapi.comment.Comment
+import xyz.xenondevs.particle.ParticleEffect
 
 /**
  * @author GrowlyX
@@ -74,6 +76,7 @@ class TangerineSettings {
     val allowPlayerChat = true
 
     val doubleJumpParticle = true
+    val doubleJumpParticleType = ParticleEffect.FLAME
 
     val doubleJumpSound = true
     val doubleJumpSoundType = Sound.EXPLODE

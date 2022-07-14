@@ -261,7 +261,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
                     if (settings.doubleJumpParticle)
                     {
-                        ParticleEffect.FLAME.display(
+                        settings.doubleJumpParticleType.display(
                             it.player.location,
                             *Bukkit.getOnlinePlayers()
                                 .filter { other -> other.canSee(it.player) }
