@@ -31,7 +31,7 @@ object TangerineItems2Service
         Events.subscribe(PlayerInteractEvent::class.java)
             .filter {
                 it.hasItem() &&
-                it.action.name.contains("RIGHT")
+                        it.action.name.contains("RIGHT")
             }
             .handler {
                 val config = plugin
@@ -63,14 +63,14 @@ object TangerineItems2Service
                     .data(10).build()
 
                 val disabledStack = ItemBuilder(stack.clone())
-                    .name(model.meta.last())
+                    .name(model.meta[2])
                     .data(8).build()
 
                 Events.subscribe(PlayerInteractEvent::class.java)
                     .filter {
                         it.hasItem() &&
-                        it.action.name.contains("RIGHT") &&
-                        it.item.isSimilar(stack)
+                                it.action.name.contains("RIGHT") &&
+                                it.item.isSimilar(stack)
                     }
                     .handler {
                         val hidingNow = it.player.hasMetadata("hiding-players")
@@ -78,9 +78,19 @@ object TangerineItems2Service
                         if (hidingNow)
                         {
                             it.player.removeMetadata("hiding-players", TangerineSpigotPlugin.instance)
+
+                            model.meta.getOrNull(2)
+                                ?.apply {
+                                    it.player.sendMessage(this)
+                                }
                         } else
                         {
                             it.player.setMetadata("hiding-players", FixedMetadataValue(plugin, true))
+
+                            model.meta.getOrNull(3)
+                                ?.apply {
+                                    it.player.sendMessage(this)
+                                }
                         }
 
                         it.player.inventory.setItem(

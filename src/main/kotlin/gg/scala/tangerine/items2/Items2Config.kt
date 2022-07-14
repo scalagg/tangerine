@@ -37,7 +37,9 @@ data class Items2Config(
             Items2Action.PlayerVisibility,
             listOf(
                 "${CC.GOLD}Player Visibility: ${CC.GREEN}On",
-                "${CC.GOLD}Player Visibility: ${CC.RED}Off"
+                "${CC.GOLD}Player Visibility: ${CC.RED}Off",
+                "${CC.SEC}You have enabled visibility! (an optional message, can remove this meta entry)",
+                "${CC.SEC}You have disabled visibility! (an optional message, can remove this meta entry)",
             )
         ),
         Items2Model(
