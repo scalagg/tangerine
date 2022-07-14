@@ -84,18 +84,13 @@ object WorldListener : Listener
     {
         if (event.action == Action.RIGHT_CLICK_BLOCK)
         {
-            val state = event.clickedBlock.state
-
-            if (state is Skull)
+            if (
+                event.clickedBlock.type.name
+                    .lowercase().contains("door")
+            )
             {
-                if (state.skullType !== SkullType.PLAYER)
-                {
-                    return
-                }
-
-                state.owner?.let {
-                    event.player.sendMessage("${CC.YELLOW}This is the head of: ${CC.WHITE}$it")
-                }
+                event.isCancelled = true
+                return
             }
         }
     }
