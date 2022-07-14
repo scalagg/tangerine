@@ -44,7 +44,7 @@ data class Items2Config(
         ),
         Items2Model(
             8,
-            ItemBuilder(XMaterial.COMPASS)
+            ItemBuilder(XMaterial.NETHER_STAR)
                 .name("${CC.B_PRI}Hub Selector")
                 .addToLore(
                     "${CC.GRAY}View all our hub servers."
