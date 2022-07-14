@@ -6,6 +6,7 @@ import gg.scala.commons.config.convert.annotations.ConfigConverted
 import gg.scala.commons.config.convert.annotations.ConfigFileName
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
+import org.bukkit.Material
 
 /**
  * @author GrowlyX
@@ -26,6 +27,18 @@ data class Items2Config(
                 .build(),
             Items2Action.Menu,
             listOf("server-selector")
+        ),
+        Items2Model(
+            7,
+            ItemBuilder(Material.INK_SACK)
+                .data(10)
+                .name("${CC.GOLD}Player Visibility: ${CC.GREEN}On")
+                .build(),
+            Items2Action.PlayerVisibility,
+            listOf(
+                "${CC.GOLD}Player Visibility: ${CC.GREEN}On",
+                "${CC.GOLD}Player Visibility: ${CC.RED}Off"
+            )
         ),
         Items2Model(
             8,

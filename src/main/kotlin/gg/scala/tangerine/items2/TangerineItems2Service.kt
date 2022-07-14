@@ -59,9 +59,11 @@ object TangerineItems2Service
                 val stack = model.item
 
                 val enabledStack = ItemBuilder(stack.clone())
+                    .name(model.meta.first())
                     .data(10).build()
 
                 val disabledStack = ItemBuilder(stack.clone())
+                    .name(model.meta.last())
                     .data(8).build()
 
                 Events.subscribe(PlayerInteractEvent::class.java)
