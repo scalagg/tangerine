@@ -11,7 +11,11 @@ import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
+import java.util.UUID
 
 /**
  * @author GrowlyX
@@ -40,9 +44,10 @@ object TangerineItems2Service
                 val item = it.item
 
                 val matching = config.items
-                    .first { model ->
+                    .firstOrNull { model ->
                         model.item.isSimilar(item)
                     }
+                    ?: return@handler
 
                 matching.action.lambda(
                     it.player, matching.meta
@@ -55,60 +60,7 @@ object TangerineItems2Service
             .filter {
                 it.action == Items2Action.PlayerVisibility
             }
-            .forEach { model ->
-                val stack = model.item
-
-                val enabledStack = ItemBuilder(stack.clone())
-                    .name(model.meta.first())
-                    .data(10).build()
-
-                val disabledStack = ItemBuilder(stack.clone())
-                    .name(model.meta[2])
-                    .data(8).build()
-
-                Events.subscribe(PlayerInteractEvent::class.java)
-                    .filter {
-                        it.hasItem() &&
-                                it.action.name.contains("RIGHT") &&
-                                it.item.isSimilar(stack)
-                    }
-                    .handler {
-                        val hidingNow = it.player.hasMetadata("hiding-players")
-
-                        if (hidingNow)
-                        {
-                            it.player.removeMetadata("hiding-players", TangerineSpigotPlugin.instance)
-
-                            model.meta.getOrNull(2)
-                                ?.apply {
-                                    it.player.sendMessage(this)
-                                }
-                        } else
-                        {
-                            it.player.setMetadata("hiding-players", FixedMetadataValue(plugin, true))
-
-                            model.meta.getOrNull(3)
-                                ?.apply {
-                                    it.player.sendMessage(this)
-                                }
-                        }
-
-                        it.player.inventory.setItem(
-                            model.position,
-                            if (hidingNow)
-                            {
-                                enabledStack
-                            } else
-                            {
-                                disabledStack
-                            }
-                        )
-                        it.player.updateInventory()
-
-                        VisibilityHandler.updateAllTo(it.player)
-                    }
-                    .bindWith(terminable)
-            }
+            .forEach(::configureVisibility)
     }
 
     @Close
@@ -116,6 +68,67 @@ object TangerineItems2Service
     {
         terminable.closeAndReportException()
         terminable = CompositeTerminable.create()
+    }
+
+    private fun configureVisibility(model: Items2Model)
+    {
+        val stack = model.item
+
+        val enabledStack = ItemBuilder(stack.clone())
+            .name(model.meta[0])
+            .data(10).build()
+
+        val disabledStack = ItemBuilder(stack.clone())
+            .name(model.meta[1])
+            .data(8).build()
+
+        val cache = mutableMapOf<UUID, Boolean>()
+
+        Events.subscribe(PlayerJoinEvent::class.java)
+            .handler {
+                cache[it.player.uniqueId] = true
+            }
+            .bindWith(terminable)
+
+        Events.subscribe(PlayerQuitEvent::class.java)
+            .handler {
+                cache.remove(it.player.uniqueId)
+            }
+            .bindWith(terminable)
+
+        Events.subscribe(PlayerInteractEvent::class.java)
+            .handler {
+                val hiding =
+                    cache[it.player.uniqueId] ?: true
+
+                cache[it.player.uniqueId] = !hiding
+
+                if (hiding)
+                {
+                    model.meta.getOrNull(2)
+                        ?.apply {
+                            it.player.sendMessage(this)
+                        }
+                } else
+                {
+                    model.meta.getOrNull(3)
+                        ?.apply {
+                            it.player.sendMessage(this)
+                        }
+                }
+
+                kotlin.runCatching {
+                    it.player.inventory.setItem(
+                        model.position,
+                        if (hiding)
+                            enabledStack else disabledStack
+                    )
+                    it.player.updateInventory()
+
+                    VisibilityHandler.updateAllTo(it.player)
+                }
+            }
+            .bindWith(terminable)
     }
 
     fun reload()
