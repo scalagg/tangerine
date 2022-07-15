@@ -70,6 +70,8 @@ object TangerineItems2Service
         terminable = CompositeTerminable.create()
     }
 
+    private val cache = mutableMapOf<UUID, Boolean>()
+
     private fun configureVisibility(model: Items2Model)
     {
         val stack = model.item
@@ -82,7 +84,6 @@ object TangerineItems2Service
             .name(model.meta[1])
             .data(8).build()
 
-        val cache = mutableMapOf<UUID, Boolean>()
 
         Events.subscribe(PlayerJoinEvent::class.java)
             .handler {
@@ -97,6 +98,10 @@ object TangerineItems2Service
             .bindWith(terminable)
 
         Events.subscribe(PlayerInteractEvent::class.java)
+            .filter {
+                it.hasItem() && it.item.isSimilar(stack)
+                        && it.action.name.contains("RIGHT")
+            }
             .handler {
                 val hiding =
                     cache[it.player.uniqueId] ?: true
