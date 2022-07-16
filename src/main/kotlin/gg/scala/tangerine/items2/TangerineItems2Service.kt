@@ -84,7 +84,6 @@ object TangerineItems2Service
             .name(model.meta[1])
             .data(8).build()
 
-
         Events.subscribe(PlayerJoinEvent::class.java)
             .handler {
                 cache[it.player.uniqueId] = true
@@ -99,7 +98,7 @@ object TangerineItems2Service
 
         Events.subscribe(PlayerInteractEvent::class.java)
             .filter {
-                it.hasItem() && it.item.isSimilar(stack)
+                it.hasItem() && it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack)
                         && it.action.name.contains("RIGHT")
             }
             .handler {
