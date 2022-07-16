@@ -39,7 +39,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
-import xyz.xenondevs.particle.ParticleEffect
 import java.util.*
 
 /**
@@ -171,11 +170,10 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             if (settings.joinMessage.isNotEmpty())
             {
-                Tasks.delayed(10L) {
-                    settings.joinMessage.forEach {
+                settings.joinMessage
+                    .forEach {
                         player.sendMessage(it)
                     }
-                }
             }
 
             if (settings.shouldSendStaffInfo && player.hasPermission("lemon.staff"))
@@ -223,11 +221,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                         } ${CC.GRAY}(/tfm)",
                     )
 
-                    Tasks.delayed(10L) {
-                        for (message in messages)
-                        {
-                            player.sendMessage(message)
-                        }
+                    for (message in messages)
+                    {
+                        player.sendMessage(message)
                     }
                 }
             }
