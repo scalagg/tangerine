@@ -80,7 +80,7 @@ class TangerineSettings {
 
     val playerVisibilityCooldown = 1L
     val playerVisibilityCooldownUnit = "SECONDS"
-    val playerVisibilityCooldownMessage = "You must wait %s before "
+    val playerVisibilityCooldownMessage = "${CC.RED}You must wait ${CC.B_RED}%s${CC.RED} seconds before trying again."
 
     val doubleJumpSound = true
     val doubleJumpSoundType = Sound.EXPLODE

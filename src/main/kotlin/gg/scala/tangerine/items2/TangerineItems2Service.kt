@@ -6,7 +6,6 @@ import gg.scala.flavor.service.Configure
 import gg.scala.flavor.service.Service
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.settings.TangerineSettings
-import javafx.util.Duration
 import me.lucko.helper.Events
 import me.lucko.helper.cooldown.Cooldown
 import me.lucko.helper.cooldown.CooldownMap
@@ -17,8 +16,6 @@ import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.inventory.ItemStack
-import org.bukkit.metadata.FixedMetadataValue
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
@@ -102,7 +99,7 @@ object TangerineItems2Service
 
         Events.subscribe(PlayerJoinEvent::class.java)
             .handler {
-                cache[it.player.uniqueId] = true
+                cache[it.player.uniqueId] = false
             }
             .bindWith(terminable)
 
@@ -114,7 +111,7 @@ object TangerineItems2Service
 
         Events.subscribe(PlayerInteractEvent::class.java)
             .filter {
-                it.hasItem() && (it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack) || it.item.isSimilar(stack)) && it.action.name.contains("RIGHT")
+                it.hasItem() && it.clickedBlock == null && (it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack) || it.item.isSimilar(stack)) && it.action.name.contains("RIGHT")
             }
             .handler {
                 val hiding =
@@ -124,11 +121,13 @@ object TangerineItems2Service
                 {
                     val remaining = coolDowns
                         .remainingTime(
-                            it.player.uniqueId, TimeUnit.SECONDS
-                        )
+                            it.player.uniqueId,
+                            TimeUnit.MILLISECONDS
+                        ) / 1000.0F
 
                     it.player.sendMessage(
-                        config.playerVisibilityCooldownMessage.format(remaining)
+                        config.playerVisibilityCooldownMessage
+                            .format("%.2f".format(remaining))
                     )
                     return@handler
                 }
