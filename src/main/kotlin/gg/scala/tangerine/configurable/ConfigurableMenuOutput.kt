@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
  */
 open class ConfigurableMenuOutput(
     private val template: String,
-    val fallbackOverride: Boolean = false
+    private val fallbackOverride: Boolean = false
 ) : Menu() {
 
     init {
@@ -19,6 +19,8 @@ open class ConfigurableMenuOutput(
             .templates[template]!!
 
         placeholdBorders = template.placeholder
+        placeholder = template.placeholderFill
+
         autoUpdate = template.updateAutomatically
     }
 

@@ -10,6 +10,7 @@ class ConfigurableMenuTemplate(var id: String)
 
     var size = 27
     var placeholder = true
+    var placeholderFill = false
     var updateAutomatically = true
 
     var fallback: String? = null
