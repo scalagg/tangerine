@@ -5,7 +5,11 @@ import gg.scala.flavor.service.Close
 import gg.scala.flavor.service.Configure
 import gg.scala.flavor.service.Service
 import gg.scala.tangerine.TangerineSpigotPlugin
+import gg.scala.tangerine.settings.TangerineSettings
+import javafx.util.Duration
 import me.lucko.helper.Events
+import me.lucko.helper.cooldown.Cooldown
+import me.lucko.helper.cooldown.CooldownMap
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.visibility.VisibilityHandler
@@ -16,6 +20,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 /**
  * @author GrowlyX
@@ -74,6 +79,17 @@ object TangerineItems2Service
 
     private fun configureVisibility(model: Items2Model)
     {
+        val config = plugin
+            .config<TangerineSettings>()
+
+        val coolDowns = CooldownMap
+            .create<UUID>(
+                Cooldown.of(
+                    config.playerVisibilityCooldown,
+                    TimeUnit.valueOf(config.playerVisibilityCooldownUnit)
+                )
+            )
+
         val stack = model.item
 
         val enabledStack = ItemBuilder(stack.clone())
@@ -103,6 +119,19 @@ object TangerineItems2Service
             .handler {
                 val hiding =
                     cache[it.player.uniqueId] ?: true
+
+                if (!coolDowns.test(it.player.uniqueId))
+                {
+                    val remaining = coolDowns
+                        .remainingTime(
+                            it.player.uniqueId, TimeUnit.SECONDS
+                        )
+
+                    it.player.sendMessage(
+                        config.playerVisibilityCooldownMessage.format(remaining)
+                    )
+                    return@handler
+                }
 
                 cache[it.player.uniqueId] = !hiding
 

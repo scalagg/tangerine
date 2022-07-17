@@ -54,7 +54,8 @@ class ConfigurableMenuEditorDetailedView(
                 .addToLore(
                     "${CC.GRAY}${CC.STRIKE_THROUGH}-----------------",
                     "${CC.YELLOW}Click to edit button details."
-                ).build()
+                )
+                .build()
         }
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
