@@ -82,7 +82,7 @@ object TangerineItems2Service
         val coolDowns = CooldownMap
             .create<UUID>(
                 Cooldown.of(
-                    config.playerVisibilityCooldown,
+                    config.playerVisibilityCooldown.toLong(),
                     TimeUnit.valueOf(config.playerVisibilityCooldownUnit)
                 )
             )

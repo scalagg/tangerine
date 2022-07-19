@@ -164,7 +164,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             player.walkSpeed = 0.4F
             player.allowFlight = settings.allowDoubleJump
-            player.inventory.heldItemSlot = 0
+            player.inventory.heldItemSlot = settings.playerLoginHeldItemSlot
 
             if (settings.spawnLocation != null)
             {

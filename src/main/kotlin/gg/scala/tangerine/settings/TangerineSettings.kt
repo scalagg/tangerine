@@ -78,9 +78,11 @@ class TangerineSettings {
     val doubleJumpParticle = true
     val doubleJumpParticleType = ParticleEffect.FLAME
 
-    val playerVisibilityCooldown = 1L
+    val playerVisibilityCooldown = 1
     val playerVisibilityCooldownUnit = "SECONDS"
     val playerVisibilityCooldownMessage = "${CC.RED}You must wait ${CC.B_RED}%s${CC.RED} seconds before trying again."
+
+    val playerLoginHeldItemSlot = 0
 
     val doubleJumpSound = true
     val doubleJumpSoundType = Sound.EXPLODE
