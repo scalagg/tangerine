@@ -39,6 +39,9 @@ object TangerineItems2Service
                 it.hasItem() &&
                         it.action.name.contains("RIGHT")
             }
+            .filter {
+                it.clickedBlock == null
+            }
             .handler {
                 val config = plugin
                     .config<Items2Config>()

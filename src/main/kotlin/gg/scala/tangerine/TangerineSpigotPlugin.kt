@@ -162,7 +162,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             player.foodLevel = 20
             player.gameMode = GameMode.ADVENTURE
 
-            player.walkSpeed = 0.4F
+            player.walkSpeed = if (
+                Lemon.instance.lemonWebData
+                    .serverName == "Minequest"
+            ) 0.2F else 0.4F
+
             player.allowFlight = settings.allowDoubleJump
             player.inventory.heldItemSlot = settings.playerLoginHeldItemSlot
 
