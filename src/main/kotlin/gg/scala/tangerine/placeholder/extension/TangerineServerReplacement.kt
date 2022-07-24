@@ -29,6 +29,7 @@ object TangerineServerReplacement : Replacement
             .process("global") { _, _ ->
                 TangerinePlayerTracker.globalPlayers.toString()
             }
+
             .process("status") { _, id ->
                 val server = this.server(id)
                     ?: return@process "${CC.RED}Server offline"

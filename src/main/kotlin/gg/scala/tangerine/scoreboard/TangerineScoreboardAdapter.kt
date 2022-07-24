@@ -54,6 +54,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
                     it
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
+                        .replace("<rankPrefix>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).prefix)
                         .replace("<queue_name>", platform.getQueueName(player))
                         .replace("<queue_position>", platform.getQueuePosition(player).toString())
                         .replace("<queue_maximum>", platform.getQueuePlayers(player).toString())
@@ -68,6 +69,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
                 board.add(
                     it
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
+                        .replace("<rankPrefix>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).prefix)
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                 )
             }
