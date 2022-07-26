@@ -71,7 +71,10 @@ constructor(
                 {
                     if (restrictBelowAir)
                     {
-                        if (location.block.type != Material.AIR)
+                        val block = location.block.location.clone()
+                            .add(0.0, -1.0, 0.0).block
+
+                        if (block.type != Material.AIR)
                         {
                             return@handler
                         }
@@ -108,7 +111,7 @@ constructor(
                                 )
 
                                 player.velocity = player.location.direction
-                                    .multiply(0.03).setY(0.03)
+                                    .multiply(0.03).setY(0.01)
 
                                 if (floaterInfo.middle == 6)
                                 {

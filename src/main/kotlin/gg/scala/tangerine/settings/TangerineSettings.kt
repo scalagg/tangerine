@@ -72,6 +72,7 @@ class TangerineSettings {
     val autoHidePlayers = false
     val allowDoubleJump = true
     val shouldSendStaffInfo = true
+    val removeStartupEntities = false
 
     val allowPlayerChat = true
 

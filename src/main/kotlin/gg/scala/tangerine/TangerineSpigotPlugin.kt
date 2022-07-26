@@ -93,11 +93,14 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             )
         }
 
-        Bukkit.getWorlds().forEach {
-            it.entities.forEach { entity ->
-                if (entity !is Player)
-                {
-                    entity.remove()
+        if (settings.removeStartupEntities)
+        {
+            Bukkit.getWorlds().forEach {
+                it.entities.forEach { entity ->
+                    if (entity !is Player)
+                    {
+                        entity.remove()
+                    }
                 }
             }
         }
