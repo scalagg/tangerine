@@ -4,6 +4,7 @@ import me.lucko.helper.Events
 import me.lucko.helper.Schedulers
 import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.util.bukkit.cuboid.Cuboid
+import net.evilblock.cubed.visibility.VisibilityHandler
 import org.apache.commons.lang3.tuple.MutableTriple
 import org.bukkit.GameMode
 import org.bukkit.Location
@@ -30,8 +31,13 @@ constructor(
     private val portalTeleport: (Player) -> Unit = {},
 )
 {
-    private val floating =
+    val floating =
         mutableMapOf<UUID, MutableTriple<Location, Int, CompositeTerminable>>()
+
+    init
+    {
+        MinequestPortals.add(this)
+    }
 
     fun subscribe(terminable: CompositeTerminable)
     {
@@ -57,6 +63,7 @@ constructor(
                         ?.right?.closeAndReportException()
 
                     this.portalExit.invoke(player)
+                    VisibilityHandler.update(player)
 
                     player.isFlying = false
                     player.allowFlight = false
@@ -92,6 +99,7 @@ constructor(
                         .floating[player.uniqueId]!!
 
                     this.portalEnter.invoke(player)
+                    VisibilityHandler.update(player)
 
                     Schedulers.sync()
                         .runRepeating({ task ->
