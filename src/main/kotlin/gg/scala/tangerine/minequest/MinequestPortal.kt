@@ -18,7 +18,9 @@ import java.util.*
  * @author GrowlyX
  * @since 7/26/2022
  */
-class MinequestPortal(
+class MinequestPortal
+@JvmOverloads
+constructor(
     private val cuboid: Cuboid,
     private val height: Double = 1.777,
     private val limit: Double = 0.10,
@@ -40,21 +42,20 @@ class MinequestPortal(
             }
 
         Events.subscribe(PlayerMoveEvent::class.java)
-            .filter {
-                it.player.gameMode == GameMode.ADVENTURE
-            }
             .handler {
                 val player = it.player
 
-                val withinCuboid = this
-                    .cuboid.contains(player)
+                val withinCuboid = this.cuboid
+                    .contains(player)
 
                 if (
-                    !withinCuboid &&
-                    this.floating.contains(player.uniqueId)
+                    !withinCuboid && this.floating
+                        .contains(player.uniqueId)
                 )
                 {
                     this.floating.remove(player.uniqueId)
+                        ?.right?.closeAndReportException()
+
                     this.portalExit.invoke(player)
 
                     player.isFlying = false
@@ -65,20 +66,27 @@ class MinequestPortal(
                 val location = player.location
 
                 if (
-                    withinCuboid &&
-                    !this.floating.contains(player.uniqueId) &&
-                    (!this.restrictBelowAir || location.block.type == Material.AIR)
+                    withinCuboid && !this.floating.contains(player.uniqueId)
                 )
                 {
-                    val floaterInfo = this.floating
-                        .putIfAbsent(
-                            player.uniqueId,
-                            MutableTriple(
-                                location.clone(),
-                                1,
-                                CompositeTerminable.create()
-                            )
-                        )!!
+                    if (restrictBelowAir)
+                    {
+                        if (location.block.type != Material.AIR)
+                        {
+                            return@handler
+                        }
+                    }
+
+                    this.floating.putIfAbsent(
+                        player.uniqueId,
+                        MutableTriple(
+                            location.clone(), 1,
+                            CompositeTerminable.create()
+                        )
+                    )
+
+                    val floaterInfo = this
+                        .floating[player.uniqueId]!!
 
                     this.portalEnter.invoke(player)
 
@@ -91,7 +99,7 @@ class MinequestPortal(
                                 return@runRepeating
                             }
 
-                            if (floaterInfo.middle <= 3)
+                            if (floaterInfo.middle <= 6)
                             {
                                 player.velocity = Vector(
                                     player.velocity.x + .03,
@@ -102,8 +110,12 @@ class MinequestPortal(
                                 player.velocity = player.location.direction
                                     .multiply(0.03).setY(0.03)
 
-                                if (floaterInfo.middle == 3)
+                                if (floaterInfo.middle == 6)
+                                {
                                     player.isFlying = false
+                                    task.closeAndReportException()
+                                    return@runRepeating
+                                }
 
                                 floaterInfo.setMiddle(
                                     floaterInfo.middle + 1
@@ -143,7 +155,7 @@ class MinequestPortal(
                                     increment += .01
                                 }
                             }
-                        }, 3L, 1L)
+                        }, 6L, 1L)
                         .bindWith(floaterInfo.right)
                 }
             }
