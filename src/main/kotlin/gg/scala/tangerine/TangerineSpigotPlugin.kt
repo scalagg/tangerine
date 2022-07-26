@@ -254,11 +254,12 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                 hubModule!!.itemAdapter.handle(player)
             } else
             {
-                config<Items2Config>()
-                    .items
+                config<Items2Config>().items
                     .forEach { model ->
                         player.inventory.setItem(model.position, model.item)
                     }
+
+                player.updateInventory()
             }
 
             VisibilityHandler.updateAllTo(player)
