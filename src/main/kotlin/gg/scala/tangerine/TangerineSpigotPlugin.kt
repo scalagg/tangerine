@@ -30,7 +30,6 @@ import me.lucko.helper.plugin.ap.PluginDependency
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
-import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -172,7 +171,19 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             if (settings.spawnLocation != null)
             {
-                PaperLib.teleportAsync(player, settings.spawnLocation!!)
+                val minequest = Lemon.instance
+                    .lemonWebData.serverName == "Minequest"
+
+                if (minequest)
+                {
+                    if (player.hasPlayedBefore())
+                    {
+                        PaperLib.teleportAsync(player, settings.spawnLocation!!)
+                    }
+                } else
+                {
+                    PaperLib.teleportAsync(player, settings.spawnLocation!!)
+                }
             }
 
             if (settings.joinMessage.isNotEmpty())

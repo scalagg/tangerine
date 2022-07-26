@@ -16,7 +16,9 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.*
+import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.painting.PaintingBreakEvent
 import org.bukkit.event.player.*
 import org.bukkit.event.weather.ThunderChangeEvent
 import org.bukkit.event.weather.WeatherChangeEvent
@@ -165,6 +167,18 @@ object WorldListener : Listener
 
     @EventHandler
     fun onBed(event: PlayerBedEnterEvent)
+    {
+        event.isCancelled = true
+    }
+
+    @EventHandler
+    fun onHangBreak(event: HangingBreakByEntityEvent)
+    {
+        event.isCancelled = true
+    }
+
+    @EventHandler
+    fun onPaintBreak(event: PaintingBreakEvent)
     {
         event.isCancelled = true
     }
