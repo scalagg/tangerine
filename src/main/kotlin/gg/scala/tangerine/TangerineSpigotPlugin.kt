@@ -30,6 +30,7 @@ import me.lucko.helper.plugin.ap.PluginDependency
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -254,12 +255,14 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                 hubModule!!.itemAdapter.handle(player)
             } else
             {
-                config<Items2Config>().items
-                    .forEach { model ->
-                        player.inventory.setItem(model.position, model.item)
-                    }
+                Tasks.delayed(2L) {
+                    config<Items2Config>().items
+                        .forEach { model ->
+                            player.inventory.setItem(model.position, model.item)
+                        }
 
-                player.updateInventory()
+                    player.updateInventory()
+                }
             }
 
             VisibilityHandler.updateAllTo(player)
