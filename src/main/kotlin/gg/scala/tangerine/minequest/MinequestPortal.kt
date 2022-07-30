@@ -78,7 +78,7 @@ constructor(
                     withinCuboid && !this.floating.contains(player.uniqueId)
                 )
                 {
-                    if (restrictBelowAir && additionalCheck(player))
+                    if (restrictBelowAir)
                     {
                         val block = location.block.location.clone()
                             .add(0.0, -1.0, 0.0).block
@@ -87,6 +87,11 @@ constructor(
                         {
                             return@handler
                         }
+                    }
+
+                    if (!this.additionalCheck(player))
+                    {
+                        return@handler
                     }
 
                     this.floating.putIfAbsent(
@@ -139,6 +144,7 @@ constructor(
                         .bindWith(floaterInfo.right)
 
                     var increment = 0.03
+                    var handledTeleportationLogic = false
 
                     Schedulers.sync()
                         .runRepeating({ task ->
@@ -151,8 +157,12 @@ constructor(
 
                             val currentLocation = player.location
 
-                            if (currentLocation.y >= location.y + height)
+                            if (
+                                currentLocation.y >= location.y + height &&
+                                !handledTeleportationLogic
+                            )
                             {
+                                handledTeleportationLogic = true
                                 this.portalTeleport.invoke(player)
                                 return@runRepeating
                             }
