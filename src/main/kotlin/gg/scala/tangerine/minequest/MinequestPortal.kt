@@ -151,7 +151,6 @@ constructor(
                             if (currentLocation.y >= location.y + height)
                             {
                                 this.portalTeleport.invoke(player)
-                                floaterInfo.right.closeAndReportException()
                                 return@runRepeating
                             }
 
