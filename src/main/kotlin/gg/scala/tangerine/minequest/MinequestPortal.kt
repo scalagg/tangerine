@@ -119,7 +119,8 @@ constructor(
                                 )
 
                                 player.velocity = player.location.direction
-                                    .multiply(0.03).setY(0.01)
+                                    .multiply(0.06)
+                                    .setY(0.01)
 
                                 if (floaterInfo.middle == 6)
                                 {
@@ -135,7 +136,7 @@ constructor(
                         }, 0L, 1L)
                         .bindWith(floaterInfo.right)
 
-                    var increment = 0.0
+                    var increment = 0.03
 
                     Schedulers.sync()
                         .runRepeating({ task ->
@@ -157,8 +158,8 @@ constructor(
                             if (player.gameMode != GameMode.CREATIVE)
                             {
                                 player.velocity = currentLocation
-                                    .direction.multiply(0.03)
-                                    .setY(.03 + increment)
+                                    .direction.multiply(0.06)
+                                    .setY(increment)
 
                                 if (increment <= limit)
                                 {
