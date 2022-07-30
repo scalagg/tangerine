@@ -34,6 +34,8 @@ constructor(
     val floating =
         mutableMapOf<UUID, MutableTriple<Location, Int, CompositeTerminable>>()
 
+    var additionalCheck = { player: Player -> true }
+
     init
     {
         MinequestPortals.add(this)
@@ -76,7 +78,7 @@ constructor(
                     withinCuboid && !this.floating.contains(player.uniqueId)
                 )
                 {
-                    if (restrictBelowAir)
+                    if (restrictBelowAir && additionalCheck(player))
                     {
                         val block = location.block.location.clone()
                             .add(0.0, -1.0, 0.0).block
@@ -110,19 +112,19 @@ constructor(
                                 return@runRepeating
                             }
 
-                            if (floaterInfo.middle <= 6)
+                            if (floaterInfo.middle <= 3)
                             {
                                 player.velocity = Vector(
                                     player.velocity.x + .03,
-                                    player.velocity.y * .2,
+                                    player.velocity.y * .06,
                                     player.velocity.z
                                 )
 
                                 player.velocity = player.location.direction
-                                    .multiply(0.06)
+                                    .multiply(0.19)
                                     .setY(0.01)
 
-                                if (floaterInfo.middle == 6)
+                                if (floaterInfo.middle == 3)
                                 {
                                     player.isFlying = false
                                     task.closeAndReportException()
@@ -158,15 +160,15 @@ constructor(
                             if (player.gameMode != GameMode.CREATIVE)
                             {
                                 player.velocity = currentLocation
-                                    .direction.multiply(0.06)
+                                    .direction.multiply(0.12)
                                     .setY(increment)
 
                                 if (increment <= limit)
                                 {
-                                    increment += .01
+                                    increment += .005
                                 }
                             }
-                        }, 6L, 1L)
+                        }, 3L, 1L)
                         .bindWith(floaterInfo.right)
                 }
             }
