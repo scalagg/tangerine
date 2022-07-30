@@ -73,6 +73,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
     val settings: TangerineSettings
         get() = this.config()
 
+    var currencyProvider = { player: Player -> 0 }
+
     var hubModule: HubModule? = null
 
     @ContainerEnable

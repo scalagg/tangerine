@@ -11,6 +11,7 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
@@ -54,7 +55,7 @@ object WorldListener : Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun onInteract(event: PlayerInteractEvent)
     {
         val block = event.clickedBlock
@@ -81,7 +82,7 @@ object WorldListener : Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun onBlockInteract(event: PlayerInteractEvent)
     {
         if (event.action == Action.RIGHT_CLICK_BLOCK)
@@ -171,11 +172,6 @@ object WorldListener : Listener
         event.isCancelled = true
     }
 
-    @EventHandler
-    fun onHangBreak(event: HangingBreakByEntityEvent)
-    {
-        event.isCancelled = true
-    }
 
     @EventHandler
     fun onPaintBreak(event: PaintingBreakEvent)
