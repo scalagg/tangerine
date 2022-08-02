@@ -44,6 +44,8 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
             .find(player.uniqueId)
             ?: return
 
+        val thing = (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank())
+
         if (platform.isInQueue(player))
         {
             val placeholderReplaced = PlaceholderHandler.findProvider()
@@ -55,7 +57,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
-                        .replace("<rankPrefix>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).prefix)
+                        .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<queue_name>", platform.getQueueName(player))
                         .replace("<queue_position>", platform.getQueuePosition(player).toString())
                         .replace("<queue_maximum>", platform.getQueuePlayers(player).toString())
@@ -70,7 +72,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
                 board.add(
                     it
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
-                        .replace("<rankPrefix>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).prefix)
+                        .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                 )
