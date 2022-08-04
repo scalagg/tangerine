@@ -146,11 +146,15 @@ object WorldListener : Listener
     @EventHandler
     fun onEntitySpawn(event: EntitySpawnEvent)
     {
-        if (event.entityType == EntityType.ARMOR_STAND)
+        if (
+            event.entityType == EntityType.ARMOR_STAND ||
+            event.entityType == EntityType.SKELETON
+        )
         {
             event.isCancelled = false
             return
         }
+
         event.isCancelled = true
     }
 
@@ -158,6 +162,14 @@ object WorldListener : Listener
     fun onMobSpawn(event: CreatureSpawnEvent)
     {
         if (event.entity is ArmorStand)
+        {
+            event.isCancelled = false
+            return
+        }
+
+        if (
+            event.entityType == EntityType.SKELETON
+        )
         {
             event.isCancelled = false
             return

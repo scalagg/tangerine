@@ -57,8 +57,8 @@ constructor(
                     .contains(player)
 
                 if (
-                    !withinCuboid && this.floating
-                        .contains(player.uniqueId)
+                    (!withinCuboid || !this.additionalCheck(player)) &&
+                    this.floating.contains(player.uniqueId)
                 )
                 {
                     this.floating.remove(player.uniqueId)

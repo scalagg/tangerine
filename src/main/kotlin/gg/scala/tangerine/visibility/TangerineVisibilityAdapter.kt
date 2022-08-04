@@ -9,9 +9,12 @@ import org.bukkit.entity.Player
  * @author GrowlyX
  * @since 9/16/2021
  */
-object TangerineVisibilityAdapter : VisibilityAdapter {
-
-    override fun getAction(toRefresh: Player, refreshFor: Player): VisibilityAction {
+object TangerineVisibilityAdapter : VisibilityAdapter
+{
+    override fun getAction(
+        toRefresh: Player, refreshFor: Player
+    ): VisibilityAction
+    {
         var visibilityAction = VisibilityAction.NEUTRAL
 
         val portal = MinequestPortals
@@ -19,11 +22,13 @@ object TangerineVisibilityAdapter : VisibilityAdapter {
                 it.floating.containsKey(toRefresh.uniqueId)
             }
 
-        if (!toRefresh.hasPermission("tangerine.visibility-override")) {
+        if (portal)
+        {
             visibilityAction = VisibilityAction.HIDE
-        } else if (refreshFor.hasMetadata("hiding-players")) {
+        } else if (!toRefresh.hasPermission("tangerine.visibility-override"))
+        {
             visibilityAction = VisibilityAction.HIDE
-        } else if (portal)
+        } else if (refreshFor.hasMetadata("hiding-players"))
         {
             visibilityAction = VisibilityAction.HIDE
         }
