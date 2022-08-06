@@ -51,6 +51,7 @@ import java.util.*
         PluginDependency("scala-commons"),
         PluginDependency("Lemon"),
         PluginDependency("cougar", soft = true),
+        PluginDependency("scduels", soft = true),
         PluginDependency("Placeholder-API", soft = true)
     ]
 )

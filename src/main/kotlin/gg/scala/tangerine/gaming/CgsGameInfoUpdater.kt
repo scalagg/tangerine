@@ -2,6 +2,7 @@ package gg.scala.tangerine.gaming
 
 import gg.scala.lemon.handler.ServerHandler
 import gg.scala.lemon.server.ServerInstance
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
 /**
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit
  */
 object CgsGameInfoUpdater : Thread("AGF - Info Thread")
 {
-    val gameInfo = mutableMapOf<CgsGameType, MutableList<ServerInstance>>()
+    val gameInfo = ConcurrentHashMap<CgsGameType, MutableList<ServerInstance>>()
 
     @JvmStatic
     val FIVE_SECONDS = TimeUnit.SECONDS.toMillis(5L)
@@ -22,15 +23,17 @@ object CgsGameInfoUpdater : Thread("AGF - Info Thread")
             try
             {
                 CgsGameType.ALL.forEach { agfGameType ->
-                    ServerHandler.fetchOnlineServerInstancesByGroup(agfGameType.group).thenAccept {
-                        gameInfo[agfGameType] = it.values.toMutableList()
-                    }
+                    this.gameInfo[agfGameType] = mutableListOf()
 
-                    gameInfo[agfGameType]?.toList()?.forEach {
-                        if (it.lastHeartbeat + FIVE_SECONDS < System.currentTimeMillis())
-                        {
-                            gameInfo[agfGameType]?.remove(it)
-                        }
+                    for (region in listOf("na", "as", "eu", "sa"))
+                    {
+                        this.gameInfo[agfGameType]?.addAll(
+                            ServerHandler
+                                .fetchOnlineServerInstancesByGroup(
+                                    "${agfGameType.group}-$region"
+                                )
+                                .join().values
+                        )
                     }
                 }
             } catch (exception: Exception)
@@ -40,7 +43,7 @@ object CgsGameInfoUpdater : Thread("AGF - Info Thread")
 
             try
             {
-                sleep(1000L)
+                sleep(250L)
             } catch (ignored: Exception)
             {
                 println("Failed to continue AGF Info Thread.")

@@ -37,8 +37,8 @@ enum class Items2Action(
         }
     }),
     Chat(scope@{ player, meta ->
-        meta.forEach {
-            player.chat("${net.evilblock.cubed.util.Color.translate(it)}")
+        meta.forEach { line ->
+            player.chat(net.evilblock.cubed.util.Color.translate(line))
         }
     })
 }

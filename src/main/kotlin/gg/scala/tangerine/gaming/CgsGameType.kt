@@ -9,7 +9,8 @@ enum class CgsGameType(
     val group: String
 )
 {
-    UHC_MEETUP("UHC Meetup", "uhc_meetup");
+    UHC_MEETUP("UHC Meetup", "uhc-meetup"),
+    SURVIVAL_GAMES("Survival Games", "survival-games");
 
     companion object
     {

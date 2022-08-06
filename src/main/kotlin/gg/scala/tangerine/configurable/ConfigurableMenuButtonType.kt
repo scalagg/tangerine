@@ -1,5 +1,6 @@
 package gg.scala.tangerine.configurable
 
+import gg.scala.tangerine.gaming.CgsGameInfoDisplayMenu
 import gg.scala.tangerine.queue.impl.CougarQueuePlatform
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.entity.Player
@@ -25,9 +26,12 @@ enum class ConfigurableMenuButtonType(
         ConfigurableMenuHandler.openMenu(player, data)
     }),
     AGF({ player, data ->
-        player.sendMessage("${net.evilblock.cubed.util.CC.SEC}Sending you to a ${net.evilblock.cubed.util.CC.PRI}UHC Meetup${net.evilblock.cubed.util.CC.SEC} lobby server...")
-
-        // TODO: 2/22/2022 join an actual uhcm server
-        BungeeUtil.sendToServer(player, "na-uml-1")
+        CgsGameInfoDisplayMenu(
+            gg.scala.tangerine.gaming.CgsGameType.valueOf(data)
+        ).openMenu(player)
+//        player.sendMessage("${net.evilblock.cubed.util.CC.SEC}Sending you to a ${net.evilblock.cubed.util.CC.PRI}UHC Meetup${net.evilblock.cubed.util.CC.SEC} lobby server...")
+//
+//        // TODO: 2/22/2022 join an actual uhcm server
+//        BungeeUtil.sendToServer(player, "na-uml-1")
     })
 }

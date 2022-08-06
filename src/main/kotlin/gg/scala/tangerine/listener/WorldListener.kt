@@ -148,7 +148,8 @@ object WorldListener : Listener
     {
         if (
             event.entityType == EntityType.ARMOR_STAND ||
-            event.entityType == EntityType.SKELETON
+            event.entityType == EntityType.SKELETON ||
+            event.entityType == EntityType.ARROW
         )
         {
             event.isCancelled = false
@@ -168,7 +169,8 @@ object WorldListener : Listener
         }
 
         if (
-            event.entityType == EntityType.SKELETON
+            event.entityType == EntityType.SKELETON ||
+            event.entityType == EntityType.ARROW
         )
         {
             event.isCancelled = false
