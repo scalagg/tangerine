@@ -97,9 +97,9 @@ class CgsGameInfoDisplayMenu(
             return when (gameState)
             {
                 CgsGameState.WAITING -> 5
-                CgsGameState.IN_GAME -> 13
+                CgsGameState.STARTED -> 13
                 CgsGameState.STARTING -> 4
-                CgsGameState.ENDING -> 1
+                CgsGameState.ENDED -> 1
             }
         }
 
@@ -138,9 +138,9 @@ class CgsGameInfoDisplayMenu(
         private fun getStatus() = when (gameState)
         {
             CgsGameState.WAITING -> "${CC.YELLOW}Waiting for players..."
-            CgsGameState.IN_GAME -> "${CC.D_GREEN}Game running..."
+            CgsGameState.STARTED -> "${CC.D_GREEN}Game running..."
             CgsGameState.STARTING -> "${CC.GREEN}Game starting..."
-            CgsGameState.ENDING -> "${CC.GOLD}Booting up..."
+            CgsGameState.ENDED -> "${CC.GOLD}Booting up..."
         }
     }
 }

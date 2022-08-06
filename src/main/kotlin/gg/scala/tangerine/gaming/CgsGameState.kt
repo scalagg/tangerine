@@ -6,14 +6,8 @@ package gg.scala.tangerine.gaming
  */
 enum class CgsGameState
 {
-    ENDING,
     WAITING,
     STARTING,
-    IN_GAME;
-
-    companion object
-    {
-        @JvmStatic
-        val ALL = values()
-    }
+    STARTED,
+    ENDED
 }
