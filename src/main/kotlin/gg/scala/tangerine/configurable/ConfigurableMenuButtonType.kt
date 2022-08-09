@@ -26,9 +26,12 @@ enum class ConfigurableMenuButtonType(
         ConfigurableMenuHandler.openMenu(player, data)
     }),
     AGF({ player, data ->
-        CgsGameInfoDisplayMenu(
-            gg.scala.tangerine.gaming.CgsGameType.valueOf(data)
-        ).openMenu(player)
+        net.evilblock.cubed.util.bukkit.Tasks.delayed(2L)
+        {
+            CgsGameInfoDisplayMenu(
+                gg.scala.tangerine.gaming.CgsGameType.valueOf(data)
+            ).openMenu(player)
+        }
 //        player.sendMessage("${net.evilblock.cubed.util.CC.SEC}Sending you to a ${net.evilblock.cubed.util.CC.PRI}UHC Meetup${net.evilblock.cubed.util.CC.SEC} lobby server...")
 //
 //        // TODO: 2/22/2022 join an actual uhcm server

@@ -51,15 +51,18 @@ open class ConfigurableMenuOutput(
     }
 
     override fun onClose(player: Player, manualClose: Boolean) {
-        val template = ConfigurableMenuHandler
-            .templates[template]!!
+        if (manualClose)
+        {
+            val template = ConfigurableMenuHandler
+                .templates[template]!!
 
-        if (fallbackOverride)
-            return
+            if (fallbackOverride)
+                return
 
-        template.fallback?.let {
-            delayed(1L) {
-                ConfigurableMenuHandler.openMenu(player, it)
+            template.fallback?.let {
+                delayed(1L) {
+                    ConfigurableMenuHandler.openMenu(player, it)
+                }
             }
         }
     }
