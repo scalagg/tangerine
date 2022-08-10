@@ -43,8 +43,17 @@ object WorldListener : Listener
     {
         if (Lemon.instance.lemonWebData.serverName == "Minequest")
         {
+            if (
+                event.currentItem == null ||
+                event.currentItem.type == Material.AIR
+            )
+            {
+                event.isCancelled = false
+                return
+            }
+
             val clickedOnCosmetic = event.currentItem
-                .itemMeta?.lore?.any {
+                ?.itemMeta?.lore?.any {
                     "Right-click to equip" in it
                 }
                 ?: false
