@@ -1,6 +1,7 @@
 package gg.scala.tangerine.listener
 
 import gg.scala.commons.annotations.Listeners
+import gg.scala.lemon.Lemon
 import gg.scala.tangerine.TangerineSpigotPlugin
 import io.papermc.lib.PaperLib
 import net.evilblock.cubed.util.CC
@@ -40,6 +41,21 @@ object WorldListener : Listener
     @EventHandler
     fun onPlayerInventory(event: InventoryClickEvent)
     {
+        if (Lemon.instance.lemonWebData.serverName == "Minequest")
+        {
+            val clickedOnCosmetic = event.currentItem
+                .itemMeta?.lore?.any {
+                    "Right-click to equip" in it
+                }
+                ?: false
+
+            if (clickedOnCosmetic)
+            {
+                event.isCancelled = false
+                return
+            }
+        }
+
         if (!event.whoClicked.hasMetadata("builder"))
         {
             event.isCancelled = true
