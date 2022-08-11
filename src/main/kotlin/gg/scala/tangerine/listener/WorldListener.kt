@@ -33,12 +33,6 @@ import org.bukkit.event.weather.WeatherChangeEvent
 object WorldListener : Listener
 {
     @EventHandler
-    fun onDropItem(event: PlayerDropItemEvent)
-    {
-        event.isCancelled = true
-    }
-
-    @EventHandler
     fun onPlayerInventory(event: InventoryClickEvent)
     {
         if (Lemon.instance.lemonWebData.serverName == "Minequest")
@@ -174,7 +168,8 @@ object WorldListener : Listener
         if (
             event.entityType == EntityType.ARMOR_STAND ||
             event.entityType == EntityType.SKELETON ||
-            event.entityType == EntityType.ARROW
+            event.entityType == EntityType.ARROW ||
+            event.entityType == EntityType.DROPPED_ITEM
         )
         {
             event.isCancelled = false
@@ -238,15 +233,6 @@ object WorldListener : Listener
 
     @EventHandler
     fun onBucketEmpty(event: PlayerBucketEmptyEvent)
-    {
-        if (!event.player.hasMetadata("builder"))
-        {
-            event.isCancelled = true
-        }
-    }
-
-    @EventHandler
-    fun onItemDrop(event: PlayerDropItemEvent)
     {
         if (!event.player.hasMetadata("builder"))
         {

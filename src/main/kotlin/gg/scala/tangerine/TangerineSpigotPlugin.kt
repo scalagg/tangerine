@@ -37,6 +37,7 @@ import org.bukkit.ChatColor
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 import java.util.*
@@ -142,6 +143,18 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
     private fun registerListeners()
     {
         val emptyPair = Pair("", false)
+
+        if (
+            Lemon.instance.lemonWebData
+                .serverName != "Minequest"
+        )
+        {
+            Events
+                .subscribe(
+                    PlayerDropItemEvent::class.java
+                )
+                .handler { it.isCancelled = true }
+        }
 
         ChatHandler.registerChatCheck {
             if (
