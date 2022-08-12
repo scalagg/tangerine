@@ -86,6 +86,19 @@ object WorldListener : Listener
     }
 
     @EventHandler
+    fun onDeath(event: PlayerDeathEvent)
+    {
+        event.deathMessage = null
+        event.keepInventory = true
+        event.keepLevel = true
+
+        PaperLib.teleportAsync(
+            event.entity,
+            TangerineSpigotPlugin.instance.settings.spawnLocation!!
+        )
+    }
+
+    @EventHandler
     fun onEntityDamage(event: EntityDamageEvent)
     {
         event.isCancelled = true
@@ -94,9 +107,20 @@ object WorldListener : Listener
         {
             val player = event.entity as Player
 
-            if (event.cause == EntityDamageEvent.DamageCause.VOID && TangerineSpigotPlugin.instance.settings.spawnLocation != null)
+            if (
+                event.cause == EntityDamageEvent.DamageCause.VOID &&
+                TangerineSpigotPlugin.instance.settings.spawnLocation != null
+            )
             {
                 PaperLib.teleportAsync(player, TangerineSpigotPlugin.instance.settings.spawnLocation!!)
+            }
+
+            if (
+                event.cause == EntityDamageEvent.DamageCause.DROWNING &&
+                Lemon.instance.lemonWebData.serverName == "Minequest"
+            )
+            {
+                event.isCancelled = false
             }
         }
     }
