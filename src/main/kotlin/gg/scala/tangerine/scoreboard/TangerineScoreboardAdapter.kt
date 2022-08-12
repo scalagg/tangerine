@@ -1,5 +1,6 @@
 package gg.scala.tangerine.scoreboard
 
+import gg.scala.lemon.Lemon
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RankHandler
 import gg.scala.tangerine.TangerineSpigotPlugin
@@ -56,6 +57,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
                     it
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
+                        .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<queue_name>", platform.getQueueName(player))
@@ -73,6 +75,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
                     it
                         .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
+                        .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                 )
