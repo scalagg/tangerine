@@ -194,13 +194,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                 val minequest = Lemon.instance
                     .lemonWebData.serverName == "Minequest"
 
-                if (minequest)
-                {
-                    if (player.hasPlayedBefore())
-                    {
-                        PaperLib.teleportAsync(player, settings.spawnLocation!!)
-                    }
-                } else
+                if (!minequest)
                 {
                     PaperLib.teleportAsync(player, settings.spawnLocation!!)
                 }
@@ -282,7 +276,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             }
 
             VisibilityHandler.updateAllTo(player)
-            VisibilityHandler.updateToAll(player)
         }
 
         if (settings.allowDoubleJump)
