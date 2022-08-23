@@ -18,6 +18,7 @@ import gg.scala.tangerine.items2.Items2Config
 import gg.scala.tangerine.module.HubModule
 import gg.scala.tangerine.queue.QueuePlatform
 import gg.scala.tangerine.queue.impl.CougarQueuePlatform
+import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
@@ -69,8 +70,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
         lateinit var instance: TangerineSpigotPlugin
     }
 
-    val platform: QueuePlatform
-        get() = CougarQueuePlatform
+    var platform: QueuePlatform = DefaultQueuePlatform
 
     val settings: TangerineSettings
         get() = this.config()
