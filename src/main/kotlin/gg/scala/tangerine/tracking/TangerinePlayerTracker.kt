@@ -13,8 +13,20 @@ object TangerinePlayerTracker : Runnable
 {
     var globalPlayers = 0
 
+    private val connection = Lemon.instance
+        .aware.internal().connect()!!
+
     override fun run()
     {
+        val count = connection.sync()
+            .get("global-player-count")
+
+        if (count != null)
+        {
+            this.globalPlayers = count.toInt()
+            return
+        }
+
         globalPlayers = Lemon.instance
             .network.overallPlayerCount
     }
