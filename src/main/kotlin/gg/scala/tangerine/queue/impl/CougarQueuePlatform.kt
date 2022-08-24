@@ -19,6 +19,7 @@ import org.bukkit.entity.Player
  * @since 10/22/2021
  */
 @Service
+@IgnoreAutoScan
 @SoftDependency("Cougar")
 object CougarQueuePlatform : QueuePlatform
 {
