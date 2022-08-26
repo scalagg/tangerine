@@ -50,6 +50,9 @@ constructor(
             }
 
         Events.subscribe(PlayerMoveEvent::class.java)
+            .filter {
+                it.player.gameMode != GameMode.CREATIVE
+            }
             .handler {
                 val player = it.player
 
@@ -167,16 +170,13 @@ constructor(
                                 return@runRepeating
                             }
 
-                            if (player.gameMode != GameMode.CREATIVE)
-                            {
-                                player.velocity = currentLocation
-                                    .direction.multiply(0.12)
-                                    .setY(increment)
+                            player.velocity = currentLocation
+                                .direction.multiply(0.12)
+                                .setY(increment)
 
-                                if (increment <= limit)
-                                {
-                                    increment += .005
-                                }
+                            if (increment <= limit)
+                            {
+                                increment += .005
                             }
                         }, 3L, 1L)
                         .bindWith(floaterInfo.right)
