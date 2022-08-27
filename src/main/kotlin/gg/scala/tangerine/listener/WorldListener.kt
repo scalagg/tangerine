@@ -77,9 +77,7 @@ object WorldListener : Listener
     @EventHandler(priority = EventPriority.LOWEST)
     fun onInteract(event: PlayerInteractEvent)
     {
-        val block = event.clickedBlock
-
-        if (block != null && block.type == Material.DRAGON_EGG)
+        if (event.action == Action.RIGHT_CLICK_BLOCK || event.action == Action.LEFT_CLICK_BLOCK)
         {
             event.isCancelled = true
         }
@@ -121,22 +119,6 @@ object WorldListener : Listener
             )
             {
                 event.isCancelled = false
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
-    fun onBlockInteract(event: PlayerInteractEvent)
-    {
-        if (event.action == Action.RIGHT_CLICK_BLOCK)
-        {
-            if (
-                event.clickedBlock.type.name
-                    .lowercase().contains("door")
-            )
-            {
-                event.isCancelled = true
-                return
             }
         }
     }

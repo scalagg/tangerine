@@ -47,6 +47,7 @@ class TangerineConfigCommand : ScalaCommand()
     }
 
     @CommandAlias("menu")
+    @CommandPermission("tangerine.command.menu")
     fun onMenu(
         player: Player,
         menu: ConfigurableMenuOutput
