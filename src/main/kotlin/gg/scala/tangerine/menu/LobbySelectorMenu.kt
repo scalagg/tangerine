@@ -1,7 +1,8 @@
 package gg.scala.tangerine.menu
 
 import com.cryptomorin.xseries.XMaterial
-import gg.scala.lemon.server.ServerInstance
+import gg.scala.commons.agnostic.sync.server.impl.GameServer
+import gg.scala.lemon.redirection.impl.VelocityRedirectSystem
 import gg.scala.tangerine.configurable.ConfigurableMenuOutput
 import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import gg.scala.tangerine.placeholder.PlaceholderHandler
@@ -33,7 +34,7 @@ class LobbySelectorMenu(
     }
 
     private inner class LobbyButton(
-        private val serverInstance: ServerInstance
+        private val serverInstance: GameServer
     ) : Button() {
 
         override fun getMaterial(player: Player): XMaterial {
@@ -44,7 +45,7 @@ class LobbySelectorMenu(
 
         override fun getName(player: Player): String {
             return template.buttons[0]!!.itemStack.itemMeta
-                .displayName.replace("<hub>", serverInstance.serverId)
+                .displayName.replace("<hub>", serverInstance.id)
         }
 
         override fun getDescription(player: Player): List<String> {
@@ -53,7 +54,7 @@ class LobbySelectorMenu(
 
             originalLore.forEach {
                 replacedLore.add(
-                    it.replace("<hub>", serverInstance.serverId)
+                    it.replace("<hub>", serverInstance.id)
                 )
             }
 
@@ -61,7 +62,7 @@ class LobbySelectorMenu(
         }
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
-            BungeeUtil.sendToServer(player, serverInstance.serverId)
+            VelocityRedirectSystem.redirect(player, serverInstance.id)
         }
     }
 }

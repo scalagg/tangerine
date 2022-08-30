@@ -1,5 +1,7 @@
 package gg.scala.tangerine.tracking
 
+import gg.scala.commons.agnostic.sync.server.ServerContainer
+import gg.scala.commons.agnostic.sync.server.impl.GameServer
 import gg.scala.commons.annotations.runnables.Repeating
 import gg.scala.lemon.Lemon
 import me.lucko.helper.promise.ThreadContext
@@ -27,7 +29,10 @@ object TangerinePlayerTracker : Runnable
             return
         }
 
-        globalPlayers = Lemon.instance
-            .network.overallPlayerCount
+        globalPlayers = ServerContainer
+            .allServers<GameServer>()
+            .sumOf {
+                it.getPlayersCount() ?: 0
+            }
     }
 }

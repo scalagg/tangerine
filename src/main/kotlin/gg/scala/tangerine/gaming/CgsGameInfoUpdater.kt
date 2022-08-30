@@ -1,7 +1,7 @@
 package gg.scala.tangerine.gaming
 
-import gg.scala.lemon.handler.ServerHandler
-import gg.scala.lemon.server.ServerInstance
+import gg.scala.commons.agnostic.sync.server.ServerContainer
+import gg.scala.commons.agnostic.sync.server.impl.GameServer
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
  */
 object CgsGameInfoUpdater : Thread("AGF - Info Thread")
 {
-    val gameInfo = ConcurrentHashMap<CgsGameType, MutableList<ServerInstance>>()
+    val gameInfo = ConcurrentHashMap<CgsGameType, MutableList<GameServer>>()
 
     @JvmStatic
     val FIVE_SECONDS = TimeUnit.SECONDS.toMillis(5L)
@@ -28,11 +28,11 @@ object CgsGameInfoUpdater : Thread("AGF - Info Thread")
                     for (region in listOf("na", "as", "eu", "sa"))
                     {
                         this.gameInfo[agfGameType]?.addAll(
-                            ServerHandler
-                                .fetchOnlineServerInstancesByGroup(
-                                    "${agfGameType.group}-$region"
-                                )
-                                .join().values
+                            ServerContainer
+                                .allServers<GameServer>()
+                                .filter {
+                                    "${agfGameType.group}-$region" in it.groups
+                                }
                         )
                     }
                 }

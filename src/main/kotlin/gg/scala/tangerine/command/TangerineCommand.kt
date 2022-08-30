@@ -10,7 +10,6 @@ import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.configurable.editor.ConfigurableMenuEditor
 import gg.scala.tangerine.items2.TangerineItems2Service
 import gg.scala.tangerine.menu.JoinMessageEditMenu
-import gg.scala.tangerine.placeholder.extension.TangerineServerPlaceholderExpansion
 import me.lucko.helper.Events
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Constants
@@ -89,14 +88,6 @@ object TangerineCommand : ScalaCommand()
         factory.save("settings", plugin.settings)
 
         player.sendMessage("${CC.GREEN}You've set the lobby spawn.")
-    }
-
-    @Subcommand("contents")
-    @Description("View expansion contents.")
-    fun onContents(player: Player)
-    {
-        player.sendMessage("cached=" + TangerineServerPlaceholderExpansion.cachedServers.size)
-        player.sendMessage("runnables=" + TangerineServerPlaceholderExpansion.serverRunnables.size)
     }
 
     @Subcommand("reload")

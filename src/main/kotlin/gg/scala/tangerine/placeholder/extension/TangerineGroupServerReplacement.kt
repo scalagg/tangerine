@@ -3,12 +3,7 @@ package gg.scala.tangerine.placeholder.extension
 import gg.scala.commons.replacement.Replacement
 import gg.scala.commons.replacement.ReplacementBuilder
 import gg.scala.commons.replacement.annotation.ReplacementAutoRegister
-import gg.scala.lemon.handler.ServerHandler
-import gg.scala.lemon.server.ServerInstance
-import gg.scala.lemon.server.aggregate.ServerGroupAggregate
-import gg.scala.tangerine.TangerineSpigotPlugin
-import gg.scala.tangerine.tracking.TangerinePlayerTracker
-import me.lucko.helper.Schedulers
+import gg.scala.lemon.aggregate.ServerGroupAggregate
 import net.evilblock.cubed.util.CC
 
 /**
@@ -27,24 +22,24 @@ object TangerineGroupServerReplacement : Replacement
                 val server = this.aggregate(id)
 
                 when (
-                    server.prominentServerStatus ?: ServerInstance.ServerStatus.OFFLINE
+                    server.prominentServerStatus ?: ServerGroupAggregate.ServerStatus.OFFLINE
                 )
                 {
-                    ServerInstance.ServerStatus.WHITELISTED -> "${CC.RED}Whitelisted"
-                    ServerInstance.ServerStatus.OFFLINE -> "${CC.RED}Offline"
-                    ServerInstance.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}"
+                    ServerGroupAggregate.ServerStatus.WHITELISTED -> "${CC.RED}Whitelisted"
+                    ServerGroupAggregate.ServerStatus.OFFLINE -> "${CC.RED}Offline"
+                    ServerGroupAggregate.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}"
                 }
             }
             .process("scoreboard-display2") { _, id ->
                 val server = this.aggregate(id)
 
                 when (
-                    server.prominentServerStatus ?: ServerInstance.ServerStatus.OFFLINE
+                    server.prominentServerStatus ?: ServerGroupAggregate.ServerStatus.OFFLINE
                 )
                 {
-                    ServerInstance.ServerStatus.WHITELISTED -> "${CC.RED}Whitelisted"
-                    ServerInstance.ServerStatus.OFFLINE -> "0"
-                    ServerInstance.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}"
+                    ServerGroupAggregate.ServerStatus.WHITELISTED -> "${CC.RED}Whitelisted"
+                    ServerGroupAggregate.ServerStatus.OFFLINE -> "0"
+                    ServerGroupAggregate.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}"
                 }
             }
             .process("players") { _, id ->

@@ -1,10 +1,11 @@
 package gg.scala.tangerine.tracking
 
+import gg.scala.commons.agnostic.sync.server.ServerContainer
+import gg.scala.commons.agnostic.sync.server.impl.GameServer
 import gg.scala.commons.annotations.runnables.Repeating
-import gg.scala.lemon.handler.ServerHandler
-import gg.scala.lemon.server.ServerInstance
 import me.lucko.helper.promise.ThreadContext
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author GrowlyX
@@ -13,26 +14,27 @@ import java.util.*
 @Repeating(20L, context = ThreadContext.ASYNC)
 object TangerineLobbyTracker : Runnable
 {
-    val lobbies = linkedMapOf<Int, ServerInstance>()
+    val lobbies = ConcurrentHashMap<Int, GameServer>()
 
     override fun run()
     {
-        ServerHandler.fetchOnlineServerInstancesByGroup("hub").thenAccept { instances ->
-            lobbies.clear()
+        val servers = ServerContainer
+            .allServers<GameServer>()
+            .filter {
+                "hub" in it.groups
+            }
 
-            instances.values
-                .map {
-                    Pair(
-                        Scanner(it.serverId)
-                            .useDelimiter("\\D+")
-                            .nextInt(),
-                        it
-                    )
-                }
-                .sortedBy { it.first }
-                .forEach {
-                    lobbies[it.first] = it.second
-                }
-        }
+        this.lobbies.clear()
+
+        servers
+            .map {
+                Scanner(it.id)
+                    .useDelimiter("\\D+")
+                    .nextInt() to it
+            }
+            .sortedBy { it.first }
+            .forEach {
+                lobbies[it.first] = it.second
+            }
     }
 }

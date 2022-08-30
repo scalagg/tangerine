@@ -1,7 +1,7 @@
 package gg.scala.tangerine.gaming
 
 import com.cryptomorin.xseries.XMaterial
-import gg.scala.lemon.server.ServerInstance
+import gg.scala.commons.agnostic.sync.server.impl.GameServer
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
@@ -54,7 +54,7 @@ class CgsGameInfoDisplayMenu(
 
             val filtered = servers
                 .filter {
-                    it.serverGroup.endsWith("-${region}")
+                    it.groups.first().endsWith("-${region}")
                 }
 
             for ((serverIndex, serverInfo) in filtered.withIndex())
@@ -80,11 +80,11 @@ class CgsGameInfoDisplayMenu(
     }
 
     inner class GameInfoButton(
-        private val serverInstance: ServerInstance
+        private val serverInstance: GameServer
     ) : Button()
     {
         private val gameState = CgsGameState.valueOf(
-            serverInstance.metaData["game-state"]!!
+            serverInstance.getMetadataValue<String>("game", "game-state") ?: "ENDED"
         )
 
         override fun getMaterial(player: Player): XMaterial
@@ -105,15 +105,15 @@ class CgsGameInfoDisplayMenu(
 
         override fun getName(player: Player): String
         {
-            return "${CC.B_PRI}${serverInstance.serverId}"
+            return "${CC.B_PRI}${serverInstance.id}"
         }
 
         override fun getDescription(player: Player): List<String>
         {
             return mutableListOf(
                 "${CC.GRAY}Players: ${CC.WHITE}${
-                    serverInstance.onlinePlayers
-                }/${serverInstance.maxPlayers}",
+                    serverInstance.getPlayersCount()
+                }/${serverInstance.getMaxPlayers()}",
                 "",
                 getStatus(),
                 "",
@@ -124,10 +124,10 @@ class CgsGameInfoDisplayMenu(
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView)
         {
-            player.performCommand("join ${serverInstance.serverId}")
+            player.performCommand("join ${serverInstance.id}")
         }
 
-        private fun getInability() = if (serverInstance.whitelisted)
+        private fun getInability() = if (serverInstance.getWhitelisted() == true)
         {
             listOf("${CC.RED}You cannot join a", "${CC.RED}whitelisted server.")
         } else
