@@ -9,7 +9,12 @@ import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Syntax
+import gg.scala.commons.event.impl.ConfigWatchEvent
+import gg.scala.tangerine.configurable.ConfigurableMenuHandler
+import gg.scala.tangerine.menu.LobbySelectorMenu
+import me.lucko.helper.Events
 import net.evilblock.cubed.util.CC
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -18,10 +23,21 @@ import org.bukkit.entity.Player
  * @since 9/16/2021
  */
 @AutoRegister
-class TangerineConfigCommand : ScalaCommand()
+object TangerineConfigCommand : ScalaCommand()
 {
     @Inject
     lateinit var plugin: TangerineSpigotPlugin
+
+    @CommandAlias("testing-hub-selector-render")
+    @CommandPermission("op")
+    fun onHubSelector(sender: Player)
+    {
+        LobbySelectorMenu(
+            ConfigurableMenuHandler.templates["hub-selector"]!!
+        ).openMenu(sender)
+
+        sender.sendMessage("opened menu")
+    }
 
     @CommandAlias("tangerineconfig|tgrconfig")
     @CommandPermission("tangerine.command.config")

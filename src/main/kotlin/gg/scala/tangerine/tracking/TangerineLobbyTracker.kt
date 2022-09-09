@@ -24,7 +24,7 @@ object TangerineLobbyTracker : Runnable
                 "hub" in it.groups
             }
 
-        this.lobbies.clear()
+        val temporary = mutableMapOf<Int, GameServer>()
 
         servers
             .map {
@@ -34,7 +34,10 @@ object TangerineLobbyTracker : Runnable
             }
             .sortedBy { it.first }
             .forEach {
-                lobbies[it.first] = it.second
+                temporary[it.first] = it.second
             }
+
+        this.lobbies.clear()
+        this.lobbies.putAll(temporary)
     }
 }

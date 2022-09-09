@@ -8,6 +8,7 @@ import gg.scala.tangerine.configurable.ConfigurableMenuTemplate
 import gg.scala.tangerine.placeholder.PlaceholderHandler
 import gg.scala.tangerine.tracking.TangerineLobbyTracker
 import net.evilblock.cubed.menu.Button
+import net.evilblock.cubed.menu.pagination.PaginatedMenu
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -19,36 +20,54 @@ import org.bukkit.inventory.InventoryView
  */
 class LobbySelectorMenu(
     private val template: ConfigurableMenuTemplate
-) : ConfigurableMenuOutput(template.id) {
+) : PaginatedMenu()
+{
+    init
+    {
+        autoUpdate = true
+        autoUpdateInterval = 500L
 
-    override fun getButtons(player: Player): Map<Int, Button> {
+        placeholdBorders = true
+    }
+
+    override fun getAllPagesButtons(player: Player): Map<Int, Button>
+    {
         return mutableMapOf<Int, Button>().also { map ->
-            TangerineLobbyTracker.lobbies.forEach {
-                if (map.size >= 7) {
-                    return@forEach
+            TangerineLobbyTracker.lobbies
+                .entries
+                .sortedByDescending { it.key }
+                .forEach {
+                    map[map.size] = LobbyButton(it.value)
                 }
-
-                map[9 + it.key] = LobbyButton(it.value)
-            }
         }
     }
 
+    override fun size(buttons: Map<Int, Button>) = 36
+    override fun getMaxItemsPerPage(player: Player) = 14
+
+    override fun getAllPagesButtonSlots() = (10..16) + (19..25)
+
+    override fun getPrePaginatedTitle(player: Player) = template.title
+
     private inner class LobbyButton(
         private val serverInstance: GameServer
-    ) : Button() {
-
-        override fun getMaterial(player: Player): XMaterial {
+    ) : Button()
+    {
+        override fun getMaterial(player: Player): XMaterial
+        {
             return XMaterial.matchXMaterial(
                 template.buttons[0]!!.itemStack.type
             )
         }
 
-        override fun getName(player: Player): String {
+        override fun getName(player: Player): String
+        {
             return template.buttons[0]!!.itemStack.itemMeta
                 .displayName.replace("<hub>", serverInstance.id)
         }
 
-        override fun getDescription(player: Player): List<String> {
+        override fun getDescription(player: Player): List<String>
+        {
             val originalLore = template.buttons[0]!!.itemStack.itemMeta.lore
             val replacedLore = mutableListOf<String>()
 
@@ -61,7 +80,8 @@ class LobbySelectorMenu(
             return PlaceholderHandler.findProvider().handle(player, replacedLore)
         }
 
-        override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
+        override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView)
+        {
             VelocityRedirectSystem.redirect(player, serverInstance.id)
         }
     }
