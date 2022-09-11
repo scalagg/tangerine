@@ -207,58 +207,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     }
             }
 
-            if (settings.shouldSendStaffInfo && player.hasPermission("lemon.staff"))
-            {
-                PlayerHandler.findPlayer(player).orElse(null)?.let { lemonPlayer ->
-                    val channel = lemonPlayer.getMetadata("channel")
-                    val messages = listOf(
-                        "${CC.B_PRI}Staff Information:",
-                        "${STAFF_PREFIX}${CC.SEC}Channel: ${
-                            if (channel == null) CC.RED else ChatColor.valueOf(
-                                StaffChatChannelType.valueOf(
-                                    channel.asString().uppercase(Locale.getDefault())
-                                ).color.toString().uppercase()
-                            )
-                        }${
-                            (channel?.asString()
-                                ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }) ?: "None"
-                        }",
-                        "${STAFF_PREFIX}${CC.SEC}Messages: ${
-                            if (lemonPlayer.getSetting("staff-messages-disabled"))
-                            {
-                                "${CC.RED}Hidden"
-                            } else
-                            {
-                                "${CC.GREEN}Shown"
-                            }
-                        } ${CC.GRAY}(/tsm)",
-                        "${STAFF_PREFIX}${CC.SEC}Reports: ${
-                            if (lemonPlayer.getSetting("reports-disabled"))
-                            {
-                                "${CC.RED}Hidden"
-                            } else
-                            {
-                                "${CC.GREEN}Shown"
-                            }
-                        } ${CC.GRAY}(/trm)",
-                        "${STAFF_PREFIX}${CC.SEC}Filter: ${
-                            if (lemonPlayer.getSetting("filtered-messages-disabled"))
-                            {
-                                "${CC.RED}Hidden"
-                            } else
-                            {
-                                "${CC.GREEN}Shown"
-                            }
-                        } ${CC.GRAY}(/tfm)",
-                    )
-
-                    for (message in messages)
-                    {
-                        player.sendMessage(message)
-                    }
-                }
-            }
-
             if (hubModule != null)
             {
                 hubModule!!.itemAdapter.handle(player)
