@@ -48,7 +48,7 @@ object WorldListener : Listener
 
             val clickedOnCosmetic = event.currentItem
                 ?.itemMeta?.lore?.any {
-                    "Right-click to equip" in it
+                    "Right-click to equip" in it || "You can't equip this item!" in it
                 }
                 ?: false
 
