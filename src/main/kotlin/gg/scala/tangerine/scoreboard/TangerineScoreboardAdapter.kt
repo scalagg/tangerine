@@ -15,14 +15,13 @@ import java.util.*
  * @author GrowlyX
  * @since 9/16/2021
  */
-class TangerineScoreboardAdapter : ScoreboardAdapter() {
-
-    private val platform = TangerineSpigotPlugin.instance.platform
-
+class TangerineScoreboardAdapter : ScoreboardAdapter()
+{
     private val settings: TangerineSettings
         get() = TangerineSpigotPlugin.instance.settings
 
-    override fun getTitle(player: Player): String {
+    override fun getTitle(player: Player): String
+    {
         val hubModule = TangerineSpigotPlugin.instance.hubModule
 
         if (hubModule != null)
@@ -33,7 +32,8 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
         return settings.title
     }
 
-    override fun getLines(board: LinkedList<String>, player: Player) {
+    override fun getLines(board: LinkedList<String>, player: Player)
+    {
         val hubModule = TangerineSpigotPlugin.instance.hubModule
 
         if (hubModule != null)
@@ -47,7 +47,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
 
         val thing = (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank())
 
-        if (platform.isInQueue(player))
+        if (TangerineSpigotPlugin.instance.platform.isInQueue(player))
         {
             val placeholderReplaced = PlaceholderHandler.findProvider()
                 .handle(player, settings.scoreboardQueued)
@@ -55,14 +55,17 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
             placeholderReplaced.forEach {
                 board.add(
                     it
-                        .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
+                        .replace(
+                            "<rank>",
+                            (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName()
+                        )
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
-                        .replace("<queue_name>", platform.getQueueName(player))
-                        .replace("<queue_position>", platform.getQueuePosition(player).toString())
-                        .replace("<queue_maximum>", platform.getQueuePlayers(player).toString())
+                        .replace("<queue_name>", TangerineSpigotPlugin.instance.platform.getQueueName(player))
+                        .replace("<queue_position>", TangerineSpigotPlugin.instance.platform.getQueuePosition(player).toString())
+                        .replace("<queue_maximum>", TangerineSpigotPlugin.instance.platform.getQueuePlayers(player).toString())
                 )
             }
         } else
@@ -73,7 +76,10 @@ class TangerineScoreboardAdapter : ScoreboardAdapter() {
             placeholderReplaced.forEach {
                 board.add(
                     it
-                        .replace("<rank>", (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName())
+                        .replace(
+                            "<rank>",
+                            (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName()
+                        )
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
