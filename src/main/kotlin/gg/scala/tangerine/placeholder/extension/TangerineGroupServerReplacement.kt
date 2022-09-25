@@ -30,6 +30,18 @@ object TangerineGroupServerReplacement : Replacement
                     ServerGroupAggregate.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}"
                 }
             }
+            .process("status") { _, id ->
+                val server = this.aggregate(id)
+
+                when (
+                    server.prominentServerStatus ?: ServerGroupAggregate.ServerStatus.OFFLINE
+                )
+                {
+                    ServerGroupAggregate.ServerStatus.WHITELISTED -> "${CC.RED}Servers whitelisted"
+                    ServerGroupAggregate.ServerStatus.OFFLINE -> "${CC.RED}Servers offline"
+                    ServerGroupAggregate.ServerStatus.ONLINE -> "${CC.GREEN}Servers online"
+                }
+            }
             .process("scoreboard-display2") { _, id ->
                 val server = this.aggregate(id)
 
