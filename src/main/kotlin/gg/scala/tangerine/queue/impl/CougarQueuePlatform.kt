@@ -20,7 +20,7 @@ import org.bukkit.entity.Player
  */
 @Service
 @IgnoreAutoScan
-@SoftDependency("Cougar")
+@SoftDependency("ScQueue")
 object CougarQueuePlatform : QueuePlatform
 {
     @Inject

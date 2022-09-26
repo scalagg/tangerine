@@ -46,7 +46,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent
     depends = [
         PluginDependency("scala-commons"),
         PluginDependency("Lemon"),
-        PluginDependency("Cougar", soft = true),
+        PluginDependency("ScQueue", soft = true),
         PluginDependency("scduels", soft = true),
         PluginDependency("Placeholder-API", soft = true)
     ]
