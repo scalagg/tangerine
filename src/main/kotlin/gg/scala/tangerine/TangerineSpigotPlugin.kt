@@ -6,8 +6,11 @@ import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.annotations.container.ContainerDisable
 import gg.scala.commons.annotations.container.ContainerEnable
 import gg.scala.commons.config.annotations.ContainerConfig
+import gg.scala.commons.core.plugin.Plugin
+import gg.scala.commons.core.plugin.PluginAuthor
+import gg.scala.commons.core.plugin.PluginDependency
+import gg.scala.flavor.inject.Inject
 import gg.scala.lemon.Lemon
-import gg.scala.lemon.handler.ChatHandler
 import gg.scala.lemon.handler.RedisHandler
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
@@ -22,11 +25,8 @@ import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
-import me.lucko.helper.plugin.ap.Plugin
-import me.lucko.helper.plugin.ap.PluginDependency
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
-import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
@@ -43,19 +43,17 @@ import org.bukkit.event.player.PlayerToggleFlightEvent
  */
 @Plugin(
     name = "Tangerine",
-    depends = [
-        PluginDependency("scala-commons"),
-        PluginDependency("Lemon"),
-        PluginDependency("ScQueue", soft = true),
-        PluginDependency("scduels", soft = true),
-        PluginDependency("Placeholder-API", soft = true)
-    ]
+    version = "%remote%/%branch%/%id%"
 )
-@ContainerConfig(
-    value = "settings",
-    model = TangerineSettings::class,
-    crossSync = true
-)
+
+@PluginAuthor("Scala")
+@PluginAuthor("https://scala.gg")
+
+@PluginDependency("scala-commons")
+@PluginDependency("Lemon")
+@PluginDependency("ScQueue")
+@PluginDependency("scduels", soft = true)
+@PluginDependency("Placeholder-API", soft = true)
 class TangerineSpigotPlugin : ExtendedScalaPlugin()
 {
     companion object
@@ -66,8 +64,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
     var platform: QueuePlatform = DefaultQueuePlatform
 
-    val settings: TangerineSettings
-        get() = this.config()
+    @Inject
+    lateinit var settings: TangerineSettings
 
     var currencyProvider = { player: Player -> 0 }
 
@@ -136,8 +134,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
     private fun registerListeners()
     {
-        val emptyPair = Pair("", false)
-
         if (
             Lemon.instance.lemonWebData
                 .serverName != "Minequest"
@@ -148,18 +144,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     PlayerDropItemEvent::class.java
                 )
                 .handler { it.isCancelled = true }
-        }
-
-        ChatHandler.registerChatCheck {
-            if (
-                !settings.allowPlayerChat &&
-                !it.player.hasPermission("tangerine.chat-bypass")
-            )
-            {
-                return@registerChatCheck Pair("${CC.RED}You're not allowed to talk in the hub.", true)
-            }
-
-            return@registerChatCheck emptyPair
         }
 
         Events.subscribe(

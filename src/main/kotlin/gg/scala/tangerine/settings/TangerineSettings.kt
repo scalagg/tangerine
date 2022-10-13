@@ -1,12 +1,10 @@
 package gg.scala.tangerine.settings
 
-import com.cryptomorin.xseries.XSound
-import com.cryptomorin.xseries.particles.XParticle
+import gg.scala.commons.config.annotations.Config
 import net.evilblock.cubed.util.CC
 import org.bukkit.Location
 import org.bukkit.Sound
 import xyz.mkotb.configapi.Coloured
-import xyz.mkotb.configapi.RequiredField
 import xyz.mkotb.configapi.comment.Comment
 import xyz.xenondevs.particle.ParticleEffect
 
@@ -14,6 +12,7 @@ import xyz.xenondevs.particle.ParticleEffect
  * @author GrowlyX
  * @since 9/16/2021
  */
+@Config("settings", crossSync = true)
 class TangerineSettings {
 
     @Coloured
