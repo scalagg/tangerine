@@ -1,6 +1,5 @@
 package gg.scala.tangerine.chatcheck
 
-import gg.scala.flavor.inject.Inject
 import gg.scala.lemon.channel.annotation.PlayerChatEventCheck
 import gg.scala.tangerine.TangerineSpigotPlugin
 import net.evilblock.cubed.util.CC
@@ -13,13 +12,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 @PlayerChatEventCheck
 object HubChatChecks
 {
-    @Inject
-    lateinit var plugin: TangerineSpigotPlugin
-
     fun handle(event: AsyncPlayerChatEvent): Pair<String, Boolean>
     {
         if (
-            !plugin.settings.allowPlayerChat &&
+            !TangerineSpigotPlugin.instance.settings.allowPlayerChat &&
             !event.player.hasPermission("tangerine.chat-bypass")
         )
         {
