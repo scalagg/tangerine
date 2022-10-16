@@ -53,7 +53,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent
 @PluginDependency("Lemon")
 
 @PluginDependency("ScQueue", soft = true)
-@PluginDependency("scduels", soft = true)
+@PluginDependency("MinequestDuels", soft = true)
 @PluginDependency("Placeholder-API", soft = true)
 class TangerineSpigotPlugin : ExtendedScalaPlugin()
 {
