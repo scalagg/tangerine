@@ -9,6 +9,8 @@ import gg.scala.commons.config.annotations.ContainerConfig
 import gg.scala.commons.core.plugin.Plugin
 import gg.scala.commons.core.plugin.PluginAuthor
 import gg.scala.commons.core.plugin.PluginDependency
+import gg.scala.commons.core.plugin.PluginDependencyComposite
+import gg.scala.commons.core.plugin.PluginWebsite
 import gg.scala.flavor.inject.Inject
 import gg.scala.lemon.Lemon
 import gg.scala.lemon.handler.RedisHandler
@@ -45,16 +47,15 @@ import org.bukkit.event.player.PlayerToggleFlightEvent
     name = "Tangerine",
     version = "%remote%/%branch%/%id%"
 )
-
 @PluginAuthor("Scala")
-@PluginAuthor("https://scala.gg")
-
-@PluginDependency("scala-commons")
-@PluginDependency("Lemon")
-
-@PluginDependency("ScQueue", soft = true)
-@PluginDependency("MinequestDuels", soft = true)
-@PluginDependency("Placeholder-API", soft = true)
+@PluginWebsite("https://scala.gg")
+@PluginDependencyComposite(
+    PluginDependency("scala-commons"),
+    PluginDependency("Lemon"),
+    PluginDependency("ScQueue", soft = true),
+    PluginDependency("MinequestDuels", soft = true),
+    PluginDependency("Placeholder-API", soft = true)
+)
 class TangerineSpigotPlugin : ExtendedScalaPlugin()
 {
     companion object
