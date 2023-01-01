@@ -110,20 +110,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
         CgsGameInfoUpdater.start()
 
-        if (!Lemon.instance.settings.consulEnabled)
-        {
-            RedisHandler.buildMessage(
-                "add-server",
-                "id" to Lemon.instance
-                    .settings.id,
-                "address" to "127.0.0.1",
-                "port" to Bukkit.getPort()
-                    .toString()
-            ).publish(
-                channel = "cocoa"
-            )
-        }
-
         ScoreboardHandler.configure(
             hubModule?.scoreboardAdapter
                 ?: TangerineScoreboardAdapter()
@@ -150,7 +136,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
         Events.subscribe(
             PlayerJoinEvent::class.java,
-            EventPriority.LOWEST
+            EventPriority.HIGHEST
         ).handler { event ->
             val player = event.player
 
@@ -234,22 +220,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                             .play(it.player)
                     }
                 }
-        }
-    }
-
-    @ContainerDisable
-    fun containerDisable()
-    {
-        if (!Lemon.instance.settings.consulEnabled)
-        {
-            RedisHandler.buildMessage(
-                "remove-server",
-                "id" to Lemon.instance
-                    .settings.id
-            ).publish(
-                channel = "cocoa",
-                context = AwareThreadContext.SYNC
-            )
         }
     }
 }
