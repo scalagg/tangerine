@@ -30,7 +30,7 @@ class CgsGameInfoDisplayMenu(
 
     override fun size(buttons: Map<Int, Button>): Int
     {
-        return 54
+        return 36
     }
 
     override fun getButtons(player: Player): Map<Int, Button>
@@ -40,12 +40,12 @@ class CgsGameInfoDisplayMenu(
         val servers = CgsGameInfoUpdater
             .gameInfo[cgsGameType] ?: listOf()
 
-        for ((index, region) in listOf("na", "eu", "as", "as").withIndex())
+        for ((index, region) in listOf("na", "eu").withIndex())
         {
             buttons[(9 * (index + 1))] = ItemBuilder
                 .of(Material.STAINED_GLASS_PANE)
                 .data((5 - index).toShort())
-                .name("${CC.B_YELLOW}${region.uppercase()} ${cgsGameType.formatted}")
+                .name("${CC.PRI}${region.uppercase()} ${cgsGameType.formatted}")
                 .toButton()
 
             buttons[(17 + (index * 9))] = ItemBuilder

@@ -1,7 +1,6 @@
 package gg.scala.tangerine.configurable.editor
 
 import com.cryptomorin.xseries.XMaterial
-import gg.scala.cookie.settings.builder.MultiOptionPlayerSettingsBuilder
 import gg.scala.lemon.player.metadata.Metadata
 import gg.scala.tangerine.configurable.ConfigurableMenuButtonData
 import gg.scala.tangerine.configurable.ConfigurableMenuButtonType
@@ -35,28 +34,28 @@ class ConfigurableMenuEditorDetailedButtonView(
 
     override fun getButtons(player: Player): Map<Int, Button> {
         return hashMapOf<Int, Button>().also {
-            it[it.size] = MultiOptionPlayerSettingsBuilder()
-                .titleOf("Action")
-                .descriptionOf(
-                    "What action would you",
-                    "like the button to issue",
-                    "on click?"
-                )
-                .materialOf(XMaterial.COMPASS)
-                .orderedValuesOf(
-                    *ConfigurableMenuButtonType.values()
-                        .map { value -> value.name }.toTypedArray()
-                )
-                .fallbackOf("NONE")
-                .valueOverrideOf { value ->
-                    data.menuButtonType = ConfigurableMenuButtonType.valueOf(value)
-
-                    ConfigurableMenuHandler.saveData()
-                }
-                .providerOverrideOf { _, _ ->
-                    Metadata(data.menuButtonType.name)
-                }
-                .settingOf("n/a").asButton()
+//            it[it.size] = MultiOptionPlayerSettingsBuilder()
+//                .titleOf("Action")
+//                .descriptionOf(
+//                    "What action would you",
+//                    "like the button to issue",
+//                    "on click?"
+//                )
+//                .materialOf(XMaterial.COMPASS)
+//                .orderedValuesOf(
+//                    *ConfigurableMenuButtonType.values()
+//                        .map { value -> value.name }.toTypedArray()
+//                )
+//                .fallbackOf("NONE")
+//                .valueOverrideOf { value ->
+//                    data.menuButtonType = ConfigurableMenuButtonType.valueOf(value)
+//
+//                    ConfigurableMenuHandler.saveData()
+//                }
+//                .providerOverrideOf { _, _ ->
+//                    Metadata(data.menuButtonType.name)
+//                }
+//                .settingOf("n/a").asButton()
 
             it[it.size] = ItemBuilder(XMaterial.OAK_SIGN)
                 .name("${CC.GREEN}Action Data")
