@@ -105,7 +105,7 @@ class CgsGameInfoDisplayMenu(
 
         override fun getName(player: Player): String
         {
-            return "${CC.B_PRI}${serverInstance.id}"
+            return "${CC.PRI}${serverInstance.id}"
         }
 
         override fun getDescription(player: Player): List<String>
@@ -132,12 +132,12 @@ class CgsGameInfoDisplayMenu(
             listOf("${CC.RED}You cannot join a", "${CC.RED}whitelisted server.")
         } else
         {
-            listOf("${CC.YELLOW}Click to connect.")
+            listOf("${CC.GREEN}Click to join!")
         }
 
         private fun getStatus() = when (gameState)
         {
-            CgsGameState.WAITING -> "${CC.YELLOW}Waiting for players..."
+            CgsGameState.WAITING -> "${CC.WHITE}Waiting for players..."
             CgsGameState.STARTED -> "${CC.D_GREEN}Game running..."
             CgsGameState.STARTING -> "${CC.GREEN}Game starting..."
             CgsGameState.ENDED -> "${CC.GOLD}Booting up..."
