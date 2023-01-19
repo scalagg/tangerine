@@ -1,7 +1,6 @@
 package gg.scala.tangerine.configurable
 
-import gg.scala.tangerine.gaming.CgsGameInfoDisplayMenu
-import gg.scala.tangerine.queue.impl.CougarQueuePlatform
+import gg.scala.tangerine.queue.impl.ScalaQueuePlatform
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import org.bukkit.entity.Player
 
@@ -17,7 +16,7 @@ enum class ConfigurableMenuButtonType(
         player.chat("/$data")
     }),
     QUEUE({ player, data ->
-        CougarQueuePlatform.joinQueue(player, data)
+        ScalaQueuePlatform.joinQueue(player, data)
     }),
     SEND_SERVER({ player, data ->
         BungeeUtil.sendToServer(player, data)
