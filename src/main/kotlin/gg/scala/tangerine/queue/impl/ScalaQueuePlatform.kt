@@ -58,7 +58,7 @@ object ScalaQueuePlatform : QueuePlatform
 
     override fun joinQueue(player: Player, server: String)
     {
-        val wrapper = SpigotRedisService.findQueuePlayerIsIn(player)
+        val wrapper = SpigotRedisService.queues[server]
 
         if (wrapper == null)
         {

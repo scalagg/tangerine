@@ -49,7 +49,7 @@ dependencies {
     compileOnly "gg.scala.spigot:server:1.1.0"
 
     compileOnly "gg.scala.cgs:lobby:1.1.2"
-    compileOnly "gg.scala.queue:spigot:1.0.0"
+    compileOnly "gg.scala.queue:spigot:1.0.1"
 }
 
 compileKotlin {
