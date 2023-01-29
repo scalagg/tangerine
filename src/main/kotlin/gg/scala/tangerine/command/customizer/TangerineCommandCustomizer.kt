@@ -1,4 +1,4 @@
-package gg.scala.tangerine.customizer
+package gg.scala.tangerine.command.customizer
 
 import gg.scala.commons.annotations.commands.customizer.CommandManagerCustomizer
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
@@ -18,13 +18,16 @@ object TangerineCommandCustomizer
         commandManager: ScalaCommandManager
     )
     {
-        commandManager.commandContexts.registerContext(ConfigurableMenuOutput::class.java) {
-            val firstArg = it.popFirstArg()
+        commandManager.commandContexts
+            .registerContext(ConfigurableMenuOutput::class.java) {
+                val firstArg = it.popFirstArg()
 
-            val template = ConfigurableMenuHandler.templates[firstArg]
-                ?: throw ConditionFailedException("No menu by the name ${CC.YELLOW}$firstArg${CC.RED} was found.")
+                val template = ConfigurableMenuHandler.templates[firstArg]
+                    ?: throw ConditionFailedException(
+                        "No menu by the name ${CC.YELLOW}$firstArg${CC.RED} was found."
+                    )
 
-            return@registerContext ConfigurableMenuOutput(template.id, true)
-        }
+                return@registerContext ConfigurableMenuOutput(template.id, true)
+            }
     }
 }

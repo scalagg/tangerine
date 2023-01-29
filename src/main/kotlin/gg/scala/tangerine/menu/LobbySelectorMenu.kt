@@ -35,7 +35,7 @@ class LobbySelectorMenu(
         return mutableMapOf<Int, Button>().also { map ->
             TangerineLobbyTracker.lobbies
                 .entries
-                .sortedByDescending { it.key }
+                .sortedBy { it.key }
                 .forEach {
                     map[map.size] = LobbyButton(it.value)
                 }
