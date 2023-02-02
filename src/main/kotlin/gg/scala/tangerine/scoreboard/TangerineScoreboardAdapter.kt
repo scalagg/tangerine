@@ -8,6 +8,7 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import gg.scala.tangerine.placeholder.PlaceholderHandler
 import net.evilblock.cubed.scoreboard.ScoreboardAdapter
+import net.evilblock.cubed.util.math.Numbers
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -61,11 +62,11 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
                         )
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
-                        .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
+                        .replace("<coins>", Numbers.format(TangerineSpigotPlugin.instance.currencyProvider(player)))
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<queue_name>", TangerineSpigotPlugin.instance.platform.getQueueName(player))
-                        .replace("<queue_position>", TangerineSpigotPlugin.instance.platform.getQueuePosition(player).toString())
-                        .replace("<queue_maximum>", TangerineSpigotPlugin.instance.platform.getQueuePlayers(player).toString())
+                        .replace("<queue_position>", Numbers.format(TangerineSpigotPlugin.instance.platform.getQueuePosition(player)))
+                        .replace("<queue_maximum>", Numbers.format(TangerineSpigotPlugin.instance.platform.getQueuePlayers(player)))
                 )
             }
         } else
@@ -83,7 +84,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
-                        .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
+                        .replace("<players>", Numbers.format(TangerinePlayerTracker.globalPlayers))
                 )
             }
         }
