@@ -75,7 +75,8 @@ class TangerineSettings {
     val allowPlayerChat = true
 
     val doubleJumpParticle = true
-    val doubleJumpParticleType = ParticleEffect.FLAME
+    val doubleJumpParticleType: ParticleEffect
+        get() = ParticleEffect.FLAME
 
     val playerVisibilityCooldown = 1
     val playerVisibilityCooldownUnit = "SECONDS"
@@ -84,6 +85,6 @@ class TangerineSettings {
     val playerLoginHeldItemSlot = 0
 
     val doubleJumpSound = true
-    val doubleJumpSoundType = Sound.EXPLODE
-
+    val doubleJumpSoundType: Sound
+        get() = Sound.EXPLODE
 }

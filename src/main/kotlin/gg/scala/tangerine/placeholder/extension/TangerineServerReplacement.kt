@@ -8,6 +8,7 @@ import gg.scala.commons.replacement.annotation.ReplacementAutoRegister
 import gg.scala.tangerine.TangerineSpigotPlugin
 import gg.scala.tangerine.tracking.TangerinePlayerTracker
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.math.Numbers
 
 /**
  * @author GrowlyX
@@ -26,7 +27,7 @@ object TangerineServerReplacement : Replacement
         ReplacementBuilder
             .newBuilder()
             .process("global") { _, _ ->
-                TangerinePlayerTracker.globalPlayers.toString()
+                Numbers.format(TangerinePlayerTracker.globalPlayers)
             }
             .process("status") { _, id ->
                 val server = this.server(id)
