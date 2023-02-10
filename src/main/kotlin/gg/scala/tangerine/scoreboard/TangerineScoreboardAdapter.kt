@@ -83,7 +83,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
                         )
                         .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
-                        .replace("<coins>", TangerineSpigotPlugin.instance.currencyProvider(player).toString())
+                        .replace("<coins>", Numbers.format(TangerineSpigotPlugin.instance.currencyProvider(player)))
                         .replace("<players>", Numbers.format(TangerinePlayerTracker.globalPlayers))
                 )
             }
