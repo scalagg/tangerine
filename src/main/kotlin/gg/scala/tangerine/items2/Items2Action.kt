@@ -40,5 +40,6 @@ enum class Items2Action(
         meta.forEach { line ->
             player.chat(net.evilblock.cubed.util.Color.translate(line))
         }
-    })
+    }),
+    None
 }
