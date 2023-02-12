@@ -56,8 +56,7 @@ constructor(
             .handler {
                 val player = it.player
 
-                val withinCuboid = this.cuboid
-                    .contains(player)
+                val withinCuboid = this.cuboid.contains(player)
 
                 if (
                     (!withinCuboid || !this.additionalCheck(player)) &&
@@ -68,7 +67,7 @@ constructor(
                         ?.right?.closeAndReportException()
 
                     this.portalExit.invoke(player)
-                    VisibilityHandler.update(player)
+                    VisibilityHandler.updateToAll(player)
 
                     player.isFlying = false
                     player.allowFlight = false
@@ -109,7 +108,7 @@ constructor(
                         .floating[player.uniqueId]!!
 
                     this.portalEnter.invoke(player)
-                    VisibilityHandler.update(player)
+                    VisibilityHandler.updateToAll(player)
 
                     Schedulers.sync()
                         .runRepeating({ task ->

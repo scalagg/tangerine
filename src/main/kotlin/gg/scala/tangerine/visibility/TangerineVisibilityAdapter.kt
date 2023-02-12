@@ -17,15 +17,7 @@ object TangerineVisibilityAdapter : VisibilityAdapter
     {
         var visibilityAction = VisibilityAction.NEUTRAL
 
-        val portal = MinequestPortals
-            .any {
-                it.floating.containsKey(toRefresh.uniqueId)
-            }
-
-        if (portal)
-        {
-            visibilityAction = VisibilityAction.HIDE
-        } else if (!toRefresh.hasPermission("tangerine.visibility-override"))
+        if (!toRefresh.hasPermission("tangerine.visibility-override"))
         {
             visibilityAction = VisibilityAction.HIDE
         } else if (refreshFor.hasMetadata("hiding-players"))
