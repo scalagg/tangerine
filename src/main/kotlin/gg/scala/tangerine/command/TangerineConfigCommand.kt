@@ -39,6 +39,15 @@ object TangerineConfigCommand : ScalaCommand()
         sender.sendMessage("opened menu")
     }
 
+    @CommandAlias("switchlobby|switchlobbies|lobbies")
+    @CommandPermission("tangerine.command.switchlobbies")
+    fun onSwitchLobbies(sender: Player)
+    {
+        LobbySelectorMenu(
+            ConfigurableMenuHandler.templates["hub-selector"]!!
+        ).openMenu(sender)
+    }
+
     @CommandAlias("tangerineconfig|tgrconfig")
     @CommandPermission("tangerine.command.config")
     fun onTangerineConfig(sender: CommandSender)
