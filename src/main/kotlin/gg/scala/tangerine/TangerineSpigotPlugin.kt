@@ -13,7 +13,9 @@ import gg.scala.commons.core.plugin.PluginDependencyComposite
 import gg.scala.commons.core.plugin.PluginWebsite
 import gg.scala.flavor.inject.Inject
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RedisHandler
+import gg.scala.lemon.util.QuickAccess
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.items2.Items2Config
@@ -29,6 +31,7 @@ import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
+import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
@@ -171,6 +174,24 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     .forEach {
                         player.sendMessage(it)
                     }
+            }
+
+            if (player.hasPermission("tangerine.join-notifs") && Lemon.instance.lemonWebData.serverName == "Tropic")
+            {
+                val lemonPlayer = PlayerHandler
+                    .find(player.uniqueId)
+                    ?: return@handler
+
+                Bukkit.broadcastMessage(
+                    "${
+                        lemonPlayer
+                            .getColoredName(
+                                rank = lemonPlayer.disguiseRank() ?: QuickAccess.realRank(player),
+                                customColor = false,
+                                prefixIncluded = true
+                            )
+                    }${CC.YELLOW} joined the lobby!"
+                )
             }
 
             if (hubModule != null)
