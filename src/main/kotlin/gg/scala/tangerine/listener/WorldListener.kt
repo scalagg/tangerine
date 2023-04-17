@@ -65,12 +65,15 @@ object WorldListener : Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(
+        priority = EventPriority.MONITOR,
+        ignoreCancelled = true
+    )
     fun onBlockBreak(event: BlockBreakEvent)
     {
         if (!event.player.hasMetadata("builder"))
         {
-            event.isCancelled = true
+            event.isCancelled = false
         }
     }
 
@@ -135,12 +138,15 @@ object WorldListener : Listener
         event.isCancelled = true
     }
 
-    @EventHandler
+    @EventHandler(
+        priority = EventPriority.MONITOR,
+        ignoreCancelled = true
+    )
     fun onBlockPlace(event: BlockPlaceEvent)
     {
-        if (!event.player.hasMetadata("builder"))
+        if (event.player.hasMetadata("builder"))
         {
-            event.isCancelled = true
+            event.isCancelled = false
         }
     }
 
@@ -208,13 +214,6 @@ object WorldListener : Listener
 
     @EventHandler
     fun onBed(event: PlayerBedEnterEvent)
-    {
-        event.isCancelled = true
-    }
-
-
-    @EventHandler
-    fun onPaintBreak(event: PaintingBreakEvent)
     {
         event.isCancelled = true
     }

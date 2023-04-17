@@ -68,8 +68,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
     var platform: QueuePlatform = DefaultQueuePlatform
 
-    @Inject
-    lateinit var settings: TangerineSettings
+    val settings: TangerineSettings
+        get() = config()
 
     var currencyProvider = { player: Player -> 0 }
 
