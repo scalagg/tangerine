@@ -194,10 +194,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                 )
             }
 
-            if (hubModule != null)
-            {
-                hubModule!!.itemAdapter.handle(player)
-            } else
+            if (hubModule == null)
             {
                 Tasks.delayed(2L) {
                     config<Items2Config>().items
