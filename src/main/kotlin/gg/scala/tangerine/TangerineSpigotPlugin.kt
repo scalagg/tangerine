@@ -151,7 +151,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             player.walkSpeed = if (
                 Lemon.instance.lemonWebData
-                    .serverName == "Minequest"
+                    .serverName == "Minequest" ||
+                Lemon.instance.lemonWebData
+                    .serverName == "Glade"
             ) 0.2F else 0.4F
 
             player.allowFlight = settings.allowDoubleJump
