@@ -65,22 +65,23 @@ object WorldListener : Listener
         }
     }
 
-    @EventHandler(
-        priority = EventPriority.MONITOR,
-        ignoreCancelled = true
-    )
+    @EventHandler()
     fun onBlockBreak(event: BlockBreakEvent)
     {
         if (!event.player.hasMetadata("builder"))
         {
-            event.isCancelled = false
+            event.isCancelled = true
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     fun onInteract(event: PlayerInteractEvent)
     {
-        if (event.action == Action.RIGHT_CLICK_BLOCK || event.action == Action.LEFT_CLICK_BLOCK)
+        if (
+            !event.player.hasMetadata("builder") &&
+            (event.action == Action.RIGHT_CLICK_BLOCK ||
+                event.action == Action.LEFT_CLICK_BLOCK)
+        )
         {
             event.isCancelled = true
         }
@@ -138,15 +139,12 @@ object WorldListener : Listener
         event.isCancelled = true
     }
 
-    @EventHandler(
-        priority = EventPriority.MONITOR,
-        ignoreCancelled = true
-    )
+    @EventHandler
     fun onBlockPlace(event: BlockPlaceEvent)
     {
-        if (event.player.hasMetadata("builder"))
+        if (!event.player.hasMetadata("builder"))
         {
-            event.isCancelled = false
+            event.isCancelled = true
         }
     }
 
