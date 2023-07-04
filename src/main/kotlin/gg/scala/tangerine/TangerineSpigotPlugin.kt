@@ -32,6 +32,7 @@ import me.lucko.helper.Events
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
@@ -174,7 +175,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             {
                 settings.joinMessage
                     .forEach {
-                        player.sendMessage(it)
+                        player.sendMessage(Color.translate(it))
                     }
             }
 
