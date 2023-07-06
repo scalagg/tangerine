@@ -13,6 +13,8 @@ import me.lucko.helper.terminable.composite.CompositeTerminable
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -114,7 +116,7 @@ object TangerineItems2Service
 
         Events.subscribe(PlayerInteractEvent::class.java)
             .filter {
-                it.hasItem() && it.clickedBlock == null && (it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack) || it.item.isSimilar(stack)) && it.action.name.contains("RIGHT")
+                it.hasItem() && it.clickedBlock == null && (it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack) || it.item.isSimilar(stack) || (stack.itemMeta.displayName.contains("Profile") && it.item.itemMeta.displayName.contains("Profile"))) && it.action == Action.RIGHT_CLICK_AIR
             }
             .handler {
                 val hiding =

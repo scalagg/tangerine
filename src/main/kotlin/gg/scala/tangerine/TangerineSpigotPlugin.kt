@@ -33,10 +33,12 @@ import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.Color
+import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.visibility.VisibilityHandler
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerDropItemEvent
@@ -179,33 +181,45 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     }
             }
 
-            if (player.hasPermission("tangerine.join-notifs") && Lemon.instance.lemonWebData.serverName == "Tropic")
-            {
-                val lemonPlayer = PlayerHandler
-                    .find(player.uniqueId)
-                    ?: return@handler
-
-                Bukkit.broadcastMessage(
-                    "${
-                        lemonPlayer
-                            .getColoredName(
-                                rank = lemonPlayer.disguiseRank() ?: QuickAccess.realRank(player),
-                                customColor = false,
-                                prefixIncluded = true
-                            )
-                    }${CC.YELLOW} joined the lobby!"
-                )
-            }
-
             if (hubModule == null)
             {
                 Tasks.delayed(2L) {
                     config<Items2Config>().items
                         .forEach { model ->
+                            if (model.item.type == Material.SKULL_ITEM)
+                            {
+                                player.inventory.setItem(
+                                    model.position,
+                                    ItemBuilder
+                                        .copyOf(model.item)
+                                        .owner(player.name)
+                                        .build()
+                                )
+                                return@forEach
+                            }
+
                             player.inventory.setItem(model.position, model.item)
                         }
 
                     player.updateInventory()
+
+                    if (player.hasPermission("tangerine.join-notifs") && Lemon.instance.lemonWebData.serverName == "Tropic" && !player.hasMetadata("vanished"))
+                    {
+                        val lemonPlayer = PlayerHandler
+                            .find(player.uniqueId)
+                            ?: return@delayed
+
+                        Bukkit.broadcastMessage(
+                            "${
+                                lemonPlayer
+                                    .getColoredName(
+                                        rank = lemonPlayer.disguiseRank() ?: QuickAccess.realRank(player),
+                                        customColor = false,
+                                        prefixIncluded = true
+                                    )
+                            }${CC.YELLOW} joined the lobby!"
+                        )
+                    }
                 }
             }
 
