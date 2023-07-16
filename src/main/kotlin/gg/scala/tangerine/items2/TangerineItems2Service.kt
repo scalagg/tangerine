@@ -116,7 +116,7 @@ object TangerineItems2Service
 
         Events.subscribe(PlayerInteractEvent::class.java)
             .filter {
-                it.hasItem() && it.clickedBlock == null && (it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack) || it.item.isSimilar(stack) || (stack.itemMeta.displayName.contains("Profile") && it.item.itemMeta.displayName.contains("Profile"))) && it.action == Action.RIGHT_CLICK_AIR
+                it.hasItem() && it.clickedBlock == null && (it.item.isSimilar(enabledStack) || it.item.isSimilar(disabledStack) || it.item.isSimilar(stack)) && it.action == Action.RIGHT_CLICK_AIR
             }
             .handler {
                 val hiding =

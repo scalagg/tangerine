@@ -26,6 +26,7 @@ import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
+import gg.tropic.game.extensions.cosmetics.EquipOnLoginCosmeticService
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
@@ -41,7 +42,9 @@ import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
+import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerDropItemEvent
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
 
@@ -59,6 +62,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent
     PluginDependency("scala-commons"),
     PluginDependency("Lemon"),
     PluginDependency("ScQueue", soft = true),
+    PluginDependency("CoreGameExtensions", soft = true),
     PluginDependency("Placeholder-API", soft = true)
 )
 class TangerineSpigotPlugin : ExtendedScalaPlugin()
@@ -137,6 +141,23 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                     PlayerDropItemEvent::class.java
                 )
                 .handler { it.isCancelled = true }
+        }
+
+        Events
+            .subscribe(PlayerInteractEvent::class.java)
+            .handler {
+                if (it.action == Action.RIGHT_CLICK_AIR)
+                {
+                    if (it.hasItem() && it.item.type.name.contains("SKULL"))
+                    {
+                        it.player.chat("/profile")
+                    }
+                }
+            }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("CoreGameExtensions"))
+        {
+            EquipOnLoginCosmeticService.defaultFunctionality = false
         }
 
         Events.subscribe(
@@ -221,6 +242,11 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                         )
                     }
                 }
+            }
+
+            if (Bukkit.getPluginManager().isPluginEnabled("CoreGameExtensions"))
+            {
+                EquipOnLoginCosmeticService.callOnLoginFor(player)
             }
 
             VisibilityHandler.updateAllTo(player)
