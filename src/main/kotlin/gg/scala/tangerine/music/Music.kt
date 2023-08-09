@@ -36,7 +36,7 @@ enum class Music(
                 "${
                     if (MinecraftProtocol.getPlayerVersion(player) >= 393) 
                         "music_disc" else "records"
-                }.cat",
+                }.$id",
                 player.location.x,
                 player.location.y,
                 player.location.z,

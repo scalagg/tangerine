@@ -49,6 +49,7 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerToggleFlightEvent
+import org.bukkit.metadata.FixedMetadataValue
 
 /**
  * @author GrowlyX
@@ -162,17 +163,6 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             EquipOnLoginCosmeticService.defaultFunctionality = false
         }
 
-        val playlist = if (settings.musicEnabled)
-        {
-            Playlist(
-                musicDiscs = settings.musicPlaylist
-                    .map(Music::valueOf)
-            )
-        } else
-        {
-            null
-        }
-
         Events.subscribe(
             PlayerJoinEvent::class.java,
             EventPriority.HIGHEST
@@ -196,7 +186,19 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             player.allowFlight = settings.allowDoubleJump
             player.inventory.heldItemSlot = settings.playerLoginHeldItemSlot
 
-            playlist?.play(player)
+            if (settings.musicEnabled)
+            {
+                val playlist = Playlist(
+                    musicDiscs = settings.musicPlaylist
+                        .map(Music::valueOf)
+                )
+                playlist.play(player)
+
+                player.setMetadata(
+                    "playlist",
+                    FixedMetadataValue(this, playlist)
+                )
+            }
 
             if (settings.spawnLocation != null)
             {
