@@ -20,6 +20,7 @@ import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
 import gg.scala.tangerine.items2.Items2Config
 import gg.scala.tangerine.module.HubModule
+import gg.scala.tangerine.music.Playlist
 import gg.scala.tangerine.queue.QueuePlatform
 import gg.scala.tangerine.queue.impl.DefaultQueuePlatform
 import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
@@ -27,6 +28,7 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import gg.tropic.game.extensions.cosmetics.EquipOnLoginCosmeticService
+import gg.tropic.game.extensions.music.Music
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
@@ -160,6 +162,17 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             EquipOnLoginCosmeticService.defaultFunctionality = false
         }
 
+        val playlist = if (settings.musicEnabled)
+        {
+            Playlist(
+                musicDiscs = settings.musicPlaylist
+                    .map(Music::valueOf)
+            )
+        } else
+        {
+            null
+        }
+
         Events.subscribe(
             PlayerJoinEvent::class.java,
             EventPriority.HIGHEST
@@ -182,6 +195,8 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             player.allowFlight = settings.allowDoubleJump
             player.inventory.heldItemSlot = settings.playerLoginHeldItemSlot
+
+            playlist?.play(player)
 
             if (settings.spawnLocation != null)
             {
