@@ -1,20 +1,15 @@
 package gg.scala.tangerine
 
 import com.cryptomorin.xseries.XSound
-import gg.scala.aware.thread.AwareThreadContext
 import gg.scala.commons.ExtendedScalaPlugin
-import gg.scala.commons.annotations.container.ContainerDisable
 import gg.scala.commons.annotations.container.ContainerEnable
-import gg.scala.commons.config.annotations.ContainerConfig
 import gg.scala.commons.core.plugin.Plugin
 import gg.scala.commons.core.plugin.PluginAuthor
 import gg.scala.commons.core.plugin.PluginDependency
 import gg.scala.commons.core.plugin.PluginDependencyComposite
 import gg.scala.commons.core.plugin.PluginWebsite
-import gg.scala.flavor.inject.Inject
 import gg.scala.lemon.Lemon
 import gg.scala.lemon.handler.PlayerHandler
-import gg.scala.lemon.handler.RedisHandler
 import gg.scala.lemon.util.QuickAccess
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
@@ -28,7 +23,7 @@ import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import gg.tropic.game.extensions.cosmetics.EquipOnLoginCosmeticService
-import gg.tropic.game.extensions.music.Music
+import gg.scala.tangerine.music.Music
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.Events

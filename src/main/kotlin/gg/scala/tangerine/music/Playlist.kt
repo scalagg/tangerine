@@ -1,6 +1,5 @@
 package gg.scala.tangerine.music
 
-import gg.tropic.game.extensions.music.Music
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.entity.Player
@@ -40,7 +39,7 @@ class Playlist(
             }
 
             Tasks.delayed(20L) {
-                player.sendMessage("${CC.GRAY}(▷ now playing: ${CC.WHITE}${disc.id})")
+                player.sendMessage("${CC.GRAY}(${CC.BOLD}♬${CC.GRAY} now playing: ${CC.WHITE}${disc.id}${CC.GRAY})")
             }
         }
     }

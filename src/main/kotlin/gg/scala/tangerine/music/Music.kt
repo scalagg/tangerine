@@ -1,4 +1,4 @@
-package gg.tropic.game.extensions.music
+package gg.scala.tangerine.music
 
 import com.cryptomorin.xseries.ReflectionUtils
 import net.evilblock.cubed.util.nms.MinecraftProtocol
@@ -33,14 +33,11 @@ enum class Music(
         .sendPacket(
             player,
             PacketPlayOutNamedSoundEffect(
-                "${
-                    if (MinecraftProtocol.getPlayerVersion(player) >= 393) 
-                        "music_disc" else "records"
-                }.$id",
+                "${if (MinecraftProtocol.getPlayerVersion(player) >= 393) "music_disc" else "records"}.$id",
                 player.location.x,
                 player.location.y,
                 player.location.z,
-                1000.0f, 1.0f
+                Float.MAX_VALUE, 1.0f
             )
         )
 }

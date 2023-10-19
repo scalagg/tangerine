@@ -27,7 +27,7 @@ object TangerineGroupServerReplacement : Replacement
                 {
                     ServerGroupAggregate.ServerStatus.WHITELISTED -> "${CC.RED}Whitelisted"
                     ServerGroupAggregate.ServerStatus.OFFLINE -> "${CC.RED}Offline"
-                    ServerGroupAggregate.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}"
+                    ServerGroupAggregate.ServerStatus.ONLINE -> "${server.totalPlayerCount ?: 0}/${server.totalMaxPlayerCount}"
                 }
             }
             .process("status") { _, id ->
