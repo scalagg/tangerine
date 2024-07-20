@@ -2,6 +2,7 @@ package gg.scala.tangerine.gaming
 
 import com.cryptomorin.xseries.XMaterial
 import gg.scala.commons.agnostic.sync.server.impl.GameServer
+import gg.scala.commons.agnostic.sync.server.region.Region
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
@@ -40,22 +41,24 @@ class CgsGameInfoDisplayMenu(
         val servers = CgsGameInfoUpdater
             .gameInfo[cgsGameType] ?: listOf()
 
-        for ((index, region) in listOf("na", "eu").withIndex())
+        for ((index, region) in listOf(Region.NA, Region.EU).withIndex())
         {
+            val filtered = servers
+                .filter {
+                    it.region == region
+                }
+
             buttons[(9 * (index + 1))] = ItemBuilder
                 .of(Material.STAINED_GLASS_PANE)
                 .data((5 - index).toShort())
-                .name("${CC.PRI}${region.uppercase()} ${cgsGameType.formatted}")
+                .name("${CC.GREEN}${region.name} ${cgsGameType.formatted}")
+                .addToLore("${CC.GRAY}Servers: ${CC.WHITE}${filtered.size}")
+                .addToLore("${CC.GRAY}Players: ${CC.WHITE}${filtered.sumOf { it.getPlayersCount() ?: 0 }}")
                 .toButton()
 
             buttons[(17 + (index * 9))] = ItemBuilder
                 .of(Material.AIR)
                 .toButton()
-
-            val filtered = servers
-                .filter {
-                    it.groups.first().endsWith("-${region}")
-                }
 
             for ((serverIndex, serverInfo) in filtered.withIndex())
             {

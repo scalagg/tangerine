@@ -2,6 +2,7 @@ package gg.scala.tangerine.gaming
 
 import gg.scala.commons.agnostic.sync.server.ServerContainer
 import gg.scala.commons.agnostic.sync.server.impl.GameServer
+import gg.scala.commons.agnostic.sync.server.region.Region
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 
@@ -25,13 +26,13 @@ object CgsGameInfoUpdater : Thread("AGF - Info Thread")
                 CgsGameType.ALL.forEach { agfGameType ->
                     this.gameInfo[agfGameType] = mutableListOf()
 
-                    for (region in listOf("na", "as", "eu", "sa"))
+                    for (region in listOf(Region.NA, Region.EU))
                     {
                         this.gameInfo[agfGameType]?.addAll(
                             ServerContainer
                                 .allServers<GameServer>()
                                 .filter {
-                                    "${agfGameType.group}-$region" in it.groups
+                                    agfGameType.group in it.groups && it.region == region
                                 }
                         )
                     }

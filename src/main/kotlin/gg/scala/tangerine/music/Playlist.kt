@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  */
 class Playlist(
     val musicDiscs: List<Music>,
-    var currentIndex: Int = 0,
+    var currentIndex: Int = musicDiscs.indices.random(),
     var loop: Boolean = true
 )
 {
