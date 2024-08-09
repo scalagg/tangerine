@@ -4,9 +4,12 @@ import gg.scala.commons.annotations.Listeners
 import gg.scala.lemon.Lemon
 import gg.scala.tangerine.TangerineSpigotPlugin
 import io.papermc.lib.PaperLib
+import me.lucko.helper.event.filter.EventFilters
 import net.evilblock.cubed.util.CC
 import org.bukkit.Material
 import org.bukkit.SkullType
+import org.bukkit.Sound
+import org.bukkit.block.BlockFace
 import org.bukkit.block.Skull
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
@@ -62,6 +65,30 @@ object WorldListener : Listener
         if (!event.whoClicked.hasMetadata("builder"))
         {
             event.isCancelled = true
+        }
+    }
+
+    @EventHandler
+    fun PlayerMoveEvent.on()
+    {
+        if (
+            !EventFilters
+                .ignoreSameBlockAndY<PlayerMoveEvent>()
+                .test(this)
+        )
+        {
+            return
+        }
+
+        val block = to.block.getRelative(BlockFace.DOWN)
+        if (block.type == Material.SPONGE)
+        {
+            val vector = player.location.direction
+                .multiply(3.25)
+                .setY(1.05)
+
+            player.playSound(player.location, Sound.GHAST_FIREBALL, 1.0f, 1.0f)
+            player.velocity = vector
         }
     }
 
