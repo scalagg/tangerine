@@ -2,6 +2,7 @@ package gg.scala.tangerine.listener
 
 import gg.scala.commons.annotations.Listeners
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.metadata.NetworkMetadataDataSync
 import gg.scala.tangerine.TangerineSpigotPlugin
 import io.papermc.lib.PaperLib
 import me.lucko.helper.event.filter.EventFilters
@@ -38,7 +39,7 @@ object WorldListener : Listener
     @EventHandler
     fun onPlayerInventory(event: InventoryClickEvent)
     {
-        if (Lemon.instance.lemonWebData.serverName == "Minequest")
+        if (NetworkMetadataDataSync.serverName() == "Minequest")
         {
             if (
                 event.currentItem == null ||
@@ -146,7 +147,7 @@ object WorldListener : Listener
 
             if (
                 event.cause == EntityDamageEvent.DamageCause.DROWNING &&
-                Lemon.instance.lemonWebData.serverName == "Minequest"
+                NetworkMetadataDataSync.serverName() == "Minequest"
             )
             {
                 event.isCancelled = false

@@ -10,6 +10,7 @@ import gg.scala.commons.core.plugin.PluginDependencyComposite
 import gg.scala.commons.core.plugin.PluginWebsite
 import gg.scala.lemon.Lemon
 import gg.scala.lemon.handler.PlayerHandler
+import gg.scala.lemon.metadata.NetworkMetadataDataSync
 import gg.scala.lemon.util.QuickAccess
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
 import gg.scala.tangerine.gaming.CgsGameInfoUpdater
@@ -129,10 +130,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
     private fun registerListeners()
     {
-        if (
-            Lemon.instance.lemonWebData
-                .serverName != "Minequest"
-        )
+        if (NetworkMetadataDataSync.serverName() != "Minequest")
         {
             Events
                 .subscribe(
@@ -171,12 +169,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
             player.foodLevel = 20
             player.gameMode = GameMode.ADVENTURE
 
-            player.walkSpeed = if (
-                Lemon.instance.lemonWebData
-                    .serverName == "Minequest" ||
-                Lemon.instance.lemonWebData
-                    .serverName == "Glade"
-            ) 0.2F else 0.4F
+            player.walkSpeed = 0.4F
 
             player.allowFlight = settings.allowDoubleJump
             player.inventory.heldItemSlot = settings.playerLoginHeldItemSlot
@@ -197,10 +190,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
             if (settings.spawnLocation != null)
             {
-                val minequest = Lemon.instance
-                    .lemonWebData.serverName == "Minequest"
-
-                if (!minequest)
+                if (NetworkMetadataDataSync.serverName() != "Minequest")
                 {
                     PaperLib.teleportAsync(player, settings.spawnLocation!!)
                 }
@@ -236,7 +226,7 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
 
                     player.updateInventory()
 
-                    if (player.hasPermission("tangerine.join-notifs") && Lemon.instance.lemonWebData.serverName == "Tropic" && !player.hasMetadata("vanished"))
+                    if (player.hasPermission("tangerine.join-notifs") && !player.hasMetadata("vanished"))
                     {
                         val lemonPlayer = PlayerHandler
                             .find(player.uniqueId)
