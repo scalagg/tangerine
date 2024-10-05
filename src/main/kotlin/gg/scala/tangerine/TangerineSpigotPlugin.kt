@@ -86,12 +86,9 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
     {
         instance = this
 
-        if (settings.autoHidePlayers)
-        {
-            VisibilityHandler.registerAdapter(
-                "tangerine", TangerineVisibilityAdapter
-            )
-        }
+        VisibilityHandler.registerAdapter(
+            "tangerine", TangerineVisibilityAdapter
+        )
 
         if (settings.tabEnabled)
         {
