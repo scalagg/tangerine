@@ -30,6 +30,11 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
             return hubModule.scoreboardAdapter.getTitle(player)
         }
 
+        if (settings.scoreboardAnimation)
+        {
+            return TangerineScoreboardTitle.getCurrentTitle()
+        }
+
         return settings.title
     }
 
