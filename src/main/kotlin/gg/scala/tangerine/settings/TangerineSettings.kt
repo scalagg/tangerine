@@ -44,7 +44,6 @@ class TangerineSettings {
         "${CC.GRAY}${CC.STRIKE_THROUGH}------------"
     )
 
-    val scoreboardAnimation = false
     val tabEnabled = false
 
     var musicEnabled = true
