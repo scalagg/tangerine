@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:2.0.0"
 
-    compileOnly "xyz.xenondevs:particle:1.7.1"
+    compileOnly "xyz.xenondevs:particle:1.8.1"
     compileOnly "io.papermc:paperlib:1.0.6"
 
     compileOnly "gg.tropic.game.extensions:tropic-core-game-extensions:1.1.1"
