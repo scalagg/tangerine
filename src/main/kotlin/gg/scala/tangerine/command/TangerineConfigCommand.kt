@@ -11,6 +11,8 @@ import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Syntax
 import gg.scala.commons.event.impl.ConfigWatchEvent
 import gg.scala.tangerine.configurable.ConfigurableMenuHandler
+import gg.scala.tangerine.gaming.CgsGameInfoDisplayMenu
+import gg.scala.tangerine.gaming.CgsGameType
 import gg.scala.tangerine.menu.LobbySelectorMenu
 import me.lucko.helper.Events
 import net.evilblock.cubed.util.CC
@@ -79,5 +81,15 @@ object TangerineConfigCommand : ScalaCommand()
     )
     {
         menu.openMenu(player)
+    }
+
+    @CommandAlias("gamemenu")
+    @CommandPermission("tangerine.command.menu")
+    fun onGameMenu(
+        player: Player,
+        gameType: CgsGameType
+    )
+    {
+        CgsGameInfoDisplayMenu(gameType).openMenu(player)
     }
 }
