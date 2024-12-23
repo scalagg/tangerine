@@ -1,6 +1,7 @@
 package gg.scala.tangerine.scoreboard
 
 import gg.scala.lemon.Lemon
+import gg.scala.lemon.LemonConstants
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.lemon.handler.RankHandler
 import gg.scala.tangerine.TangerineSpigotPlugin
@@ -46,7 +47,7 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
             .find(player.uniqueId)
             ?: return
 
-        val thing = (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank())
+        val rank = (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank())
 
         if (TangerineSpigotPlugin.instance.platform.isInQueue(player))
         {
@@ -63,10 +64,12 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
                         .replace("<players>", String.format("%,d", TangerinePlayerTracker.globalPlayers))
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", Numbers.format(TangerineSpigotPlugin.instance.currencyProvider(player)))
-                        .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
+                        .replace("<rankPrefix>", if (rank.name == "Default") "Default" else rank.prefix)
                         .replace("<queue_name>", TangerineSpigotPlugin.instance.platform.getQueueName(player))
                         .replace("<queue_position>", Numbers.format(TangerineSpigotPlugin.instance.platform.getQueuePosition(player)))
                         .replace("<queue_maximum>", Numbers.format(TangerineSpigotPlugin.instance.platform.getQueuePlayers(player)))
+                        .replace("<server_name>", LemonConstants.SERVER_NAME)
+                        .replace("<server_domain>", LemonConstants.WEB_LINK)
                 )
             }
         } else
@@ -81,13 +84,14 @@ class TangerineScoreboardAdapter : ScoreboardAdapter()
                             "<rank>",
                             (lemonPlayer.activeGrant?.getRank() ?: RankHandler.getDefaultRank()).getColoredName()
                         )
-                        .replace("<rankPrefix>", if (thing.name == "Default") "Default" else thing.prefix)
+                        .replace("<rankPrefix>", if (rank.name == "Default") "Default" else rank.prefix)
                         .replace("<hubServer>", Lemon.instance.settings.id.replace("hub", ""))
                         .replace("<coins>", Numbers.format(TangerineSpigotPlugin.instance.currencyProvider(player)))
                         .replace("<players>", Numbers.format(TangerinePlayerTracker.globalPlayers))
+                        .replace("<server_name>", LemonConstants.SERVER_NAME)
+                        .replace("<server_domain>", LemonConstants.WEB_LINK)
                 )
             }
         }
     }
-
 }

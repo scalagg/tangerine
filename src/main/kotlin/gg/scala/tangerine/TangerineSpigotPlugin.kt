@@ -23,7 +23,7 @@ import gg.scala.tangerine.scoreboard.TangerineScoreboardAdapter
 import gg.scala.tangerine.settings.TangerineSettings
 import gg.scala.tangerine.tablist.TangerineTablistProvider
 import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
-import gg.tropic.game.extensions.cosmetics.EquipOnLoginCosmeticService
+import gg.scala.game.extensions.cosmetics.EquipOnLoginCosmeticService
 import gg.scala.tangerine.music.Music
 import io.github.nosequel.tab.shared.TabHandler
 import io.papermc.lib.PaperLib
