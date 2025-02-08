@@ -10,9 +10,11 @@ enum class CgsGameType(
 )
 {
     UHC_MEETUP("UHC Meetup", "uhc-meetup"),
+    UHC("UHC", "uhc"),
     SKYWARS("SkyWars", "skywars"),
     BEDWARS("BedWars", "bedwars"),
     BUNKERS("Bunkers", "bunkers"),
+    POT_SG("Pot SG", "pot-sg"),
     SURVIVAL_GAMES("Survival Games", "survival-games");
 
     companion object

@@ -19,10 +19,7 @@ class JoinMessageEditMenu(
     override fun getPrePaginatedTitle(player: Player) =
         "Edit Join Message"
 
-    override fun onClose(player: Player)
-    {
-        player.sendMessage("${CC.RED}Your changes were not saved.")
-    }
+    override fun onClose(player: Player) {}
 
     override fun onSave(player: Player, list: List<String>)
     {
