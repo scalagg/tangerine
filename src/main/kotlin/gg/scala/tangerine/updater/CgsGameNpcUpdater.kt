@@ -31,6 +31,8 @@ object CgsGameNpcUpdater : Runnable
     override fun run()
     {
         EntityHandler.getEntitiesByType(NpcEntity::class.java).forEach {
+            if (it.condition != "cgs")
+                return@forEach
             val firstLine = it.hologram
                 .getLines()[0]
 
