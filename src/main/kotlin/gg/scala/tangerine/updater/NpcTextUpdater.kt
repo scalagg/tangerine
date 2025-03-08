@@ -40,12 +40,13 @@ object NpcTextUpdater : Runnable
 
         EntityHandler.getEntitiesByType(NpcEntity::class.java)
             .forEach {
-                if (it.condition == "hub") {
+                if (it.condition != "hub") {
+                    return@forEach
+                }
                     it.hologram.updateLines(
                         PlaceholderHandler.findProvider()
                             .handle(players.first(), it.getLines())
                     )
-                }
             }
     }
 }
