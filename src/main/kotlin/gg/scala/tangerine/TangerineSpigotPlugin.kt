@@ -26,7 +26,7 @@ import gg.scala.tangerine.visibility.TangerineVisibilityAdapter
 import gg.scala.game.extensions.cosmetics.EquipOnLoginCosmeticService
 import gg.scala.tangerine.music.Music
 import io.github.nosequel.tab.shared.TabHandler
-//import io.papermc.lib.PaperLib
+import io.papermc.lib.PaperLib
 import me.lucko.helper.Events
 import net.evilblock.cubed.scoreboard.ScoreboardHandler
 import net.evilblock.cubed.serializers.Serializers.useGsonBuilderThenRebuild
@@ -185,13 +185,13 @@ class TangerineSpigotPlugin : ExtendedScalaPlugin()
                 )
             }
 
-//            if (settings.spawnLocation != null)
-//            {
-//                if (NetworkMetadataDataSync.serverName() != "Minequest")
-//                {
-//                    PaperLib.teleportAsync(player, settings.spawnLocation!!)
-//                }
-//            }
+            if (settings.spawnLocation != null)
+            {
+                if (NetworkMetadataDataSync.serverName() != "Minequest")
+                {
+                    PaperLib.teleportAsync(player, settings.spawnLocation!!)
+                }
+            }
 
             if (settings.joinMessage.isNotEmpty())
             {
