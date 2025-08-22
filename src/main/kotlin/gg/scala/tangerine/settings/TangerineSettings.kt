@@ -45,6 +45,7 @@ class TangerineSettings {
     )
 
     val tabEnabled = false
+    val titleAnimation = false
 
     var musicEnabled = true
     val musicPlaylist = listOf(
